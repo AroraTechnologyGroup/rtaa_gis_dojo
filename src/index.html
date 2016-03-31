@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]>  <html class="ie lt-ie9 ie8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9"> <![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>RTAA GIS Page</title>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <!-- get calcite-web css from the cdn (use latest version) -->
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-beta.11/css/calcite-web.min.css">
+    <!--[if lt IE 9]>
+      <script src="/assets/javascripts/libs/selectivizr.js"></script>
+      <script src="/assets/javascripts/libs/html5shiv.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    
+  </head>
+  <body>
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">RNO Airport</h2>
+          <a href="/" class="side-nav-link">Search</a>
+          <a href="/" class="side-nav-link">GIS Portal</a>
+          <a href="/" class="side-nav-link">Departments</a>
+            <a href="/" class="side-nav-link">Web Resources</a>
+            <a href="/" class="side-nav-link">People</a>
+            <a href="/" class="side-nav-link">Help</a>
+        </aside>
+      </nav>
+    </div>
+    <div class="wrapper">
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <div class="tablet-hide">
+              <a href="#" class="top-nav-title">RNO Airport</a>
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a class="top-nav-link" href="#">GIS Portal</a> 
+                <a class="top-nav-link" href="#">Departments</a>
+                <a class="top-nav-link" href="#">Web Resources</a>
+                <a class="top-nav-link"  href="#">People</a>
+                <a class="top-nav-link" href="#">Help</a>
+              </nav>
+            </div>
+            <div class="tablet-show">
+              <a href="/" class="icon-ui-menu top-nav-title js-drawer-toggle" data-drawer="top-nav">RTAA GIS</a>
+            </div>
+            <nav class="sign-in">
+              <a href="#" class="btn btn-small btn-clear">Sign Up</a>
+              <a href="#" class="btn btn-small btn-transparent">Sign In</a>
+            </nav>
+          </div>
+        </div>
+      </header>
+      <header class="sub-nav" role="banner">
+        <div class="grid-container">
+          <div class="column-24">
+            <h1 class="sub-nav-title text-white">GIS Portal</h1>
+            <div class="phone-show dropdown column-6 trailer-half js-dropdown-toggle">
+              <!-- <a href="#" class="link-white">3 &darr;</a> -->
+              <nav class="dropdown-menu js-dropdown sidenav" role="navigation" aria-labelledby="subnav">
+                <a class="sub-nav-link" href="#">Map Viewer</a>
+                <a class="sub-nav-link" href="#">Web Apps</a>
+                <a class="sub-nav-link" href="#">Browse Data</a>
+              </nav>
+            </div>
+            <nav class="sub-nav-list phone-hide" role="navigation" aria-labelledby="subnav">
+              <a class="sub-nav-link" href="#">Map Viewer</a>
+              <a class="sub-nav-link" href="#">Web Apps</a>
+              <a class="sub-nav-link" href="#">Browse Data</a>
+            </nav>
+          </div>
+        </div>
+      </header>
+      <!-- content of page -->
+    </div>
+    <div class="footer" role="contentinfo">
+      <footer class="footer avenir-regular leader-3">
+        <div class="container">
+          <nav class="column-6">
+            <h6><span>Regional Information</span></h6>
+            <ul class="list-plain">
+              <li><a href="">Reno, NV</a></li>
+              <li><a href="">Sparks, NV</a></li>
+              <li><a href="">Events</a></li>
+            </ul>
+          </nav>
+
+          <nav class="column-6">
+            <h6><span>Engineering</span></h6>
+            <ul class="list-plain">
+              <li><a href="/en/">Home</a></li>
+              <li><a href="/en/features/">Projects</a></li>
+              <li><a href="/en/">Contacts</a></li>
+            </ul>
+          </nav>
+
+          <nav class="column-6">
+            <h6>About Reno Tahoe International Airport</h6>
+            <ul class="list-plain">
+              <li><a href="http://www.esri.com/about-esri/">About Us</a></li>
+              <li><a href="http://www.esri.com/careers/">Careers</a></li>
+              <li><a href="http://blogs.esri.com/esri/esri-insider/">Blog</a></li>
+            </ul>
+          </nav>
+
+          <nav class="column-6 padding-leader-half right">
+            <img src="images/logo/rtaa_logo.png"/>
+            <section class="footer-social-nav gutter-left-3">
+              <a class="icon-social-twitter" href="https://twitter.com/RenoAirport"></a>
+              <a class="icon-social-contact" href="http://renoairport.com/airport-authority/contact-us"></a>
+              <a class="icon-social-linkedin" href="https://www.linkedin.com/company/reno-tahoe-international-airport"></a>
+            </section>
+          </nav>
+          <div class="column-24">
+             <p><small>2016 Arora Engineering, Inc.</small></p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- get calcite-web js from the cdn (use latest version) -->
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-beta.11/js/calcite-web.min.js"></script>
+    <script>
+      // set up your dojoConfig
+      window.dojoConfig = {
+        baseUrl: '.',
+        deps: ['app/main'],
+        packages: [
+          'app',
+          'dijit',
+          'dojo',
+          'dojox',
+          'dstore',
+          'dgrid',
+          'xstyle',
+          'put-selector',
+          'esri'
+        ]
+      };
+    </script>
+
+    <!-- Can use Dojo loader directly -->
+    <script src="dojo/dojo.js"></script>
+
+    <!-- interactive patterns need to be initialized -->
+    <script>
+       calcite.init()
+    </script>
+  </body>
+</html>
