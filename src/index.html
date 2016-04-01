@@ -7,14 +7,14 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>RTAA GIS Page</title>
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="shortcut icon" href="app/img/favicon.ico">
     <!-- get calcite-web css from the cdn (use latest version) -->
     <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-beta.11/css/calcite-web.min.css">
     <!--[if lt IE 9]>
       <script src="/assets/javascripts/libs/selectivizr.js"></script>
       <script src="/assets/javascripts/libs/html5shiv.js"></script>
     <![endif]-->
-    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="app/css/main.css"/>
     
   </head>
   <body>
@@ -22,14 +22,15 @@
       <nav class="drawer-nav" role="navigation">
         <aside class="side-nav">
           <h2 class="side-nav-title">RNO Airport</h2>
-          <a href="/" class="side-nav-link">Search</a>
           <a href="/" class="side-nav-link">GIS Portal</a>
           <a href="/" class="side-nav-link">Departments</a>
             <a href="/" class="side-nav-link">Web Resources</a>
             <a href="/" class="side-nav-link">People</a>
             <a href="/" class="side-nav-link">Help</a>
+
         </aside>
       </nav>
+
     </div>
     <div class="wrapper">
       <header class="top-nav">
@@ -55,10 +56,17 @@
           </div>
         </div>
       </header>
+      <!--the sub-nav section is controlled by router -->
       <header class="sub-nav" role="banner">
         <div class="grid-container">
           <div class="column-24">
             <h1 class="sub-nav-title text-white">GIS Portal</h1>
+            <form method="GET" class="right" action="/search/">
+              <div class="search-bar right">
+                <input type='search' placeholder='Search'>
+                <button type="submit" class="search-submit icon-ui-search"></button>
+              </div>
+            </form>
             <div class="phone-show dropdown column-6 trailer-half js-dropdown-toggle">
               <!-- <a href="#" class="link-white">3 &darr;</a> -->
               <nav class="dropdown-menu js-dropdown sidenav" role="navigation" aria-labelledby="subnav">
@@ -67,15 +75,22 @@
                 <a class="sub-nav-link" href="#">Browse Data</a>
               </nav>
             </div>
+
             <nav class="sub-nav-list phone-hide" role="navigation" aria-labelledby="subnav">
               <a class="sub-nav-link" href="#">Map Viewer</a>
               <a class="sub-nav-link" href="#">Web Apps</a>
               <a class="sub-nav-link" href="#">Browse Data</a>
             </nav>
+
           </div>
         </div>
       </header>
       <!-- content of page -->
+      <div class="loader padding-leader-3 padding-trailer-3">
+        <div class="loader-bars"></div>
+        <div class="loader-text">Loading</div>
+      </div>
+
     </div>
     <div class="footer" role="contentinfo">
       <footer class="footer avenir-regular leader-3">
@@ -108,7 +123,7 @@
           </nav>
 
           <nav class="column-6 padding-leader-half right">
-            <img src="images/logo/rtaa_logo.png"/>
+            <img class="rtaa_logo gutter-left-2" src="app/img/logo/rtaa_logo.png"/>
             <section class="footer-social-nav gutter-left-3">
               <a class="icon-social-twitter" href="https://twitter.com/RenoAirport"></a>
               <a class="icon-social-contact" href="http://renoairport.com/airport-authority/contact-us"></a>

@@ -5,10 +5,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-browser-sync');
+  grunt.loadNpmTasks('grunt-contrib-connect');
 
   // replace these with your own paths
-  var appDir = 'C:\\CalciteRTAA\\src';
+  var appDir = 'C:\\CalciteRTAA\\src\\app';
   var distDir = 'C:\\CalciteRTAA\\dist';
 
   grunt.initConfig({
@@ -57,28 +57,8 @@ module.exports = function(grunt) {
         files: ['src/**', 'tests/**', 'src/index.html'],
         tasks: ['jshint'],
         options: {
-          spawn: false
+          liveReload: true
         }
-      }
-    },
-
-    browserSync: {
-      
-      bsFiles: {
-        src: [
-        '/src/index.html'
-        ]
-      },
-      options: {
-        ui: {
-          port: 8080
-        },
-        server: {
-         browser: "google chrome",
-         directory: false,
-         baseDir: './'
-        },
-        watchTask: true
       }
     },
 
@@ -92,12 +72,22 @@ module.exports = function(grunt) {
         dojo: true
       },
 
-      all: ['gruntfile.js', 'src/**/*.js', 'tests/**/*.js']
+      all: ['gruntfile.js', 'src/app/**/*.js', 'tests/**/*.js']
+    },
+
+    connect: {
+      server: {
+        options: {
+          port: 35729,
+          base: 'src',
+          open: true
+        }
+      }
     }
 
   });
 
   
   grunt.registerTask('build', ['clean:build', 'dojo', 'copy', 'clean:uncompressed']);
-  grunt.registerTask('default', ['jshint', 'browserSync', 'watch']);
+  grunt.registerTask('default', ['jshint', 'connect', 'watch']);
 };
