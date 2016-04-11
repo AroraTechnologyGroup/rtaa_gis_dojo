@@ -20,7 +20,8 @@
     "tests"
   ],
   "dependencies": {
-    "arcgis-js-api": "^3.16.0"
+    "arcgis-js-api": "^3.16.0",
+    "paper-card": "PolymerElements/paper-card#^1.1.1"
   },
   "resolutions": {
     "dojo": "v1.10.4/esri-3.14.0"

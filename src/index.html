@@ -25,7 +25,7 @@
           <a href="/" class="side-nav-link">GIS Portal</a>
           <a href="/" class="side-nav-link">Departments</a>
             <a href="/" class="side-nav-link">Web Resources</a>
-            <a href="/" class="side-nav-link">People</a>
+            <a href="/" class="side-nav-link">Vendors</a>
             <a href="/" class="side-nav-link">Help</a>
 
         </aside>
@@ -39,10 +39,10 @@
             <div class="tablet-hide">
               <a href="#" class="top-nav-title">RNO Airport</a>
               <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
-                <a class="top-nav-link" href="#">GIS Portal</a> 
+                <a class="top-nav-link" href="/#gisportal/">GIS Portal</a> 
                 <a class="top-nav-link" href="#">Departments</a>
                 <a class="top-nav-link" href="#">Web Resources</a>
-                <a class="top-nav-link"  href="#">People</a>
+                <a class="top-nav-link"  href="#">Vendors</a>
                 <a class="top-nav-link" href="#">Help</a>
               </nav>
             </div>
@@ -56,42 +56,22 @@
           </div>
         </div>
       </header>
+
       <!--the sub-nav section is controlled by router -->
-      <header class="sub-nav" role="banner">
-        <div class="grid-container">
-          <div class="column-24">
-            <h1 class="sub-nav-title text-white">GIS Portal</h1>
-            <form method="GET" class="right" action="/search/">
-              <div class="search-bar right">
-                <input type='search' placeholder='Search'>
-                <button type="submit" class="search-submit icon-ui-search"></button>
-              </div>
-            </form>
-            <div class="phone-show dropdown column-6 trailer-half js-dropdown-toggle">
-              <!-- <a href="#" class="link-white">3 &darr;</a> -->
-              <nav class="dropdown-menu js-dropdown sidenav" role="navigation" aria-labelledby="subnav">
-                <a class="sub-nav-link" href="#">Map Viewer</a>
-                <a class="sub-nav-link" href="#">Web Apps</a>
-                <a class="sub-nav-link" href="#">Browse Data</a>
-              </nav>
-            </div>
-
-            <nav class="sub-nav-list phone-hide" role="navigation" aria-labelledby="subnav">
-              <a class="sub-nav-link" href="#">Map Viewer</a>
-              <a class="sub-nav-link" href="#">Web Apps</a>
-              <a class="sub-nav-link" href="#">Browse Data</a>
-            </nav>
-
-          </div>
-        </div>
+      <header id="sub-nav-header" class="sub-nav" role="banner">
       </header>
-      <!-- content of page -->
-      <div class="loader padding-leader-3 padding-trailer-3">
-        <div class="loader-bars"></div>
-        <div class="loader-text">Loading</div>
-      </div>
 
     </div>
+    <!-- busy indicator -->
+    <div class="loader is-active padding-leader-3 padding-trailer-3">
+      <div class="loader-bars"></div>
+      <div class="loader-text">Loading</div>
+    </div>
+    <!-- content of page -->
+    <div id="main_content" class="grid-container">
+    </div>
+
+
     <div class="footer" role="contentinfo">
       <footer class="footer avenir-regular leader-3">
         <div class="container">
@@ -100,7 +80,7 @@
             <ul class="list-plain">
               <li><a href="">Reno, NV</a></li>
               <li><a href="">Sparks, NV</a></li>
-              <li><a href="">Events</a></li>
+              <li><a href="">Regional Updates</a></li>
             </ul>
           </nav>
 
@@ -116,9 +96,9 @@
           <nav class="column-6">
             <h6>About Reno Tahoe International Airport</h6>
             <ul class="list-plain">
-              <li><a href="http://www.esri.com/about-esri/">About Us</a></li>
-              <li><a href="http://www.esri.com/careers/">Careers</a></li>
-              <li><a href="http://blogs.esri.com/esri/esri-insider/">Blog</a></li>
+              <li><a href="http://renoairport.com/reno-tahoe-region">About Us</a></li>
+              <li><a href="http://renoairport.com/airport-authority/contact-us">Contact Us</a></li>
+              <li><a href="http://renoairport.com/airport-authority">Airport Authority</a></li>
             </ul>
           </nav>
 
@@ -141,9 +121,12 @@
     <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-beta.11/js/calcite-web.min.js"></script>
     <script>
       // set up your dojoConfig
-      window.dojoConfig = {
+      var dojoConfig = {
         baseUrl: '.',
+        async: true,
+        isDebug: true,
         deps: ['app/main'],
+        tlmSiblingOfDojo: false,
         packages: [
           'app',
           'dijit',
@@ -164,6 +147,7 @@
     <!-- interactive patterns need to be initialized -->
     <script>
        calcite.init()
+       require(['app/main']);
     </script>
   </body>
 </html>
