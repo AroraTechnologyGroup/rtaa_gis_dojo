@@ -15,7 +15,8 @@
       <script src="/assets/javascripts/libs/html5shiv.js"></script>
     <![endif]-->
     <link rel="stylesheet" type="text/css" href="app/css/main.css"/>
-    
+    <script src="webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="app/components/item-card/item-card.html">
   </head>
   <body>
     <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
@@ -58,7 +59,7 @@
       </header>
 
       <!--the sub-nav section is controlled by router -->
-      <header id="sub-nav-header" class="sub-nav" role="banner">
+      <header id="sub-nav-header" class="sub-nav trailer-1" role="banner">
       </header>
 
     </div>
@@ -68,12 +69,11 @@
       <div class="loader-text">Loading</div>
     </div>
     <!-- content of page -->
-    <div id="main_content" class="grid-container">
-    </div>
+    <div id="main_content" class="grid-container trailer-1"></div>
 
-
+    <!-- footer of the page -->
     <div class="footer" role="contentinfo">
-      <footer class="footer avenir-regular leader-3">
+      <footer class="footer avenir-regular pre-1 tablet-pre-1">
         <div class="container">
           <nav class="column-6">
             <h6><span>Regional Information</span></h6>
@@ -84,7 +84,7 @@
             </ul>
           </nav>
 
-          <nav class="column-6">
+          <nav class="column-6 tablet-leader-1">
             <h6><span>Engineering</span></h6>
             <ul class="list-plain">
               <li><a href="/en/">Home</a></li>
@@ -93,7 +93,7 @@
             </ul>
           </nav>
 
-          <nav class="column-6">
+          <nav class="column-6 tablet-leader-1">
             <h6>About Reno Tahoe International Airport</h6>
             <ul class="list-plain">
               <li><a href="http://renoairport.com/reno-tahoe-region">About Us</a></li>
@@ -102,7 +102,7 @@
             </ul>
           </nav>
 
-          <nav class="column-6 padding-leader-half right">
+          <nav class="column-5 padding-leader-half right tablet-leader-1">
             <img class="rtaa_logo gutter-left-2" src="app/img/logo/rtaa_logo.png"/>
             <section class="footer-social-nav gutter-left-3">
               <a class="icon-social-twitter" href="https://twitter.com/RenoAirport"></a>
@@ -128,15 +128,15 @@
         deps: ['app/main'],
         tlmSiblingOfDojo: false,
         packages: [
-          'app',
-          'dijit',
-          'dojo',
-          'dojox',
-          'dstore',
-          'dgrid',
-          'xstyle',
-          'put-selector',
-          'esri'
+          { name: 'app', location: './app'},
+          { name: 'dijit', location: './dijit'},
+          { name: 'dojo', location: './dojo'},
+          { name: 'dojox', location: './dojox'},
+          { name: 'dstore', location: './dstore'},
+          { name: 'dgrid', location: './dgrid'},
+          { name: 'xstyle', location: './xstyle'},
+          { name: 'put-selector', location: './put-selector'},
+          { name: 'esri', location: './arcgis-js-api'}
         ]
       };
     </script>
@@ -147,7 +147,7 @@
     <!-- interactive patterns need to be initialized -->
     <script>
        calcite.init()
-       require(['app/main']);
+       require(['app/main'], function(app){});
     </script>
   </body>
 </html>

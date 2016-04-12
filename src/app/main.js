@@ -1,16 +1,21 @@
 define([
+	'dijit/registry',
+	
 	'dojo/dom',
 	'dojo/router',
 	"dojo/request",
 	'dojo/query',
 	'dojo/dom-class',
+	'dojo/_base/array',
 	'dojo/domReady!'
 	], function(
+	registry,
 	dom,
 	router,
 	request,
 	query,
-	domClass
+	domClass,
+	Array
 	) {
 
 	var app = {};
