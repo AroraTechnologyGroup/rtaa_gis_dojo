@@ -20,8 +20,7 @@
     "tests"
   ],
   "dependencies": {
-    "esri": "arcgis-js-api#3.16.0",
-    "polymer": "Polymer/polymer#^1.4.0"
+    "esri": "arcgis-js-api#3.16.0"
   },
   "resolutions": {
     "dojo": "v1.10.4/esri-3.14.0"
