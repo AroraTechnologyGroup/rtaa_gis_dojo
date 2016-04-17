@@ -23,7 +23,7 @@ module.exports = function(grunt) {
         ]
       }
     },
-    
+
     copy: {
       main: {
         files: [{
@@ -55,7 +55,8 @@ module.exports = function(grunt) {
 
     watch: {
       main: {
-        files: ['./src/app/**/*.js', './tests/**/*.js', './src/index.html'],
+        files: ['./src/app/**/*.js', './tests/**/*.js', './src/index.html',
+      './src/app/**/*.styl'],
         tasks: ['stylus', 'jshint'],
         options: {
           liveReload: true
@@ -96,7 +97,7 @@ module.exports = function(grunt) {
 
   });
 
-  
+
   grunt.registerTask('build', ['stylus', 'jshint', 'clean:build', 'dojo', 'copy', 'clean:uncompressed']);
   grunt.registerTask('default', ['stylus', 'jshint', 'connect', 'watch']);
 };

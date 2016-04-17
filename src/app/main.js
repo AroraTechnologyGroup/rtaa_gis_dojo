@@ -31,18 +31,20 @@ define([
 	on
 	) {
 
-	
+
 	var app = {};
 	//identify sections of the index.html that will hold the html pages
 	var sub_header = dom.byId('sub-nav-header');
 	var main_content = dom.byId('main_content');
-	
+
 	var loadContent = function (templateUrl, domId) {
 		var deferred = new Deferred();
 		request.get(templateUrl, {
 						handleAs: "html"
 					}).then(function(response) {
-						dom.byId(domId).innerHTML = response;
+						html.set(dom.byId(domId), response, {
+							parseContent: true
+						});
 						deferred.resolve(response);
 					}, function(err) {
 						console.log(err);
@@ -73,9 +75,9 @@ define([
 
 					loadContent("app/html/gis_portal_header.html","sub-nav-header").then(function(e) {
 						var title = query(".sub-nav-title")[0];
-						html.set(title, "Online Map Viewer");	
+						html.set(title, "Online Map Viewer");
 					});
-					loadContent("app/html/gis_portal_viewer.html", "main-content");					
+					loadContent("app/html/gis_portal_viewer.html", "main-content");
 	});
 
 	router.register("gisportal/apps", function(evt) {
@@ -84,11 +86,11 @@ define([
 
 					loadContent("app/html/gis_portal_header.html","sub-nav-header").then(function(e) {
 						var title = query(".sub-nav-title")[0];
-						html.set(title, "Web Applications");	
+						html.set(title, "Web Applications");
 					});
 
 					loadContent("app/html/gis_portal_apps.html", "main-content");
-					
+
 	});
 
 	router.register("gisportal/browse", function(evt) {
@@ -97,7 +99,7 @@ define([
 
 					loadContent("app/html/gis_portal_header.html", "sub-nav-header").then(function(e) {
 						var title = query(".sub-nav-title")[0];
-						html.set(title, "Data Availability");	
+						html.set(title, "Data Availability");
 					});
 					loadContent("app/html/gis_portal_browse.html", "main-content");
 	});
@@ -108,7 +110,7 @@ define([
 
 					loadContent("app/html/departments_header.html", "sub-nav-header").then(function(e) {
 						var title = query(".sub-nav-title")[0];
-						html.set(title, "Engineering");	
+						html.set(title, "Engineering");
 					});
 					loadContent("app/html/departments_home.html", "main-content");
 	});
@@ -119,7 +121,7 @@ define([
 
 					loadContent("app/html/departments_header.html", "sub-nav-header").then(function(e) {
 						var title = query(".sub-nav-title")[0];
-						html.set(title, "Construction / Maintenance");	
+						html.set(title, "Construction / Maintenance");
 					});
 					loadContent("app/html/departments_home.html", "main-content");
 	});
@@ -130,7 +132,7 @@ define([
 
 					loadContent("app/html/departments_header.html", "sub-nav-header").then(function(e) {
 						var title = query(".sub-nav-title")[0];
-						html.set(title, "Airport Planning");	
+						html.set(title, "Airport Planning");
 					});
 					loadContent("app/html/departments_home.html", "main-content");
 	});
@@ -141,7 +143,7 @@ define([
 
 					loadContent("app/html/departments_header.html", "sub-nav-header").then(function(e) {
 						var title = query(".sub-nav-title")[0];
-						html.set(title, "Utilities");	
+						html.set(title, "Utilities");
 					});
 					loadContent("app/html/departments_home.html", "main-content");
 	});
@@ -152,7 +154,7 @@ define([
 
 					loadContent("app/html/departments_header.html", "sub-nav-header").then(function(e) {
 						var title = query(".sub-nav-title")[0];
-						html.set(title, "Departments Directory");	
+						html.set(title, "Departments Directory");
 					});
 					loadContent("app/html/departments_home.html", "main-content");
 	});
@@ -163,7 +165,7 @@ define([
 
 					loadContent("app/html/web_resources_header.html", "sub-nav-header").then(function(e) {
 						var title = query(".sub-nav-title")[0];
-						html.set(title, "Online Resources");	
+						html.set(title, "Online Resources");
 					});
 					loadContent("app/html/web_resources_home.html", "main-content");
 	});
@@ -174,19 +176,19 @@ define([
 
 					loadContent("app/html/help_header.html", "sub-nav-header").then(function(e) {
 						var title = query(".sub-nav-title")[0];
-						html.set(title, "Help and Tutorials");	
+						html.set(title, "Help and Tutorials");
 					});
 					loadContent("app/html/help_home.html", "main-content");
 	});
 
 	router.startup();
-		
+
 	query('.loader').forEach(function(e) {
 		domClass.toggle(e, 'is-active');
 	});
 
 	hash("home");
-	
+
 
 	return app;
 });
