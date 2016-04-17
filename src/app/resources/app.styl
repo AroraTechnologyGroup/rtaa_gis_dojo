@@ -1,5 +1,5 @@
-@import "https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-beta.13/css/calcite-web-no-fonts.css"
-@import "//fonts.googleapis.com/css?family=Maven+Pro"
+@import url("https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-beta.13/css/calcite-web-no-fonts.css")
+@import url("//fonts.googleapis.com/css?family=Maven+Pro")
 
 .sub-nav  {
 	background-color: #9BC19C;
@@ -11,14 +11,29 @@
 }
 
 #homepage-banner {
-  background-image: "../img/header_banner.png"
+  background-image: url("/app/img/header_banner_resize.png")
+  background-size: cover
 }
+
+#homepage-banner .column-24 {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+}
+
 .card {
 	outline: 1px solid #F8F8F8;
 }
 
+.card .card-image {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 #main-content{
-display: block
+  
 }
 
 .card-header {
