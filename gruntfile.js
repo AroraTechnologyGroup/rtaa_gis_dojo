@@ -6,6 +6,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-stylus');
 
   // replace these with your own paths
   var appDir = 'C:\\CalciteRTAA\\src\\app';
@@ -28,7 +29,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'src/',
-          src: ['built.html'],
+          src: ['index.html'],
           dest: './dist/',
           rename: function(dest, src) {
             return dest + 'index.html';
@@ -54,10 +55,18 @@ module.exports = function(grunt) {
 
     watch: {
       main: {
-        files: ['src/app/**/*.js', 'tests/**/*.js', 'src/index.html'],
-        tasks: ['jshint'],
+        files: ['./src/app/**/*.js', './tests/**/*.js', './src/index.html'],
+        tasks: ['stylus', 'jshint'],
         options: {
           liveReload: true
+        }
+      }
+    },
+
+    stylus: {
+      compile: {
+        files: {
+          './src/app/resources/app.css': './src/app/resources/app.styl'
         }
       }
     },
@@ -88,6 +97,6 @@ module.exports = function(grunt) {
   });
 
   
-  grunt.registerTask('build', ['clean:build', 'dojo', 'copy', 'clean:uncompressed']);
-  grunt.registerTask('default', ['jshint', 'connect', 'watch']);
+  grunt.registerTask('build', ['stylus', 'jshint', 'clean:build', 'dojo', 'copy', 'clean:uncompressed']);
+  grunt.registerTask('default', ['stylus', 'jshint', 'connect', 'watch']);
 };
