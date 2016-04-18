@@ -1,6 +1,8 @@
 define([
 	'dijit/registry',
+	'dojo/parser',
 	'dojo/dom',
+	'dojo/dom-construct',
 	'dojo/html',
 	'dojo/router',
 	"dojo/request",
@@ -13,10 +15,13 @@ define([
 	'dojo/hash',
 	'dojo/topic',
 	'dojo/on',
+	'app/Card',
 	'dojo/domReady!'
 	], function(
 	registry,
+	parser,
 	dom,
+	domConstruct,
 	html,
 	router,
 	request,
@@ -28,9 +33,9 @@ define([
 	Deferred,
 	hash,
 	topic,
-	on
+	on,
+	Card
 	) {
-
 
 	var app = {};
 	//identify sections of the index.html that will hold the html pages
@@ -51,6 +56,29 @@ define([
 						deferred.resolve(err);
 					});
 		return deferred.promise;
+	};
+
+	var loadCards = function(objects, domNode) {
+		// each card object has [baseClass, imgSrc, header, content]
+		var mainDeferred = new Deferred();
+		var nodelist = Array.map(objects, function(e) {
+			var deferred = new Deferred();
+			var new_card = new Card({
+				baseClass: e.baseClass,
+				contents: e.contents,
+				imgSrc: e.imgSrc,
+				header: e.header
+			});
+			return deferred.resolve(new_card);
+		});
+
+		all(nodelist).then(function(arr) {
+			Array.forEach(arr, function(e) {
+				domConstruct.place(e, domNode, 'last');
+			});
+			mainDeferred.resolve(arr);
+		});
+		return mainDeferred;
 	};
 
 	router.register("home", function(evt) {
@@ -83,14 +111,27 @@ define([
 	router.register("gisportal/apps", function(evt) {
 					evt.preventDefault();
 					console.log("loading "+evt.newPath);
-
+					dom.byId('main-content').innerHTML = "";
 					loadContent("app/html/gis_portal_header.html","sub-nav-header").then(function(e) {
 						var title = query(".sub-nav-title")[0];
 						html.set(title, "Web Applications");
 					});
 
-					loadContent("app/html/gis_portal_apps.html", "main-content");
-
+					loadCards([{
+						imgSrc: "./app/img/thumbnails/airspace_app.png",
+						header: "Airspace",
+						baseClass: "card column-6 animate-fade-in trailer-2",
+						contents: "<p>View and Analyze the data in the airspace of the RTAA Airport</p>"
+					}, {
+						imgSrc: './app/img/thumbnails/eDoc_app.png',
+						header: 'eDoc Search Tools',
+						baseClass: "card column-6 animate-fade-in pre-1 trailer-2",
+						contents: "<p>Search for documents and images using this map focused search tool</p>"
+					}], dom.byId("main-content")).then(function(e) {
+						console.log(e);
+					}, function(err) {
+						console.log(err);
+					});
 	});
 
 	router.register("gisportal/browse", function(evt) {

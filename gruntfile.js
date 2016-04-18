@@ -66,9 +66,11 @@ module.exports = function(grunt) {
 
     stylus: {
       compile: {
-        files: {
+        files: [{
           './src/app/resources/app.css': './src/app/resources/app.styl'
-        }
+        }, {
+          './src/app/templates/resources/card_template.css': './src/app/templates/resources/card_template.styl'
+        }]
       }
     },
 

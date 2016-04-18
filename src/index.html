@@ -64,7 +64,7 @@
       <div class="loader-text">Loading</div>
     </div>
     <!-- content of page -->
-    <div id="main-content" class="grid-container trailer-1"></div>
+    <div id="main-content" class="grid-container trailer-1 column-24"></div>
 
     <!-- footer of the page -->
     <div class="footer" role="contentinfo">
@@ -118,6 +118,7 @@
       // set up your dojoConfig
       var dojoConfig = {
         baseUrl: '.',
+        parseOnLoad: false,
         async: true,
         isDebug: true,
         deps: ['app/main'],
@@ -142,7 +143,7 @@
     <!-- interactive patterns need to be initialized -->
     <script>
        calcite.init()
-       require(['app/main']);
+       require(['app/main', "dijit/layout/BorderContainer", "dijit/layout/ContentPane"]);
     </script>
   </body>
 </html>
