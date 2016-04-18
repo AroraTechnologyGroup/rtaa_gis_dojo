@@ -54,7 +54,7 @@
       </header>
 
       <!--the sub-nav section is controlled by router -->
-      <header id="sub-nav-header" class="sub-nav trailer-1" role="banner">
+      <header id="headerPane" class="sub-nav " role="banner">
       </header>
 
     </div>
@@ -64,7 +64,7 @@
       <div class="loader-text">Loading</div>
     </div>
     <!-- content of page -->
-    <div id="main-content" class="grid-container trailer-1 column-24"></div>
+    <div id="main-content" class="grid-container column-24"></div>
 
     <!-- footer of the page -->
     <div class="footer" role="contentinfo">
@@ -143,7 +143,9 @@
     <!-- interactive patterns need to be initialized -->
     <script>
        calcite.init()
-       require(['app/main', "dijit/layout/BorderContainer", "dijit/layout/ContentPane"]);
+       require(['dojo/parser', 'dojo/ready', 'app/main', 'dijit/layout/ContentPane'], function (parser, ready, app) {
+
+       });
     </script>
   </body>
 </html>

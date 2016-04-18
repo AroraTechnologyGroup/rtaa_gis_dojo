@@ -26,15 +26,14 @@ define([
       header: null,
       contents: null
     },
-    constructor: function(options) {
+    constructor: function(options, srcNodeRef) {
+      this.inherited(arguments);
       declare.safeMixin(this.options, options);
       this.set("baseClass", this.options.baseClass);
       this.set("imgSrc", this.options.imgSrc);
       this.set("header", this.options.header);
       this.set("contents", this.options.contents);
-    },
-    destroy: function() {
-      this.inherited.arguments();
+      this.set("srcNodeRef", this.srcNodeRef);
     }
   });
 });
