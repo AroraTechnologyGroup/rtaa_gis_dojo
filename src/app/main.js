@@ -167,8 +167,11 @@ define([
 									title: 'Web Apps',
 									href: "/#gisportal/apps"
 								}, {
-									title: 'Browse Data',
-									href: "/#gisportal/browse"
+									title: 'Browse GIS Data',
+									href: "/#gisportal/gis-data-browse"
+								}, {
+									title: 'Backend Database APIs',
+									href: '/#gisportal/backend-apis'
 								}]
 							});
 						} else {
@@ -229,12 +232,23 @@ define([
 							});
 		});
 
-		router.register("gisportal/browse", function(evt) {
+		router.register("gisportal/gis-data-browse", function(evt) {
 						evt.preventDefault();
 						console.log("loading "+evt.newPath);
 						unloadContent().then(function(e) {
 							if (registry.byId('gisportal-banner') !== undefined) {
 								registry.byId('gisportal-banner').set('title', "Browse GIS Data");
+							}
+						});
+
+		});
+
+		router.register("gisportal/backend-apis", function(evt) {
+						evt.preventDefault();
+						console.log("loading "+evt.newPath);
+						unloadContent().then(function(e) {
+							if (registry.byId('gisportal-banner') !== undefined) {
+								registry.byId('gisportal-banner').set('title', "Backend Database APIs");
 							}
 						});
 
