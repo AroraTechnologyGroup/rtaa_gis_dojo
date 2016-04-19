@@ -50,7 +50,7 @@ define([
 	//identify sections of the index.html that will hold the html p
 		var app = {};
 
-		var cleanBanner = function() {
+		var unloadBanner = function() {
 			var deferred = new Deferred();
 			(function() {
 				if (registry.byId('headerPane') !== undefined) {
@@ -64,7 +64,7 @@ define([
 			return deferred.promise;
 		};
 
-		var cleanContent = function() {
+		var unloadContent = function() {
 			var deferred = new Deferred();
 			(function() {
 				if (registry.byId('main-content') !== undefined) {
@@ -78,9 +78,9 @@ define([
 			return deferred.promise;
 		};
 
-		var unloadPage = function() {
+		var unloadSection = function() {
 			var deferred = new Deferred();
-			all([cleanBanner(), cleanContent()]).then(function(arr) {
+			all([unloadBanner(), unloadContent()]).then(function(arr) {
 				deferred.resolve("page cleaned, ready for new page load");
 			});
 			return deferred.promise;
@@ -126,7 +126,7 @@ define([
 				evt.preventDefault();
 				console.log("loading "+evt.newPath);
 
-				unloadPage().then(function(e) {
+				unloadSection().then(function(e) {
 					var pane = new ContentPane({
 						style: "display: flex",
 						id: 'headerPane'
@@ -144,7 +144,9 @@ define([
 						app.header = registry.byId('homepage-banner');
 					}
 
-					pane.setContent(app.header);
+					pane.set('content', app.header);
+				}, function(err) {
+					console.log(err);
 				});
 			});
 
@@ -152,7 +154,7 @@ define([
 					evt.preventDefault();
 					console.log("loading "+evt.newPath);
 
-					unloadPage().then(function(e) {
+					unloadSection().then(function(e) {
 						if (registry.byId('gisportal-banner') === undefined) {
 							app.header = new PageBanner({
 								id: 'gisportal-banner',
@@ -179,18 +181,28 @@ define([
 						}, 'headerPane');
 
 						pane.startup();
+				}, function(err) {
+					console.log(err);
 				});
 			});
 
 			router.register("gisportal/mapviewer", function(evt) {
 							evt.preventDefault();
 							console.log("loading "+evt.newPath);
+							unloadContent().then(function(e) {
+								if (registry.byId('gisportal-banner') !== undefined) {
+									registry.byId('gisportal-banner').set('title', "Map Viewer");
+								}
+							}, function(err) {
+								console.log(err);
+							});
+
 
 			});
 
 			router.register("gisportal/apps", function(evt) {
 							evt.preventDefault();
-							cleanContent().then(function(e) {
+							unloadContent().then(function(e) {
 								console.log("loading "+evt.newPath);
 
 								if (registry.byId('gisportal-banner') !== undefined) {
@@ -201,13 +213,13 @@ define([
 									id: "AirspaceAppCard",
 									imgSrc: "./app/img/thumbnails/airspace_app.png",
 									header: "Airspace",
-									baseClass: "card column-6 animate-fade-in trailer-2",
+									baseClass: "card column-6 animate-fade-in leader-1 trailer-2",
 									contents: "View and Analyze the data in the airspace of the RTAA Airport"
 								}, {
 									id: "eDocAppCard",
 									imgSrc: './app/img/thumbnails/eDoc_app.png',
 									header: 'eDoc Search Tools',
-									baseClass: "card column-6 animate-fade-in pre-1 trailer-2",
+									baseClass: "card column-6 animate-fade-in pre-1 leader-1 trailer-2",
 									contents: "Search for documents and images using this map focused search tool"
 								}]).then(function(e) {
 									console.log(e);
@@ -220,50 +232,164 @@ define([
 		router.register("gisportal/browse", function(evt) {
 						evt.preventDefault();
 						console.log("loading "+evt.newPath);
-
-		});
-
-		router.register("departments/engineering", function(evt) {
-						evt.preventDefault();
-						console.log("loading "+evt.newPath);
-
-		});
-
-		router.register("departments/construction", function(evt) {
-						evt.preventDefault();
-						console.log("loading "+evt.newPath);
-
-		});
-
-		router.register("departments/planning", function(evt) {
-						evt.preventDefault();
-						console.log("loading "+evt.newPath);
-
-		});
-
-		router.register("departments/utilities", function(evt) {
-						evt.preventDefault();
-						console.log("loading "+evt.newPath);
+						unloadContent().then(function(e) {
+							if (registry.byId('gisportal-banner') !== undefined) {
+								registry.byId('gisportal-banner').set('title', "Browse GIS Data");
+							}
+						});
 
 		});
 
 		router.register("departments/home", function(evt) {
 						evt.preventDefault();
 						console.log("loading "+evt.newPath);
+						unloadSection().then(function(e) {
+							if (registry.byId('departments-banner') === undefined) {
+								app.header = new PageBanner({
+									id: 'departments-banner',
+									baseClass: "sub-nav-title text-white page-banner",
+									title: "Departments",
+									routes: [{
+										title: 'Engineering',
+										href: "/#departments/engineering"
+									}, {
+										title: 'Construction',
+										href: "/#departments/construction"
+									}, {
+										title: 'Planning',
+										href: "/#departments/planning"
+									}, {
+										title: 'Utilities',
+										href: "/#departments/utilities"
+									}]
+								});
+							} else {
+								app.header = registry.byId('departments-banner');
+							}
 
+							var pane = new ContentPane({
+								id: 'headerPane',
+								content: app.header
+							}, 'headerPane');
+
+							pane.startup();
+						});
 
 		});
 
-		router.register("webresources/home", function(evt) {
+		router.register("departments/engineering", function(evt) {
 						evt.preventDefault();
 						console.log("loading "+evt.newPath);
+						unloadContent().then(function(e) {
+							if (registry.byId('departments-banner') !== undefined) {
+								registry.byId('departments-banner').set('title', "Engineering");
+							}
+						});
 
+		});
+
+		router.register("departments/construction", function(evt) {
+						evt.preventDefault();
+						console.log("loading "+evt.newPath);
+						unloadContent().then(function(e) {
+							if (registry.byId('departments-banner') !== undefined) {
+								registry.byId('departments-banner').set('title', "Construction");
+							}
+						});
+
+		});
+
+		router.register("departments/planning", function(evt) {
+						evt.preventDefault();
+						console.log("loading "+evt.newPath);
+						unloadContent().then(function(e) {
+							if (registry.byId('departments-banner') !== undefined) {
+								registry.byId('departments-banner').set('title', "Airport Planning");
+							}
+						});
+		});
+
+		router.register("departments/utilities", function(evt) {
+						evt.preventDefault();
+						console.log("loading "+evt.newPath);
+						unloadContent().then(function(e) {
+							if (registry.byId('departments-banner') !== undefined) {
+								registry.byId('departments-banner').set('title', "Airfield Utilities");
+							}
+						});
+		});
+
+		router.register("web-resources/home", function(evt) {
+						evt.preventDefault();
+						console.log("loading "+evt.newPath);
+						unloadSection().then(function(e) {
+							if (registry.byId('web-resources-banner') === undefined) {
+								app.header = new PageBanner({
+									id: 'web-resources-banner',
+									baseClass: "sub-nav-title text-white page-banner",
+									title: "Web Resources",
+									routes: [{
+										title: 'Live Data Feeds',
+										href: "/#web-resources/live-data"
+									}, {
+										title: 'State Level GIS Data',
+										href: "/#web-resources/state-level"
+									}, {
+										title: 'County Level GIS Data',
+										href: "/#web-resources/county-level"
+									}, {
+										title: 'ESRI Online Resources',
+										href: "/#web-resources/esri-resources"
+									}]
+								});
+							} else {
+								app.header = registry.byId('web-resources-banner');
+							}
+
+							var pane = new ContentPane({
+								id: 'headerPane',
+								content: app.header
+							}, 'headerPane');
+
+							pane.startup();
+						});
 
 		});
 
 		router.register("help/home", function(evt) {
 						evt.preventDefault();
 						console.log("loading "+evt.newPath);
+						unloadSection().then(function(e) {
+							if (registry.byId('help-banner') === undefined) {
+								app.header = new PageBanner({
+									id: 'help-banner',
+									baseClass: "sub-nav-title text-white page-banner",
+									title: "Help Documentation",
+									routes: [{
+										title: 'Technical Details',
+										href: "/#help/tech-details"
+									}, {
+										title: 'About this Site',
+										href: "/#help/about"
+									}, {
+										title: 'Request Help Ticket',
+										href: "/#help/request-ticket"
+									}, {
+										title: 'Tutorials',
+										href: "/#help/tutorials"
+									}]
+								});
+							} else {
+								app.header = registry.byId('help-banner');
+							}
+
+							var pane = new ContentPane({
+								id: 'headerPane',
+								content: app.header
+							}, 'headerPane');
+
+							pane.startup();
+						});
 		});
 
 		router.startup();
