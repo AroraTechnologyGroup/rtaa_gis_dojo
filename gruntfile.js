@@ -13,6 +13,7 @@ module.exports = function(grunt) {
   var distDir = 'C:\\CalciteRTAA\\dist';
 
   grunt.initConfig({
+
     clean: {
       build: {
         src: ['dist/']
@@ -57,7 +58,7 @@ module.exports = function(grunt) {
       main: {
         files: ['./src/app/**/*.js', './tests/**/*.js', './src/index.html',
       './src/app/**/*.styl'],
-        tasks: ['stylus', 'jshint'],
+        tasks: ['stylus', 'jshint', 'test'],
         options: {
           liveReload: true
         }
@@ -90,7 +91,7 @@ module.exports = function(grunt) {
     connect: {
       server: {
         options: {
-          port: 35729,
+          port: 3000,
           base: 'src',
           open: true
         }

@@ -3,6 +3,7 @@ define([
 	"dojo/_base/declare",
 	'dojo/parser',
 	'dojo/dom',
+	"dojo/dom-style",
 	'dojo/dom-construct',
 	'dojo/html',
 	'dojo/router',
@@ -26,6 +27,7 @@ define([
 		declare,
 		parser,
 		dom,
+		domStyle,
 		domConstruct,
 		html,
 		router,
@@ -155,35 +157,36 @@ define([
 					console.log("loading "+evt.newPath);
 
 					unloadSection().then(function(e) {
-						if (registry.byId('gisportal-banner') === undefined) {
-							app.header = new PageBanner({
-								id: 'gisportal-banner',
-								baseClass: "sub-nav-title text-white page-banner",
-								title: "GIS Mainpage",
-								routes: [{
-									title: 'Map Viewer',
-									href: "/#gisportal/mapviewer"
-								}, {
-									title: 'Web Apps',
-									href: "/#gisportal/apps"
-								}, {
-									title: 'Browse GIS Data',
-									href: "/#gisportal/gis-data-browse"
-								}, {
-									title: 'Backend Database APIs',
-									href: '/#gisportal/backend-apis'
-								}]
-							});
-						} else {
-							app.header = registry.byId('gisportal-banner');
+						try {
+							registry.byId('gisportal-banner').destroyRecursive();
+						} catch(err) {
+							// console.log(err);
 						}
+						app.header = new PageBanner({
+							id: 'gisportal-banner',
+							baseClass: "sub-nav-title text-white page-banner",
+							title: "GIS Mainpage",
+							routes: [{
+								title: 'Map Viewer',
+								href: "/#gisportal/mapviewer"
+							}, {
+								title: 'Web Apps',
+								href: "/#gisportal/apps"
+							}, {
+								title: 'Browse GIS Data',
+								href: "/#gisportal/gis-data-browse"
+							}, {
+								title: 'Backend Database APIs',
+								href: '/#gisportal/backend-apis'
+							}]
+						});
 
 						var pane = new ContentPane({
 							id: 'headerPane',
 							content: app.header
 						}, 'headerPane');
-
 						pane.startup();
+
 				}, function(err) {
 					console.log(err);
 				});
@@ -194,7 +197,7 @@ define([
 							console.log("loading "+evt.newPath);
 							unloadContent().then(function(e) {
 								if (registry.byId('gisportal-banner') !== undefined) {
-									registry.byId('gisportal-banner').set('title', "Map Viewer");
+									app.header.set('title', 'Map Viewer');
 								}
 							}, function(err) {
 								console.log(err);
@@ -248,7 +251,7 @@ define([
 						console.log("loading "+evt.newPath);
 						unloadContent().then(function(e) {
 							if (registry.byId('gisportal-banner') !== undefined) {
-								registry.byId('gisportal-banner').set('title', "Backend Database APIs");
+								registry.byId('gisportal-banner').set('title', "Bacjebd==");
 							}
 						});
 
@@ -258,29 +261,29 @@ define([
 						evt.preventDefault();
 						console.log("loading "+evt.newPath);
 						unloadSection().then(function(e) {
-							if (registry.byId('departments-banner') === undefined) {
-								app.header = new PageBanner({
-									id: 'departments-banner',
-									baseClass: "sub-nav-title text-white page-banner",
-									title: "Departments",
-									routes: [{
-										title: 'Engineering',
-										href: "/#departments/engineering"
-									}, {
-										title: 'Construction',
-										href: "/#departments/construction"
-									}, {
-										title: 'Planning',
-										href: "/#departments/planning"
-									}, {
-										title: 'Utilities',
-										href: "/#departments/utilities"
-									}]
-								});
-							} else {
-								app.header = registry.byId('departments-banner');
+							try {
+								registry.byId('departments-banner').destroyRecursive();
+							} catch(err) {
+								// console.log(err);
 							}
-
+							app.header = new PageBanner({
+								id: 'departments-banner',
+								baseClass: "sub-nav-title text-white page-banner",
+								title: "Departments",
+								routes: [{
+									title: 'Engineering',
+									href: "/#departments/engineering"
+								}, {
+									title: 'Construction',
+									href: "/#departments/construction"
+								}, {
+									title: 'Planning',
+									href: "/#departments/planning"
+								}, {
+									title: 'Utilities',
+									href: "/#departments/utilities"
+								}]
+							});
 							var pane = new ContentPane({
 								id: 'headerPane',
 								content: app.header
@@ -337,28 +340,29 @@ define([
 						evt.preventDefault();
 						console.log("loading "+evt.newPath);
 						unloadSection().then(function(e) {
-							if (registry.byId('web-resources-banner') === undefined) {
-								app.header = new PageBanner({
-									id: 'web-resources-banner',
-									baseClass: "sub-nav-title text-white page-banner",
-									title: "Web Resources",
-									routes: [{
-										title: 'Live Data Feeds',
-										href: "/#web-resources/live-data"
-									}, {
-										title: 'State Level GIS Data',
-										href: "/#web-resources/state-level"
-									}, {
-										title: 'County Level GIS Data',
-										href: "/#web-resources/county-level"
-									}, {
-										title: 'ESRI Online Resources',
-										href: "/#web-resources/esri-resources"
-									}]
-								});
-							} else {
-								app.header = registry.byId('web-resources-banner');
+							try {
+								registry.byId('web-resources-banner').destroyRecursive();
+							} catch(err) {
+								// console.log(err);
 							}
+							app.header = new PageBanner({
+								id: 'web-resources-banner',
+								baseClass: "sub-nav-title text-white page-banner",
+								title: "Web Resources",
+								routes: [{
+									title: 'Live Data Feeds',
+									href: "/#web-resources/live-data"
+								}, {
+									title: 'State Level GIS Data',
+									href: "/#web-resources/state-level"
+								}, {
+									title: 'County Level GIS Data',
+									href: "/#web-resources/county-level"
+								}, {
+									title: 'ESRI Online Resources',
+									href: "/#web-resources/esri-resources"
+								}]
+							});
 
 							var pane = new ContentPane({
 								id: 'headerPane',
@@ -374,28 +378,29 @@ define([
 						evt.preventDefault();
 						console.log("loading "+evt.newPath);
 						unloadSection().then(function(e) {
-							if (registry.byId('help-banner') === undefined) {
-								app.header = new PageBanner({
-									id: 'help-banner',
-									baseClass: "sub-nav-title text-white page-banner",
-									title: "Help Documentation",
-									routes: [{
-										title: 'Technical Details',
-										href: "/#help/tech-details"
-									}, {
-										title: 'About this Site',
-										href: "/#help/about"
-									}, {
-										title: 'Request Help Ticket',
-										href: "/#help/request-ticket"
-									}, {
-										title: 'Tutorials',
-										href: "/#help/tutorials"
-									}]
-								});
-							} else {
-								app.header = registry.byId('help-banner');
+							try {
+								registry.byId('help-banner').destroyRecursive();
+							} catch(err) {
+								// console.log(err);
 							}
+							app.header = new PageBanner({
+								id: 'help-banner',
+								baseClass: "sub-nav-title text-white page-banner",
+								title: "Help Documentation",
+								routes: [{
+									title: 'Technical Details',
+									href: "/#help/tech-details"
+								}, {
+									title: 'About this Site',
+									href: "/#help/about"
+								}, {
+									title: 'Request Help Ticket',
+									href: "/#help/request-ticket"
+								}, {
+									title: 'Tutorials',
+									href: "/#help/tutorials"
+								}]
+							});
 
 							var pane = new ContentPane({
 								id: 'headerPane',
