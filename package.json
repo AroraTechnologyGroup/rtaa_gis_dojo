@@ -22,6 +22,7 @@
     "grunt-dojo": "^1.1.1",
     "intern": "^3.0.6",
     "jshint-stylish": "^2.1.0",
+    "load-grunt-tasks": "^3.5.0",
     "stylus": "0.48.1"
   }
 }

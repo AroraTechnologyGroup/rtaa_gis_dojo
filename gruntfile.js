@@ -1,12 +1,8 @@
 module.exports = function(grunt) {
-
-  grunt.loadNpmTasks('grunt-dojo');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-stylus');
+  require('load-grunt-tasks')(grunt, [ 'grunt-*', 'intern-geezer' ]);
+	var path = require('path');
+  var stripComments = /<\!--.*?-->/g,
+		collapseWhiteSpace = /\s+/g;
 
   // replace these with your own paths
   var appDir = 'C:\\CalciteRTAA\\src\\app';
@@ -26,16 +22,19 @@ module.exports = function(grunt) {
     },
 
     copy: {
-      main: {
+      index: {
+        options: {
+          processContent: function (content) {
+						return content
+							.replace(stripComments, '')
+							.replace(collapseWhiteSpace, ' ')
+						;
+					}
+        },
         files: [{
-          expand: true,
-          cwd: 'src/',
-          src: ['index.html'],
-          dest: './dist/',
-          rename: function(dest, src) {
-            return dest + 'index.html';
-          }
-        }]
+					src: path.join('src', 'index.html'),
+					dest: path.join('dist', 'index.html')
+				}]
       }
     },
 
@@ -43,30 +42,29 @@ module.exports = function(grunt) {
       dist: {
         options: {
           releaseDir: '../dist',
+          profile: 'build.profile.js',
+          dojo: 'src/dojo/dojo.js',
+          load: 'build',
+          cwd: './',
+          basePath: './src'
         }
       },
-      options: {
-        profile: 'build.profile.js',
-        dojo: 'src/dojo/dojo.js',
-        load: 'build',
-        cwd: './',
-        basePath: './src'
-      }
     },
 
     watch: {
       main: {
         files: ['./src/app/**/*.js', './tests/**/*.js', './src/index.html',
       './src/app/**/*.styl'],
-        tasks: ['stylus', 'jshint', 'test'],
-        options: {
-          liveReload: true
-        }
+        tasks: ['stylus:compile', 'jshint']
       }
     },
 
     stylus: {
       compile: {
+        options: {
+          compress: false,
+          'import': [ 'nib']
+        },
         files: [{
           './src/app/resources/app.css': './src/app/resources/app.styl'
         }, {
@@ -89,18 +87,54 @@ module.exports = function(grunt) {
     },
 
     connect: {
-      server: {
-        options: {
-          port: 3000,
-          base: 'src',
-          open: true
-        }
-      }
-    }
+			options: {
+				port: 8888,
+				hostname: 'localhost'
+			},
+			test: {
+				options: {
+					base: 'src'
+				}
+			},
+			dist: {
+				options: {
+					base: 'dist'
+				}
+			}
+		},
 
+    intern: {
+			local: {
+				options: {
+					runType: 'client',
+					config: 'src/app/tests/intern'
+				}
+			},
+			remote: {
+				options: {
+					runType: 'runner',
+					config: 'src/app/tests/intern'
+				}
+			}
+		}
   });
 
+  grunt.registerTask('server', function (target) {
+		if (target === 'dist') {
+			return grunt.task.run([
+				'build',
+				'connect:dist:keepalive'
+			]);
+		}
 
-  grunt.registerTask('build', ['stylus', 'jshint', 'clean:build', 'dojo', 'copy', 'clean:uncompressed']);
-  grunt.registerTask('default', ['stylus', 'jshint', 'connect', 'watch']);
+		grunt.task.run([
+			'stylus:compile',
+			'connect:test',
+			'watch'
+		]);
+	});
+
+  grunt.registerTask('build', ['stylus:compile', 'jshint', 'clean:build', 'dojo:dist', 'copy', 'clean:uncompressed',
+'connect:dist']);
+  grunt.registerTask('default', ['stylus', 'jshint', 'connect:test', 'watch']);
 };
