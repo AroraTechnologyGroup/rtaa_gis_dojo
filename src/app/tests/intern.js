@@ -25,13 +25,6 @@ define({
 	// Maximum number of simultaneous integration tests that should be executed on the remote WebDriver service
 	maxConcurrency: 2,
 
-	// If you want to use a different loader than the default loader, see
-	// <https://theintern.github.io/intern/#option-useLoader> for instruction
-    loaders: {
-        'host-node': 'dojo/dojo',
-        "host-browser": "node_modules/dojo/dojo.js"
-    },
-
 	loaderOptions: {
 		// Packages that should be registered with the loader in each testing environment
 
@@ -75,7 +68,7 @@ define({
 
 
 	// Non-functional test suite(s) to run in each browser
-	suites: ['tests/unit/widgets'],
+	suites: ['unit/widgets'],
 
 	// Functional test suite(s) to execute against each browser once non-functional tests are completed
 //	functionalSuites: ['tests/functional/eDocSubWidgetFunctional'],

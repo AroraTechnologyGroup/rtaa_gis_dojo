@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-  require('load-grunt-tasks')(grunt, [ 'grunt-*', 'intern-geezer' ]);
+  require('load-grunt-tasks')(grunt, {pattern: 'grunt-contrib-*'});
 	var path = require('path');
   var stripComments = /<\!--.*?-->/g,
 		collapseWhiteSpace = /\s+/g;

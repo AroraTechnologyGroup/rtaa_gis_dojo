@@ -2,8 +2,7 @@ define([
   'intern!bdd',
   'intern/chai!expect',
   'app/main',
-  'dijit/registry',
-  'dojo/domReady!'
+  'dijit/registry'
 ], function(bdd, expect, app, registry) {
 
   bdd.describe('routes for the rtaa website', function() {
