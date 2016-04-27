@@ -70,7 +70,7 @@ define({
 
 
 	// Non-functional test suite(s) to run in each browser
-	suites: ['src/app/tests/unit/widgets'],
+	suites: ['tests/unit/widgets'],
 
 	// Functional test suite(s) to execute against each browser once non-functional tests are completed
 	functionalSuites: ['tests/functional/routesFunctional'],
