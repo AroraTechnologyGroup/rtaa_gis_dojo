@@ -412,6 +412,7 @@ define([
 		});
 
 		router.startup();
+		app.router = router;
 		query('.loader').forEach(function(e) {
 			domClass.toggle(e, 'is-active');
 		});

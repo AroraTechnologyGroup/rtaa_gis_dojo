@@ -20,9 +20,10 @@
     "grunt-contrib-stylus": "^1.2.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-dojo": "^1.1.1",
-    "intern": "^3.0.6",
+    "intern": "^3.1.1",
     "jshint-stylish": "^2.1.0",
     "load-grunt-tasks": "^3.5.0",
+    "requirejs": "^2.2.0",
     "stylus": "0.48.1"
   }
 }

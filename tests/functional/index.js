@@ -21,6 +21,6 @@ define([
               'Page Banner heading should correspond with the link text');
           });
       }
-    }
+    };
   });
 });

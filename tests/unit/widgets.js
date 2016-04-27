@@ -3,27 +3,30 @@ define([
   'intern/chai!expect',
   'dijit/registry',
   'app/Card',
-  'app/HomepageBanner',
-  'app/PageBanner',
-  'dojo/domReady!'
+  "dojo/_base/array",
 ], function(bdd, expect, registry, Card, HomepageBanner,
-PageBanner) {
+PageBanner, Array) {
 
   bdd.describe('widgets that make up the app', function() {
     var destroy = function (widget) {
-        registry.forEach(function(e) {
-            registry.remove(e.id);
+        Array.forEach(registry.toArray(), function(e) {
+            e.id.destoryRecursive();
         });
     };
 
     var card;
-    var homepage_banner;
-    var page_banner;
-
+    
     bdd.describe('the Card Widget', function() {
 
       bdd.beforeEach(function () {
-        card = new Card();
+        var options = {
+            baseClass: "",
+            imgSrc: "",
+            header: "",
+            contents: ""
+        };
+
+        card = new Card(options, null);
       });
 
       bdd.afterEach(function () {

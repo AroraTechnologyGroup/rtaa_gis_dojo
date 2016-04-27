@@ -88,7 +88,7 @@ module.exports = function(grunt) {
 
     connect: {
 			options: {
-				port: 8888,
+				port: 3000,
 				hostname: 'localhost'
 			},
 			test: {
@@ -136,5 +136,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', ['stylus:compile', 'jshint', 'clean:build', 'dojo:dist', 'copy', 'clean:uncompressed',
 'connect:dist']);
-  grunt.registerTask('default', ['stylus', 'jshint', 'connect:test', 'watch']);
+  grunt.registerTask('default', ['stylus', 'jshint', 'connect:test:keepalive', 'watch']);
 };
