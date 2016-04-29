@@ -13,10 +13,6 @@ define({
     },
 
 	environments: [
-		{ browserName: 'internet explorer', version: '11', platform: 'WIN8' },
-		{ browserName: 'internet explorer', version: '10', platform: 'WIN8' },
-		{ browserName: 'internet explorer', version: '9', platform: 'WINDOWS' },
-		{ browserName: 'firefox', version: '37', platform: [ 'WINDOWS', 'MAC' ] },
 		{ browserName: 'chrome', version: '39', platform: [ 'WINDOWS', 'MAC' ] },
 		{ browserName: 'safari', version: '8', platform: 'MAC' }
 	],
@@ -73,7 +69,7 @@ define({
 	suites: ['tests/unit/widgets'],
 
 	// Functional test suite(s) to execute against each browser once non-functional tests are completed
-	functionalSuites: ['tests/functional/routesFunctional'],
+	functionalSuites: ['tests/functional/index.js'],
 
 	// A regular expression matching URLs to files that should not be included in code coverage analysis
 	excludeInstrumentation: /^(?:tests|node_modules|bower_components|src\/(?:dgrid|dijit|dojo|dojox|put-selector|xstyle))\//

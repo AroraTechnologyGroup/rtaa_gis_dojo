@@ -2,25 +2,25 @@
 define([
   'intern!object',
   'intern/chai!assert',
-  '../support/pages/IndexPage'
-], function (registerSuite, assert, IndexPage) {
+  '../support/elements/router_test.js'
+], function (registerSuite, assert, RouterTest) {
   registerSuite(function () {
-    var indexPage;
+    var router_test;
     return {
       // on setup, we create an IndexPage instance
       // that we will use for all the tests
       setup: function () {
-        indexPage = new IndexPage(this.remote);
+        router_test= new RouterTest(this.remote);
       },
 
-      'GIS_Mainpage': function() {
-        return indexPage
-          .page_title('GIS Mainpage')
-          .then(function (page_title) {
-            assert.isTrue(page_title,
-              'Page Banner heading should correspond with the link text');
+      'TopNavLinks': function() {
+        return router_test
+          .top_nav()
+          .then(function (result) {
+            assert.isTrue(result,
+              'Main navigation links should change url to correct page');
           });
       }
-    }
+    };
   });
 });
