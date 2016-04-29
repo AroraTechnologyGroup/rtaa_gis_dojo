@@ -2,12 +2,8 @@ define([
   'intern!bdd',
   'intern/chai!expect',
   'dijit/registry',
-  'app/Card',
-  'app/HomepageBanner',
-  'app/PageBanner',
-  'dojo/domReady!'
-], function(bdd, expect, registry, Card, HomepageBanner,
-PageBanner) {
+  'app/PageBanner'
+], function(bdd, expect, registry, PageBanner) {
 
   bdd.describe('widgets that make up the app', function() {
     var destroy = function (widget) {
@@ -16,22 +12,20 @@ PageBanner) {
         });
     };
 
-    var card;
-    var homepage_banner;
     var page_banner;
 
-    bdd.describe('the Card Widget', function() {
+    bdd.describe('the PageBanner Widget', function() {
 
       bdd.beforeEach(function () {
-        card = new Card();
+        card = new PageBanner();
       });
 
       bdd.afterEach(function () {
-        destroy(card);
+        destroy(page_banner);
       });
 
-      bdd.it('should be a card', function() {
-        expect(card).to.be.an.instanceof(Card);
+      bdd.it('should be a PageBanner', function() {
+        expect(page_banner).to.be.an.instanceof(PageBanner);
       });
     });
   });
