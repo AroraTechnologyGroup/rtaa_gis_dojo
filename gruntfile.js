@@ -91,9 +91,17 @@ module.exports = function(grunt) {
 				port: 8888,
 				hostname: 'localhost'
 			},
+      dev: {
+        options: {
+          base: 'src'
+        }
+      },
 			test: {
 				options: {
-					base: 'src'
+					base: '.',
+          open: {
+            target: 'http://localhost:8888/node_modules/intern/client.html?config=tests/intern'
+          }
 				}
 			},
 			dist: {
@@ -136,5 +144,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', ['stylus:compile', 'jshint', 'clean:build', 'dojo:dist', 'copy', 'clean:uncompressed',
 'connect:dist']);
-  grunt.registerTask('default', ['stylus', 'jshint', 'connect:test', 'watch']);
+  grunt.registerTask('default', ['stylus:compile', 'jshint', 'connect:dev', 'watch']);
+  grunt.registerTask('test', ['stylus:compile', 'jshint', 'connect:test', 'watch']);
 };

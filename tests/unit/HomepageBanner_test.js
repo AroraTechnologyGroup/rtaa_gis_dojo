@@ -2,31 +2,30 @@ define([
   'intern!bdd',
   'intern/chai!expect',
   'dijit/registry',
+  "dojo/_base/array",
   'app/HomepageBanner'
-], function(bdd, expect, registry, HomepageBanner) {
+], function(bdd, expect, registry, Array, HomepageBanner) {
 
-  bdd.describe('widgets that make up the app', function() {
+  bdd.describe('the HomepageBanner Widget', function() {
+
+    var homepage_banner;
+
     var destroy = function (widget) {
-        registry.forEach(function(e) {
+        Array.forEach(registry.toArray(), function(e) {
             registry.remove(e.id);
         });
     };
 
-    var homepage_banner;
+    bdd.beforeEach(function () {
+      homepage_banner = new HomepageBanner();
+    });
 
-    bdd.describe('the HomepageBanner Widget', function() {
+    bdd.afterEach(function () {
+      destroy(homepage_banner);
+    });
 
-      bdd.beforeEach(function () {
-        card = new HomepageBanner();
-      });
-
-      bdd.afterEach(function () {
-        destroy(homepage_banner);
-      });
-
-      bdd.it('should be a card', function() {
-        expect(homepage_banner).to.be.an.instanceof(HomepageBanner);
-      });
+    bdd.it('should be a Homepage Banner', function() {
+      expect(homepage_banner).to.be.an.instanceof(HomepageBanner);
     });
   });
 });
