@@ -93,7 +93,10 @@ module.exports = function(grunt) {
 			},
       dev: {
         options: {
-          base: 'src'
+          base: 'src',
+          open: {
+            target: 'http://localhost:8888/index.html'
+          }
         }
       },
 			test: {
@@ -106,7 +109,10 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				options: {
-					base: 'dist'
+					base: 'dist',
+          open: {
+            target: 'http://localhost:8888/index.html'
+          }
 				}
 			}
 		},
