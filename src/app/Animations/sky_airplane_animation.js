@@ -1,7 +1,7 @@
 (function (lib, img, cjs, ss) {
 
 var p; // shortcut to reference prototypes
-lib.webFontTxtFilters = {}; 
+lib.webFontTxtFilters = {};
 
 // library properties:
 lib.properties = {
@@ -15,7 +15,7 @@ lib.properties = {
 
 
 
-lib.webfontAvailable = function(family) { 
+lib.webfontAvailable = function(family) {
 	lib.properties.webfonts[family] = true;
 	var txtFilters = lib.webFontTxtFilters && lib.webFontTxtFilters[family] || [];
 	for(var f = 0; f < txtFilters.length; ++f) {
@@ -27,14 +27,14 @@ lib.webfontAvailable = function(family) {
 
 
 (lib.Bitmap2 = function() {
-	this.spriteSheet = ss["SkyAirplane_atlas_"];
+	this.spriteSheet = ss.SkyAirplane_atlas_;
 	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.header_sky = function() {
-	this.spriteSheet = ss["SkyAirplane_atlas_"];
+	this.spriteSheet = ss.SkyAirplane_atlas_;
 	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 
