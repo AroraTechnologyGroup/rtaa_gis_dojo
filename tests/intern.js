@@ -26,7 +26,9 @@ define({
     },
 
 	environments: [
-		{ browserName: 'chrome', version: '39', platform: [ 'WINDOWS' ] }
+
+		{ browserName: 'chrome', version: '39', platform: [ 'WINDOWS', 'MAC' ] }
+
 	],
 
 	// Maximum number of simultaneous integration tests that should be executed on the remote WebDriver service
@@ -83,9 +85,10 @@ define({
 
 
 	// Non-functional test suite(s) to run in each browser
-	suites: ['tests/unit/widgets'],
+	suites: ['tests/unit/all'],
 
 	// Functional test suite(s) to execute against each browser once non-functional tests are completed
+
 	// functionalSuites: ['tests/functional/index'],
 
 	// A regular expression matching URLs to files that should not be included in code coverage analysis

@@ -15,7 +15,7 @@ PageBanner, Array) {
     };
 
     var card;
-    
+
     bdd.describe('the Card Widget', function() {
 
       bdd.beforeEach(function () {

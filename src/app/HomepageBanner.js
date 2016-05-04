@@ -1,5 +1,6 @@
 define([
   "dojo/_base/declare",
+  "dojo/parser",
   "dojo/_base/lang",
   "dojo/dom-construct",
   "dijit/_WidgetBase",
@@ -8,6 +9,7 @@ define([
   "dojo/text!./templates/HomepageBanner_template.html"
 ], function(
   declare,
+  parser,
   lang,
   domConstruct,
   _WidgetBase,
@@ -21,10 +23,16 @@ define([
       baseClass: null,
       title: null
     },
+
     constructor: function(options) {
       declare.safeMixin(this.options, options);
       this.set("baseClass", this.options.baseClass);
       this.set("title", this.options.title);
+    },
+
+    postCreate: function() {
     }
+
+
   });
 });
