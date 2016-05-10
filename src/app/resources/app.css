@@ -13,7 +13,7 @@
 }
 #homepage-banner {
   width: 100%;
-  background-image: url("/app/img/header_banner_resize.png");
+  background-image: url("../../app/img/header_banner_resize.png");
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
