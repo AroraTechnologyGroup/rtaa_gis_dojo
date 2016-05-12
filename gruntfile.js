@@ -65,6 +65,15 @@ module.exports = function(grunt) {
           compress: false,
           'import': [ 'nib']
         },
+        paths: [{
+            './src/app/resources/app.css': './src/app/resources/app.styl'
+          }, {
+            './src/app/templates/resources/card_template.css': './src/app/templates/resources/card_template.styl'
+          }
+        ],
+        use: [
+          require('autoprefixer-stylus')
+        ],
         files: [{
           './src/app/resources/app.css': './src/app/resources/app.styl'
         }, {
@@ -133,7 +142,7 @@ module.exports = function(grunt) {
 		}
   });
 
-  grunt.registerTask('server', function (target) {
+  grunt.registerTask('serve', function (target) {
 		if (target === 'dist') {
 			return grunt.task.run([
 				'build',
