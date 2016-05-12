@@ -65,19 +65,16 @@ module.exports = function(grunt) {
           compress: false,
           'import': [ 'nib']
         },
-        paths: [{
-            './src/app/resources/app.css': './src/app/resources/app.styl'
-          }, {
-            './src/app/templates/resources/card_template.css': './src/app/templates/resources/card_template.styl'
-          }
-        ],
         use: [
           require('autoprefixer-stylus')
         ],
         files: [{
-          './src/app/resources/app.css': './src/app/resources/app.styl'
-        }, {
-          './src/app/templates/resources/card_template.css': './src/app/templates/resources/card_template.styl'
+          './src/app/resources/app.css': [
+            './src/app/resources/app.styl',
+            './src/app/templates/resources/card_template.styl',
+            './src/app/templates/resources/homepage_banner_template.styl',
+            './src/app/templates/resources/page_banner_template.styl'
+          ]
         }]
       }
     },
@@ -97,14 +94,14 @@ module.exports = function(grunt) {
 
     connect: {
 			options: {
-				port: 8888,
+				port: 3000,
 				hostname: 'localhost'
 			},
       dev: {
         options: {
           base: 'src',
           open: {
-            target: 'http://localhost:8888/index.html'
+            target: 'http://localhost:3000/index.html'
           }
         }
       },
@@ -112,7 +109,7 @@ module.exports = function(grunt) {
 				options: {
 					base: '.',
           open: {
-            target: 'http://localhost:8888/node_modules/intern/client.html?config=tests/intern'
+            target: 'http://localhost:3000/node_modules/intern/client.html?config=tests/intern'
           }
 				}
 			},
@@ -120,7 +117,7 @@ module.exports = function(grunt) {
 				options: {
 					base: 'dist',
           open: {
-            target: 'http://localhost:8888/index.html'
+            target: 'http://localhost:3000/index.html'
           }
 				}
 			}
