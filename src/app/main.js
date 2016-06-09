@@ -95,7 +95,7 @@ define([
 				var pane = new ContentPane({
 					id: 'main-content'
 				}, 'main-content');
-				pane.startup();
+
 
 				var nodelist = Array.map(objects, function(e) {
 					var deferred = new Deferred();
@@ -114,6 +114,7 @@ define([
 				});
 
 				all(nodelist).then(function(arr) {
+					pane.startup();
 					Array.forEach(arr, function(e) {
 						pane.addChild(e);
 					});
@@ -160,12 +161,13 @@ define([
 						try {
 							registry.byId('gisportal-banner').destroyRecursive();
 						} catch(err) {
-							// console.log(err);
+							//console.log(err);
 						}
+
 						app.header = new PageBanner({
 							id: 'gisportal-banner',
 							baseClass: "sub-nav-title text-white page-banner",
-							title: "GIS Mainpage",
+							title: "Geographic Information Systems",
 							routes: [{
 								title: 'Map Viewer',
 								href: "/#gisportal/mapviewer"
@@ -269,13 +271,13 @@ define([
 							app.header = new PageBanner({
 								id: 'departments-banner',
 								baseClass: "sub-nav-title text-white page-banner",
-								title: "Departments",
+								title: "Airport Departments",
 								routes: [{
 									title: 'Engineering',
 									href: "/#departments/engineering"
 								}, {
-									title: 'Construction',
-									href: "/#departments/construction"
+									title: 'Operations',
+									href: "/#departments/operations"
 								}, {
 									title: 'Planning',
 									href: "/#departments/planning"
@@ -305,12 +307,12 @@ define([
 
 		});
 
-		router.register("departments/construction", function(evt) {
+		router.register("departments/operations", function(evt) {
 						evt.preventDefault();
 						console.log("loading "+evt.newPath);
 						unloadContent().then(function(e) {
 							if (registry.byId('departments-banner') !== undefined) {
-								registry.byId('departments-banner').set('title', "Construction");
+								registry.byId('departments-banner').set('title', "Operations");
 							}
 						});
 
@@ -348,7 +350,7 @@ define([
 							app.header = new PageBanner({
 								id: 'web-resources-banner',
 								baseClass: "sub-nav-title text-white page-banner",
-								title: "Web Resources",
+								title: "Online Resource Library",
 								routes: [{
 									title: 'Live Data Feeds',
 									href: "/#web-resources/live-data"
