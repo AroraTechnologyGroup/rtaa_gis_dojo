@@ -1,4 +1,7 @@
 .git
+build.sh
+.jshintrc
+makefile
 dist/
 bower_components/
 node_modules/

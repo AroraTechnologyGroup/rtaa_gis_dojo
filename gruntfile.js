@@ -1,12 +1,6 @@
 module.exports = function(grunt) {
-  require('load-grunt-tasks')(grunt, {pattern: 'grunt-contrib-*'});
-	var path = require('path');
-  var stripComments = /<\!--.*?-->/g,
-		collapseWhiteSpace = /\s+/g;
-
-  // replace these with your own paths
-  var appDir = 'C:\\CalciteRTAA\\src\\app';
-  var distDir = 'C:\\CalciteRTAA\\dist';
+    grunt.loadNpmTasks('grunt-dojo');
+    require('load-grunt-tasks')(grunt, {pattern: 'grunt-contrib-*'});
 
   grunt.initConfig({
 
@@ -22,39 +16,46 @@ module.exports = function(grunt) {
     },
 
     copy: {
-      index: {
-        options: {
-          processContent: function (content) {
-						return content
-							.replace(stripComments, '')
-							.replace(collapseWhiteSpace, ' ')
-						;
-					}
-        },
-        files: [{
-					src: path.join('src', 'index.html'),
-					dest: path.join('dist', 'index.html')
-				}]
-      }
+        main: {
+            files: [{
+                expand: true,
+                cwd: 'src/',
+                src: ['index.html'],
+                dest: './dist/',
+                rename: function (dest, src) {
+                    return dest + 'index.html';
+                }
+            }]
+        }
     },
-
     dojo: {
       dist: {
-        options: {
-          releaseDir: '../dist',
+          options: {
+              releaseDir: '../dist'
+          }
+      },
+      options: {
           profile: 'build.profile.js',
           dojo: 'src/dojo/dojo.js',
           load: 'build',
           cwd: './',
           basePath: './src'
         }
-      },
     },
-
+    uglify: {
+      build: {
+        files: [{
+            expand: true,
+            cwd: 'dist/',
+            src: '**/*.js',
+            dest: 'dist/'
+        }]
+      }
+    },
     watch: {
       main: {
-        files: ['./src/app/**/*.js', './tests/**/*.js', './src/index.html',
-      './src/app/**/*.styl'],
+        files: ['**/*.js', '**/*.html',
+      '**/*.styl'],
         tasks: ['stylus:compile', 'jshint']
       }
     },
@@ -70,10 +71,7 @@ module.exports = function(grunt) {
         ],
         files: [{
           './src/app/resources/app.css': [
-            './src/app/resources/app.styl',
-            './src/app/templates/resources/card_template.styl',
-            './src/app/templates/resources/homepage_banner_template.styl',
-            './src/app/templates/resources/page_banner_template.styl'
+            './src/app/resources/app.styl'
           ]
         }]
       }
@@ -89,7 +87,7 @@ module.exports = function(grunt) {
         dojo: true
       },
 
-      all: ['gruntfile.js', 'src/app/**/*.js', 'tests/**/*.js']
+      all: ['gruntfile.js', './src/app/**/*.js', './tests/**/*.js']
     },
 
     connect: {
@@ -99,29 +97,29 @@ module.exports = function(grunt) {
 			},
       dev: {
         options: {
-          base: 'src',
+          base: './src',
           open: {
             target: 'http://localhost:3000/index.html'
           }
         }
       },
-			test: {
-				options: {
-					base: '.',
-          open: {
-            target: 'http://localhost:3000/node_modules/intern/client.html?config=tests/intern'
-          }
-				}
-			},
-			dist: {
-				options: {
-					base: 'dist',
-          open: {
-            target: 'http://localhost:3000/index.html'
-          }
-				}
-			}
-		},
+        test: {
+            options: {
+                base: '.',
+              open: {
+                target: 'http://localhost:3000/node_modules/intern/client.html?config=tests/intern'
+              }
+            }
+        },
+        dist: {
+            options: {
+                base: './dist',
+              open: {
+                target: 'http://localhost:3000/index.html'
+              }
+            }
+        }
+    },
 
     intern: {
 			local: {
@@ -154,8 +152,7 @@ module.exports = function(grunt) {
 		]);
 	});
 
-  grunt.registerTask('build', ['stylus:compile', 'jshint', 'clean:build', 'dojo:dist', 'copy', 'clean:uncompressed',
-'connect:dist']);
+  grunt.registerTask('build', ['stylus:compile', 'jshint', 'clean:build', 'dojo', 'copy', 'clean:uncompressed']);
   grunt.registerTask('default', ['stylus:compile', 'jshint', 'connect:dev', 'watch']);
   grunt.registerTask('test', ['stylus:compile', 'jshint', 'connect:test', 'watch']);
 };

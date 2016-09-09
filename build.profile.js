@@ -25,11 +25,11 @@ var profile = {
   // Uses Closure Compiler or "uglify" as the JavaScript minifier. This can also be set to "shrinksafe" to use ShrinkSafe,
   // though ShrinkSafe is deprecated and not recommended.
   // This option defaults to "" (no compression) if not provided.
-  optimize: 'closure',
+  optimize: '',
 
   // We're building layers, so we need to set the minifier to use for those, too.
   // This defaults to "shrinksafe" if not provided.
-  layerOptimize: 'closure',
+  layerOptimize: '',
 
   // A list of packages that will be built. The same packages defined in the loader should be defined here in the
   // build profile.
@@ -42,8 +42,6 @@ var profile = {
     'dojox',
     'dstore',
     'dgrid',
-    'xstyle',
-    'put-selector',
     'esri', {
       name: 'moment',
       location: 'moment',
@@ -51,7 +49,12 @@ var profile = {
       trees: [
           // don't bother with .hidden, tests, min, src, and templates
           [".", ".", /(\/\.)|(~$)|(test|txt|src|min|templates)/]
-      ]
+      ],
+      resourceTags: {
+        amd: function(filename, mid){
+          return /\.js$/.test(filename);
+        }
+      }
     }
   ],
 
@@ -70,7 +73,7 @@ var profile = {
   // The default selector engine is not included by default in a dojo.js build in order to make mobile builds
   // smaller. We add it back here to avoid that extra HTTP request. There is also an "acme" selector available; if
   // you use that, you will need to set the `selectorEngine` property in index.html, too.
-  selectorEngine: 'acme',
+  selectorEngine: 'lite',
 
   // Any module in an application can be converted into a "layer" module, which consists of the original module +
   // additional dependencies built into the same file. Using layers allows applications to reduce the number of HTTP
@@ -91,10 +94,25 @@ var profile = {
         // dependencies of esri/map that will be requested if not included
         'dojox/gfx/path',
         'dojox/gfx/svg',
-        'dojox/gfx/filters',
-        'dojox/gfx/svgext',
         'dojox/gfx/shape',
-        'esri/dijit/Attribution'
+
+        // esri stuff for 3D maps
+        'esri/layers/FeatureLayer',
+        'esri/layers/support/LabelClass',
+        'esri/layers/graphics/controllers/SnapshotController',
+        'esri/portal/creators/TiledServiceLayerCreator',
+        'esri/portal/creators/TiledElevationServiceLayerCreator',
+        'esri/portal/creators/layersCreator',
+        'esri/views/3d/layers/TiledLayerView3D',
+        'esri/views/layers/GraphicsLayerView',
+        'esri/views/3d/layers/GraphicsLayerView3D',
+        'esri/views/3d/layers/graphics/TextureCollection',
+        'esri/views/3d/layers/graphics/SymbolConverter',
+        'esri/views/3d/webgl-engine/lib/FloatingBoxLocalOriginFactory',
+        'esri/views/3d/webgl-engine/lib/Layer',
+        'esri/views/3d/webgl-engine/lib/MaterialCollection',
+        'esri/views/3d/webgl-engine/lib/Octree',
+        'esri/views/3d/webgl-engine/lib/TextTextureAtlas'
       ],
       // You can define the locale for your application if you like
       includeLocales: ['en-us']
