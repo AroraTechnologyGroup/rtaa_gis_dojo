@@ -125,13 +125,13 @@ module.exports = function(grunt) {
 			local: {
 				options: {
 					runType: 'client',
-					config: 'src/app/tests/intern'
+					config: 'tests/intern'
 				}
 			},
 			remote: {
 				options: {
 					runType: 'runner',
-					config: 'src/app/tests/intern'
+					config: 'tests/intern'
 				}
 			}
 		}

@@ -5,7 +5,8 @@
   "scripts": {
     "preinstall": "bower install",
     "build": "grunt build",
-    "clean": "grunt clean"
+    "clean": "grunt clean",
+    "test": "grunt test"
   },
   "author": "Richard Hughes at Arora Engineers, Inc.",
   "license": "ISC",
@@ -21,7 +22,7 @@
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-dojo": "^1.1.1",
-    "intern": "^3.1.1",
+    "intern": "^3.3.1",
     "jshint-stylish": "^2.1.0",
     "load-grunt-tasks": "^3.5.0",
     "requirejs": "^2.2.0",
