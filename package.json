@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "GIS site for rtaa",
   "scripts": {
+    "preinstall": "bower install"
+  },
+  "scripts": {
     "build": "grunt build",
     "clean": "grunt clean",
     "test": "grunt test"
@@ -10,9 +13,12 @@
   "author": "Richard Hughes at Arora Engineers, Inc.",
   "license": "ISC",
   "devDependencies": {
+    "babel-plugin-transform-es2015-modules-simple-amd": "^0.3.0",
+    "babel-preset-es2015-without-strict": "0.0.3",
+    "babel-preset-stage-0": "^6.5.0",
     "autoprefixer-stylus": "^0.9.3",
     "grunt": "^1.0.1",
-    "grunt-browser-sync": "^2.2.0",
+    "grunt-babel": "^6.0.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-connect": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
@@ -21,9 +27,9 @@
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-dojo": "^1.1.1",
+    "grunt-sync": "^0.5.2",
     "intern": "^3.3.1",
     "jshint-stylish": "^2.1.0",
-    "load-grunt-tasks": "^3.5.0",
     "requirejs": "^2.2.0",
     "stylus": "^0.54.5"
   }
