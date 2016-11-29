@@ -11,10 +11,11 @@
   "author": "Richard Hughes at Arora Engineers, Inc.",
   "license": "ISC",
   "devDependencies": {
+    "autoprefixer-stylus": "^0.9.3",
     "babel-plugin-transform-es2015-modules-simple-amd": "^0.3.0",
     "babel-preset-es2015-without-strict": "0.0.3",
     "babel-preset-stage-0": "^6.5.0",
-    "autoprefixer-stylus": "^0.9.3",
+    "bower": "^1.8.0",
     "grunt": "^1.0.1",
     "grunt-babel": "^6.0.0",
     "grunt-contrib-clean": "^1.0.0",
