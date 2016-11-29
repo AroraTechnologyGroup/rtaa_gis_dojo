@@ -41,7 +41,7 @@ module.exports = function(grunt) {
     dojo: {
       dist: {
           options: {
-              releaseDir: '../dist'
+              releaseDir: './dist'
           }
       },
       options: {
@@ -152,6 +152,7 @@ module.exports = function(grunt) {
       },
       dist: {
         options: {
+          keepalive: true,
           base: './dist',
           open: {
             target: 'http://localhost:3000/index.html'
