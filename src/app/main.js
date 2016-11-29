@@ -93,30 +93,46 @@ define([
 						console.log(err);
 					}
 
-					app.header = new PageBanner({
-						id: 'gisportal-banner',
-						baseClass: 'sub-nav-title text-white page-banner',
-						title: 'Geographic Information Systems',
-						routes: [{
-							title: 'Map Viewer',
-							href: '/#gisportal/mapviewer'
-						}, {
-							title: 'Web Apps',
-							href: '/#gisportal/apps'
-						}, {
-							title: 'Browse GIS Data',
-							href: '/#gisportal/gis-data-browse'
-						}, {
-							title: 'Backend Database APIs',
-							href: '/#gisportal/backend-apis'
-						}]
-					});
+					// if the user is admin, allow for browse data and backend api
+					app.getGroups().then(function(e) {
+						var routes;
+						var test = Array.indexOf(e, 'GIS');
+						if (test !== -1) {
+							routes = [{
+									title: 'Map Viewer',
+									href: '/#gisportal/mapviewer'
+								}, {
+									title: 'Web Apps',
+									href: '/#gisportal/apps'
+								}, {
+									title: 'Browse GIS Data',
+									href: '/#gisportal/gis-data-browse'
+								}, {
+									title: 'Backend Database APIs',
+									href: '/#gisportal/backend-apis'
+								}];
+						} else {
+							routes = [{
+									title: 'Map Viewer',
+									href: '/#gisportal/mapviewer'
+								}, {
+									title: 'Web Apps',
+									href: '/#gisportal/apps'
+								}];
+						}
 
-					var pane = new ContentPane({
-						id: 'headerPane',
-						content: app.header
-					}, 'headerPane');
-					pane.startup();
+						app.header = new PageBanner({
+								id: 'gisportal-banner',
+								baseClass: 'sub-nav-title text-white page-banner',
+								title: 'Geographic Information Systems',
+								routes: routes
+							});
+						var pane = new ContentPane({
+							id: 'headerPane',
+							content: app.header
+						}, 'headerPane');
+						pane.startup();
+					});
 
 			}, function(err) {
 				console.log(err);
@@ -146,31 +162,47 @@ define([
 								registry.byId('gisportal-banner').set('title', "Geospatial Applications");
 							}
 
-							app.loadCards([{
+							
+							var airspace_app = {
 								id: "AirspaceAppCard",
 								imgSrc: 'app/img/thumbnails/airspace_app.png',
 								href: 'https://gisapps.aroraengineers.com:3344',
 								header: 'Airspace',
-								baseClass: 'card column-6 animate-fade-in leader-1 trailer-2',
+								baseClass: 'card column-8 animate-fade-in leader-2 trailer-2',
 								contents: 'View and Analyze the data in the airspace of the RTAA Airport'
-							}, {
+							};
+
+							var eDoc_app = {
 								id: "eDocAppCard",
 								imgSrc: 'app/img/thumbnails/eDoc_app.png',
 								href: 'https://gisapps.aroraengineers.com:3344',
 								header: 'eDoc Search Tools',
-								baseClass: 'card column-6 animate-fade-in pre-1 leader-1 trailer-2',
+								baseClass: 'card column-8 animate-fade-in leader-2 trailer-2',
 								contents: 'Search for documents and images using this map focused search tool'
-							}, {
+							};
+
+							var airfield_app = {
 								id: "AirfieldAppCard",
 								imgSrc: 'app/img/thumbnails/airfield_app.png',
 								href: 'https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=ff605fe1a736477fad9b8b22709388d1',
 								header: 'Airfield',
-								baseClass: 'card column-6 animate-fade-in pre-1 leader-1 trailer-2',
+								baseClass: 'card column-8 animate-fade-in leader-2 trailer-2',
 								contents: 'View the Airfield Data'
-							}]).then(function(e) {
-								console.log(e);
-							}, function(err) {
-								console.log(err);
+							};
+
+							app.getGroups().then(function(e) {
+								var cards;
+								var test = Array.indexOf(e, 'GIS');
+								if (test !== -1) {
+									cards = [airspace_app, eDoc_app, airfield_app];
+								} else {
+									cards = [airspace_app];
+								}
+								app.loadCards(cards).then(function(e) {
+									console.log(e);
+								}, function(err) {
+									console.log(err);
+								});
 							});
 						});
 		});
@@ -199,7 +231,7 @@ define([
 								imgSrc: 'app/img/thumbnails/restapi_app.png',
 								href: 'https://gisapps.aroraengineers.com:8004/edoc',
 								header: 'eDoc Rest API',
-								baseClass: 'card column-6 animate-fade-in leader-1 trailer-2',
+								baseClass: 'card column-8 animate-fade-in leader-1 trailer-2',
 								contents: 'Manage the eDoc Rest API'
 							}]);
 						});

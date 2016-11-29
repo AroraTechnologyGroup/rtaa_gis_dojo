@@ -2,6 +2,7 @@ define([
 	'dijit/registry',
 	"dojo/_base/declare",
 	'dojo/parser',
+	"dojo/cookie",
 	'dojo/dom',
 	"dojo/dom-style",
 	'dojo/dom-construct',
@@ -25,6 +26,7 @@ define([
 		registry,
 		declare,
 		parser,
+		cookie,
 		dom,
 		domStyle,
 		domConstruct,
@@ -119,6 +121,41 @@ define([
 					mainDeferred.resolve(pane);
 				});
 				return mainDeferred.promise;
+			},
+
+			getGroups: function() {
+				var deferred = new Deferred();
+				// var user_list = query('.user-nav-name');
+				var user_list = ["siteadmin"];
+				if (user_list.length > 0) {
+					// var username = user_list[0].innerText;
+					var username = user_list[0];
+					(function() {
+						request("http://127.0.0.1:8080/groups/", {
+							method: "POST",
+							preventCache: true,
+							handleAs: 'json',
+							data: {
+								'username': username,
+							},
+							headers: {
+					            "X-Requested-With": null,
+					            "X-CSRFToken": cookie('csrftoken')
+					        }
+						}).then(function(data) {
+							console.log(data);
+							deferred.resolve(data);
+						}, function(err) {
+							console.log(err);
+							deferred.cancel(err);
+						});
+					})();
+					
+				} else {
+					deferred.resolve(["anonymous"]); 
+				}
+
+				return deferred.promise;
 			}
 		});
 	});

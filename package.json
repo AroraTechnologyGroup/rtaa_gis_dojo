@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "GIS site for rtaa",
   "scripts": {
-    "preinstall": "bower install"
-  },
-  "scripts": {
+    "preinstall": "bower install",
     "build": "grunt build",
     "clean": "grunt clean",
     "test": "grunt test"

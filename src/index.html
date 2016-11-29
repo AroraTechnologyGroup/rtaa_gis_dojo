@@ -46,8 +46,7 @@
               <a href="/" class="icon-ui-menu top-nav-title js-drawer-toggle" data-drawer="top-nav">RTAA GIS</a>
             </div>
             <nav class="sign-in">
-              <a href="#" class="btn btn-small btn-clear">Sign Up</a>
-              <a href="#" class="btn btn-small btn-transparent">Sign In</a>
+              <a href="/" class="btn btn-small btn-transparent">Sign In</a>
             </nav>
           </div>
         </div>
@@ -145,10 +144,13 @@
     <!-- interactive patterns need to be initialized -->
     <script>
        calcite.init();
-       require(['dojo/parser', 'app/main', 'dojo/query', 'dojo/dom-class', 'dojo/domReady!'],
-               function (parser, app, query, domClass) {
-                   var node = query(".loader")[0];
-                   domClass.remove(node, 'is-active');
+       require(['dojo/parser', 'app/main', 'dojo/query', 'dojo/dom-construct', 'dojo/dom-class', 'dojo/domReady!'],
+               function (parser, app, query, domConstruct, domClass) {
+                  var node = query(".loader")[0];
+                  domClass.remove(node, 'is-active');
+                  var link = domConstruct.create("a", {href: "/#home"});
+                  link.click();
+                  domConstruct.destroy(link);
            });
     </script>
   </body>

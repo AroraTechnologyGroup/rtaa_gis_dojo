@@ -36,6 +36,7 @@ define([
 
   return declare([_WidgetBase, _TemplatedMixin], {
     templateString: template,
+
     options: {
       baseClass: null,
       imgSrc: null,
@@ -46,12 +47,12 @@ define([
     constructor: function(options, srcNodeRef) {
       this.inherited(arguments);
       declare.safeMixin(this.options, options);
-      this.set("baseClass", this.options.baseClass);
       this.set("imgSrc", this.options.imgSrc);
       this.set("header", this.options.header);
       this.set("contents", this.options.contents);
       this.set("srcNodeRef", this.srcNodeRef);
       this.set("href", this.options.href);
+      this.set("baseClass", this.options.baseClass);
     },
     postCreate: function() {
       var self = this;
@@ -117,7 +118,6 @@ define([
     },
 
     loadIframe: function() {
-      // each card object has [baseClass, imgSrc, href, header, content]
       var self = this;
       var pane = new ContentPane({
         id: "iframe_pane",

@@ -34,11 +34,6 @@
 .hover {
   cursor: pointer !important;
 }
-iframe {
-  height: 100%;
-  width: 100%;
-  border: none;
-}
 #homepage-banner {
   width: 100%;
   background-image: url("../img/banner/header_banner_resize.png");
@@ -112,6 +107,4 @@ iframe {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
 }
