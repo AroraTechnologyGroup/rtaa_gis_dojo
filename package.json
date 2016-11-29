@@ -4,8 +4,6 @@
   "description": "GIS site for rtaa",
   "scripts": {
     "postinstall": "bower install",
-    "build": "grunt build",
-    "clean": "grunt clean",
     "test": "grunt test"
   },
   "author": "Richard Hughes at Arora Engineers, Inc.",
