@@ -162,7 +162,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('build', ['stylus:compile', 'jshint', 'clean:build', 'dojo', 'copy', 'clean:uncompressed', 'connect:dist']);
+  // grunt.registerTask('build', ['stylus:compile', 'jshint', 'clean:build', 'dojo', 'copy', 'clean:uncompressed', 'connect:dist']);
   grunt.registerTask('default', [
     'stylus:compile',
     'jshint',
