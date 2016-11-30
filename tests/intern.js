@@ -24,7 +24,7 @@ define({
 
 	loaders: {
 			'host-node': 'dojo/dojo',
-			'host-browser': "src/dojo/dojo.js",
+			'host-browser': "src/static/home/dojo/dojo.js",
 	},
 
 
@@ -34,34 +34,34 @@ define({
 
 		packages: [ {
             name: 'dgrid',
-            location: 'src/dgrid'
+            location: 'src/static/home/dgrid'
           }, {
             name: 'dstore',
-            location: 'src/dstore'
+            location: 'src/static/home/dstore'
           }, {
             name: 'dijit',
-            location: 'src/dijit'
+            location: 'src/static/home/dijit'
           }, {
             name: 'esri',
-            location: 'src/esri'
+            location: 'src/static/home/esri'
           }, {
             name: 'dojo',
-            location: 'src/dojo'
+            location: 'src/static/home/dojo'
           }, {
             name: 'dojox',
-            location: 'src/dojox'
+            location: 'src/static/home/dojox'
           }, {
             name: 'util',
-            location: 'src/util'
+            location: 'src/static/home/util'
           }, {
             name: 'app',
-            location: 'src/app'
+            location: 'src/static/home/app'
           }, {
             name: 'tests',
             location: 'tests'
           }, {
             name: 'moment',
-            location: 'src/moment'
+            location: 'src/static/home/moment'
           }
         ]
 	},

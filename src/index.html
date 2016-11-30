@@ -7,12 +7,12 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>RTAA GIS Page</title>
-    <link rel="shortcut icon" href="app/img/icons/favicon.ico">
+    <link rel="shortcut icon" href="/static/home/app/img/icons/favicon.ico">
     <!--[if lt IE 9]>
       <script src="/assets/javascripts/libs/selectivizr.js"></script>
       <script src="/assets/javascripts/libs/html5shiv.js"></script>
     <![endif]-->
-    <link rel="stylesheet" type="text/css" href="app/resources/app.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/home/app/resources/app.css"/>
   </head>
   <body>
     <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
@@ -30,7 +30,7 @@
 
     </div>
     <div class="wrapper">
-      <header class="top-nav">
+      <header class="top-nav animate-in-down">
         <div class="grid-container">
           <div class="column-24">
             <div class="tablet-hide">
@@ -53,7 +53,7 @@
       </header>
 
       <!--the sub-nav section is controlled by router -->
-      <header id="headerPane" class="sub-nav " role="banner">
+      <header id="headerPane" class="sub-nav" role="banner">
       </header>
 
     
@@ -69,10 +69,10 @@
     </div>
 
     <!-- footer of the page -->
-    <div class="footer" role="contentinfo">
-      <footer class="avenir-regular pre-1 tablet-pre-1">
-        <div class="container">
-          <nav class="column-6">
+    <div id="footer-container" class="tablet-hide animate-in-up">
+      <footer class="footer avenir-regular" role="contentinfo">
+        <div class="grid-container">
+          <nav class="column-6 tablet-leader-1">
             <h6><span>Regional Information</span></h6>
             <ul class="list-plain">
               <li><a href="http://www.reno.gov/">Reno, NV</a></li>
@@ -100,13 +100,17 @@
             </ul>
           </nav>
 
-          <nav class="column-5 padding-leader-half right tablet-leader-1">
-            <img class="rtaa_logo gutter-left-2" src="./app/img/logo/logo_green.jpg"/>
-            <section class="footer-social-nav gutter-left-3">
-              <a class="icon-social-twitter" href="https://twitter.com/RenoAirport"></a>
-              <a class="icon-social-contact" href="http://renoairport.com/airport-authority/contact-us"></a>
-              <a class="icon-social-linkedin" href="https://www.linkedin.com/company/reno-tahoe-international-airport"></a>
-                <p><small>2016 Arora Engineers, Inc.</small></p>
+         <nav class="column-3 right last tablet-leader-1">
+              <a target="_blank" href="http://renoairport.com/">
+                <img class="rtaa_logo" src="../static/home/app/img/logo/logo_green.jpg"/>
+              </a>
+            <section class="footer-social-nav gutter-left-3 right">
+              <a target="_blank" class="icon-social-twitter" href="https://twitter.com/RenoAirport"></a>
+              <a target="_blank" class="icon-social-contact" href="http://renoairport.com/airport-authority/contact-us"></a>
+              <a target="_blank" class="icon-social-linkedin" href="https://www.linkedin.com/company/reno-tahoe-international-airport"></a>
+                <a target="_blank" href="http://www.aroraengineers.com/">
+                    <img src="static/home/app/img/arora-social.png" alt="Arora Engineers, Inc">
+                </a>
             </section>
           </nav>
         </div>
@@ -120,7 +124,7 @@
     <script>
       // set up your dojoConfig
       var dojoConfig = {
-        baseUrl: '.',
+        baseUrl: './static/home/',
         parseOnLoad: false,
         async: true,
         isDebug: true,
@@ -139,18 +143,43 @@
     </script>
 
     <!-- Can use Dojo loader directly -->
-    <script src="dojo/dojo.js"></script>
+    <script src="static/home/dojo/dojo.js"></script>
 
     <!-- interactive patterns need to be initialized -->
     <script>
        calcite.init();
-       require(['dojo/parser', 'app/main', 'dojo/query', 'dojo/dom-construct', 'dojo/dom-class', 'dojo/domReady!'],
-               function (parser, app, query, domConstruct, domClass) {
+       require(['dojo/_base/array', 'dojo/on', 'dojo/parser', 'app/main', 'dojo/query', 'dojo/dom-construct', 'dojo/dom-class', 'dojo/domReady!'],
+               function (Array, on, parser, app, query, domConstruct, domClass) {
                   var node = query(".loader")[0];
                   domClass.remove(node, 'is-active');
                   var link = domConstruct.create("a", {href: "/#home"});
                   link.click();
                   domConstruct.destroy(link);
+
+                  var footer_links = query("footer li");
+                  Array.forEach(footer_links, function(e) {
+                      domClass.add(e, "font-size--3");
+                  });
+
+                  var headerPane = query("#headerPane");
+                  var footer = query("#footer-container");
+                  var top_nav_title = query(".top-nav-title");
+                  Array.forEach(top_nav_title, function(e) {
+                      on(e, 'click', function(evt) {
+                          domClass.remove(footer[0], 'animate-out-up')
+                          domClass.remove(headerPane[0], 'animate-out-down');
+                           domClass.add(headerPane[0], 'animate-in-down');
+                      });
+                  });
+                  var top_nav_link = query(".top-nav-link");
+                  Array.forEach(top_nav_link, function(e) {
+                      on(e, 'click', function(evt) {
+                          // domClass.remove(footer[0], 'show');
+                          domClass.add(footer[0], 'animate-out-up');
+                           domClass.remove(headerPane[0], 'animate-out-down');
+                           domClass.add(headerPane[0], 'animate-in-down');
+                      });
+                  });
            });
     </script>
   </body>

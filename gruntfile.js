@@ -10,8 +10,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-stylus');
     grunt.loadNpmTasks('grunt-babel');
 
-  var appDir = "C:/GitHub/rtaa_gis/rtaa_gis/home/static/home";
-
+  
   grunt.initConfig({
 
     clean: {
@@ -29,9 +28,9 @@ module.exports = function(grunt) {
         main: {
             files: [{
                 expand: true,
-                cwd: 'src/',
+                cwd: 'src',
                 src: ['index.html'],
-                dest: './dist/',
+                dest: './dist',
                 rename: function (dest, src) {
                     return dest + 'index.html';
                 }
@@ -41,15 +40,15 @@ module.exports = function(grunt) {
     dojo: {
       dist: {
           options: {
-              releaseDir: './dist'
+              releaseDir: './dist/static/home'
           }
       },
       options: {
           profile: 'build.profile.js',
-          dojo: 'src/dojo/dojo.js',
+          dojo: 'src/static/home/dojo/dojo.js',
           load: 'build',
           cwd: './',
-          basePath: './src'
+          basePath: './src/static/home'
         }
     },
     // uglify: {
@@ -79,13 +78,12 @@ module.exports = function(grunt) {
           }
       },
       main: {
-        cwd: 'src/',
+        cwd: 'src/static/home',
         files: [
           'app/**/*.js',
           'app/*.js',
           'app/**/*.html',
-          'app/**/*.styl',
-          'index.html'
+          'app/**/*.styl'
         ],
         tasks: [
           'stylus:compile',
@@ -108,8 +106,8 @@ module.exports = function(grunt) {
           require('autoprefixer-stylus')
         ],
         files: [{
-          './src/app/resources/app.css': [
-            './src/app/resources/app.styl'
+          './src/static/home/app/resources/app.css': [
+            './src/static/home/app/resources/app.styl'
           ]
         }]
       }
@@ -125,7 +123,7 @@ module.exports = function(grunt) {
         dojo: true
       },
 
-      all: ['gruntfile.js', './src/app/**/*.js', './tests/**/*.js']
+      all: ['gruntfile.js', './src/static/home/app/**/*.js', './tests/**/*.js']
     },
 
     connect: {

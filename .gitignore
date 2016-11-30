@@ -8,25 +8,11 @@ node_modules/
 .idea/
 **/*/.DS_Store
 src/*
-!src/app
-!src/index.html
+!src/static/home/app
+!src/static/home/index.html
 
 
 *.fla
 
 *.iml
 
-
-src/app/templates/.DS_Store
-
-src/app/templates/resources/.DS_Store
-
-src/app/img/thumbnails/.DS_Store
-
-src/app/img/.DS_Store
-
-src/app/.DS_Store
-
-.DS_Store
-
-src/app/.DS_Store

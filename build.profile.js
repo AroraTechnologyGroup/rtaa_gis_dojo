@@ -11,7 +11,7 @@
 var profile = {
   // `basePath` is relative to the directory containing this profile file; in this case, it is being set to the
   // src/ directory, which is the same place as the `baseUrl` directory in the loader configuration.
-  basePath: './src',
+  basePath: './src/static/home',
 
   // Builds a new release.
   action: 'release',

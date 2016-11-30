@@ -2,12 +2,11 @@
   "name": "rtaa-server-application-development",
   "version": "1.0.0",
   "description": "GIS site for rtaa",
-  "scripts": {
-    "postinstall": "bower install",
-    "test": "grunt test"
-  },
   "author": "Richard Hughes at Arora Engineers, Inc.",
   "license": "ISC",
+  "scripts": {
+    "postinstall": "npm install -g bower"
+  },
   "devDependencies": {
     "autoprefixer-stylus": "^0.9.3",
     "babel-plugin-transform-es2015-modules-simple-amd": "^0.3.0",
