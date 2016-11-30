@@ -2,6 +2,7 @@ define([
 	'dijit/registry',
 	"dojo/_base/declare",
 	"dojo/_base/lang",
+	"dojo/_base/unload",
 	'dojo/parser',
 	'dojo/dom',
 	"dojo/dom-style",
@@ -22,11 +23,13 @@ define([
 	'app/HomepageBanner',
 	'app/PageBanner',
 	'app/namedFunctions',
+	'dojo/text!./ldap.json',
 	'dijit/layout/ContentPane'
 	], function(
 		registry,
 		declare,
 		lang,
+		baseUnload,
 		parser,
 		dom,
 		domStyle,
@@ -47,25 +50,45 @@ define([
 		HomepageBanner,
 		PageBanner,
 		namedFunctions,
+		ldapConfig,
 		ContentPane
 		) {
 
-	//identify sections of the index.html that will hold the html p
+		var unload = function() {
+			registry.forEach(function(widget, index, hash) {
+				registry.remove(widget);
+				domConstruct.destroy(widget.domNode);
+			});
+		};
+
+		baseUnload.addOnUnload(unload);
+
 		var app = {};
 		lang.mixin(app, new namedFunctions());
+
+		var ldap_url = JSON.parse(ldapConfig).url;
+
+		var main_content = new ContentPane({
+					id: 'main-content'
+				}, 'main-content');
+		main_content.startup();
 
 		router.register("home", function(evt) {
 			evt.preventDefault();
 			console.log('loading ' + evt.newPath);
 
 			app.unloadSection().then(function(e) {
-				var pane = new ContentPane({
-					style: "display: flex",
-					id: 'headerPane'
-				}, 'headerPane');
-
-				pane.startup();
-
+				var pane;
+				if (registry.byId('header-pane') === undefined) {
+					pane = new ContentPane({
+						style: "display: flex",
+						id: 'header-pane'
+					}, 'headerPane');
+					pane.startup();
+				} else {
+					pane = registry.byId('header-pane');
+				}
+				
 				if (registry.byId('homepage-banner') === undefined) {
 					app.header = new HomepageBanner({
 						id: 'homepage-banner',
@@ -92,20 +115,22 @@ define([
 					} catch(err) {
 						console.log(err);
 					}
-
+					var node = query(".loader")[0];
+                  	domClass.add(node, 'is-active');
 					// if the user is admin, allow for browse data and backend api
-					app.getGroups().then(function(e) {
+					app.getGroups(ldap_url).then(function(e) {
 						var routes;
+						domClass.remove(node, 'is-active');
 						var test = Array.indexOf(e, 'GIS');
 						if (test !== -1) {
 							routes = [{
 									title: 'Map Viewer',
 									href: '/#gisportal/mapviewer'
 								}, {
-									title: 'Web Apps',
+									title: 'Web Mapping Apps',
 									href: '/#gisportal/apps'
 								}, {
-									title: 'Browse GIS Data',
+									title: 'AGOL Browser',
 									href: '/#gisportal/gis-data-browse'
 								}, {
 									title: 'Backend Database APIs',
@@ -127,11 +152,10 @@ define([
 								title: 'Geographic Information Systems',
 								routes: routes
 							});
-						var pane = new ContentPane({
-							id: 'headerPane',
-							content: app.header
-						}, 'headerPane');
-						pane.startup();
+
+						
+						var pane = registry.byId('header-pane');
+						pane.set('content', app.header);
 					});
 
 			}, function(err) {
@@ -168,7 +192,7 @@ define([
 								imgSrc: 'static/home/app/img/thumbnails/airspace_app.png',
 								href: 'https://aroragis.maps.arcgis.com/apps/3DScene/index.html?appid=5f7bf59e212c4339a3ffda29315972be',
 								header: 'Airspace',
-								baseClass: 'card column-8 leader-2 trailer-2',
+								baseClass: 'card column-3 leader-2 trailer-2',
 								contents: 'View and Analyze the data in the airspace of the RTAA Airport'
 							};
 
@@ -177,7 +201,7 @@ define([
 								imgSrc: 'static/home/app/img/thumbnails/eDoc_app.png',
 								href: 'https://gisapps.aroraengineers.com:3344/webappbuilder/apps/2/',
 								header: 'eDoc Search Tools',
-								baseClass: 'card column-8 leader-2 trailer-2',
+								baseClass: 'card column-3 leader-2 trailer-2',
 								contents: 'Search for documents and images using this map focused search tool'
 							};
 
@@ -186,19 +210,28 @@ define([
 								imgSrc: 'static/home/app/img/thumbnails/airfield_app.png',
 								href: 'https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=ff605fe1a736477fad9b8b22709388d1',
 								header: 'Airfield',
-								baseClass: 'card column-8 leader-2 trailer-2',
+								baseClass: 'card column-3 leader-2 trailer-2',
 								contents: 'View the Airfield Data'
 							};
 
-							app.getGroups().then(function(e) {
+							var noise_app = {
+								id: "NoiseAppCard",
+								imgSrc: 'static/home/app/img/thumbnails/NoiseApp.png',
+								href: "https://gisapps.aroraengineers.com/bcad-noise-mit/",
+								header: 'Noise Mitigation App',
+								baseClass: 'card column-3 leader-2 trailer-2',
+								contents: 'View noise parcel documents and other Noise Mitigation data'
+							};
+
+							app.getGroups(ldap_url).then(function(e) {
 								var cards;
 								var test = Array.indexOf(e, 'GIS');
 								if (test !== -1) {
-									cards = [airspace_app, eDoc_app, airfield_app];
+									cards = [airspace_app, eDoc_app, airfield_app, noise_app];
 								} else {
 									cards = [airspace_app];
 								}
-								app.loadCards(cards).then(function(e) {
+								app.loadCards(Card, cards).then(function(e) {
 									console.log(e);
 								}, function(err) {
 									console.log(err);
@@ -226,14 +259,18 @@ define([
 								registry.byId('gisportal-banner').set('title', 'Backend APIs');
 							}
 
-							app.loadCards([{
+							app.loadCards(Card, [{
 								id: "eDoc Rest API",
 								imgSrc: 'static/home/app/img/thumbnails/restapi_app.png',
 								href: 'https://gisapps.aroraengineers.com:8004/edoc/swag',
 								header: 'eDoc Rest API',
 								baseClass: 'card column-8 leader-1 trailer-2',
 								contents: 'Manage the eDoc Rest API'
-							}]);
+							}]).then(function(e) {
+								console.log(e);
+							}, function(err) {
+								console.log(err);
+							});
 						});
 
 		});
@@ -265,12 +302,9 @@ define([
 									href: '/#departments/utilities'
 								}]
 							});
-							var pane = new ContentPane({
-								id: 'headerPane',
-								content: app.header
-							}, 'headerPane');
 
-							pane.startup();
+							var pane = registry.byId('header-pane');
+							pane.set('content', app.header);
 						});
 
 		});
@@ -345,12 +379,8 @@ define([
 								}]
 							});
 
-							var pane = new ContentPane({
-								id: 'headerPane',
-								content: app.header
-							}, 'headerPane');
-
-							pane.startup();
+							var pane = registry.byId('header-pane');
+							pane.set('content', app.header);
 						});
 
 		});
@@ -383,22 +413,14 @@ define([
 								}]
 							});
 
-							var pane = new ContentPane({
-								id: 'headerPane',
-								content: app.header
-							}, 'headerPane');
-
-							pane.startup();
+							var pane = registry.byId('header-pane');
+							pane.set('content', app.header);
 						});
 		});
 
 		router.startup();
 		app.router = router;
-		// query('.loader').forEach(function(e) {
-		// 	domClass.toggle(e, 'is-active');
-		// });
-		//hash('home');
-
+		
 		return app;
 
 });

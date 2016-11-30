@@ -30,7 +30,7 @@
 
     </div>
     <div class="wrapper">
-      <header class="top-nav animate-in-down">
+      <header class="top-nav">
         <div class="grid-container">
           <div class="column-24">
             <div class="tablet-hide">
@@ -163,21 +163,22 @@
 
                   var headerPane = query("#headerPane");
                   var footer = query("#footer-container");
+
                   var top_nav_title = query(".top-nav-title");
                   Array.forEach(top_nav_title, function(e) {
                       on(e, 'click', function(evt) {
                           domClass.remove(footer[0], 'animate-out-up')
-                          domClass.remove(headerPane[0], 'animate-out-down');
-                           domClass.add(headerPane[0], 'animate-in-down');
+                          // domClass.remove(headerPane[0], 'animate-in-down');
+                           // domClass.add(headerPane[0], 'animate-in-down');
                       });
                   });
                   var top_nav_link = query(".top-nav-link");
                   Array.forEach(top_nav_link, function(e) {
                       on(e, 'click', function(evt) {
-                          // domClass.remove(footer[0], 'show');
+                          
                           domClass.add(footer[0], 'animate-out-up');
-                           domClass.remove(headerPane[0], 'animate-out-down');
-                           domClass.add(headerPane[0], 'animate-in-down');
+                           // domClass.remove(headerPane[0], 'animate-out-down');
+                           // domClass.add(headerPane[0], 'animate-in-down');
                       });
                   });
            });

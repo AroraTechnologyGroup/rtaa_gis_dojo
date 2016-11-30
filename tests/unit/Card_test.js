@@ -33,7 +33,15 @@ define([
     });
 
     bdd.beforeEach(function () {
-      card = new Card();
+      var options = {
+        id: "AirspaceAppCard",
+        imgSrc: 'static/home/app/img/thumbnails/airspace_app.png',
+        href: 'https://aroragis.maps.arcgis.com/apps/3DScene/index.html?appid=5f7bf59e212c4339a3ffda29315972be',
+        header: 'Airspace',
+        baseClass: 'card column-8 leader-2 trailer-2',
+        contents: 'View and Analyze the data in the airspace of the RTAA Airport'
+      };
+      card = new Card(options, "");
     });
 
     bdd.afterEach(function () {

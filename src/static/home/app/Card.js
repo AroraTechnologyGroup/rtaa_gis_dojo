@@ -1,5 +1,7 @@
 define([
+  "app/namedFunctions",
   "dojo/_base/declare",
+  "dojo/_base/lang",
   "dojo/dom-construct",
   "dojo/dom-class",
   "dojo/dom",
@@ -16,7 +18,9 @@ define([
   "dijit/layout/ContentPane",
   "dojo/text!./templates/Card_template.html"
 ], function(
+  namedFunctions,
   declare,
+  lang,
   domConstruct,
   domClass,
   dom,
@@ -36,7 +40,7 @@ define([
 
   return declare([_WidgetBase, _TemplatedMixin], {
     templateString: template,
-
+    id: null,
     options: {
       baseClass: null,
       imgSrc: null,
@@ -50,12 +54,15 @@ define([
       this.set("imgSrc", this.options.imgSrc);
       this.set("header", this.options.header);
       this.set("contents", this.options.contents);
-      this.set("srcNodeRef", this.srcNodeRef);
       this.set("href", this.options.href);
       this.set("baseClass", this.options.baseClass);
+      this.set("srcNodeRef", this.srcNodeRef);
+      this.id = this.options.id;
+      
     },
     postCreate: function() {
       var self = this;
+      lang.mixin(this, new namedFunctions());
       self.on("mouseup", function(evt) {
         evt.preventDefault();
         if (mouse.isLeft(event)) {
@@ -77,72 +84,6 @@ define([
         console.log(evt);
         domClass.remove(self.domNode, "hover");
       });
-    },
-
-    unloadContent: function() {
-      var deferred = new Deferred();
-      (function() {
-        if (registry.byId('main-content') !== undefined) {
-          domConstruct.empty(registry.byId('main-content').containerNode);
-          registry.remove('main-content');
-          deferred.resolve(true);
-        } else {
-          deferred.resolve(false);
-        }
-      })();
-      return deferred.promise;
-    },
-
-    unloadBanner: function() {
-      var deferred = new Deferred();
-      (function() {
-        if (registry.byId('headerPane') !== undefined) {
-          var obj = registry.byId('headerPane');
-          domClass.add(obj.domNode, "animate-out-down");
-          domConstruct.empty(registry.byId('headerPane').containerNode);
-          registry.remove('headerPane');
-          deferred.resolve(true);
-        } else {
-          deferred.resolve(false);
-        }
-      })();
-      return deferred.promise;
-    },
-
-    unloadSection: function() {
-      var self = this;
-      var deferred = new Deferred();
-      all([self.unloadBanner(), self.unloadContent()]).then(function(arr) {
-        deferred.resolve("page cleaned, ready for new page load");
-      });
-      return deferred.promise;
-    },
-
-    loadIframe: function() {
-      var self = this;
-      var pane = registry.byId("iframe_pane");
-      if (pane !== undefined) {
-        pane.destroy();
-        registry.remove(pane);
-      }
-
-      pane = new ContentPane({
-        id: "iframe_pane",
-        style: {
-          position: "relative",
-          width: "100vw",
-          height: "100vh",
-          overflow: "hidden"
-        }
-      });
-      pane.startup();
-      pane.set('content', domConstruct.create("iframe",  {
-        src: self.href,
-        frameborder: 0,
-        height: '100%',
-        width: '100%'
-      }));
-      pane.placeAt('main-content');
-    }
+    }   
   });
 });

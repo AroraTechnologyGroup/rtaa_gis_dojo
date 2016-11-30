@@ -1,6 +1,7 @@
 define([
 	'dijit/registry',
 	"dojo/_base/declare",
+	"dojo/aspect",
 	'dojo/parser',
 	"dojo/cookie",
 	'dojo/dom',
@@ -18,13 +19,13 @@ define([
 	'dojo/hash',
 	'dojo/topic',
 	'dojo/on',
-	'app/Card',
 	'app/HomepageBanner',
 	'app/PageBanner',
 	'dijit/layout/ContentPane'
 	], function(
 		registry,
 		declare,
+		aspect,
 		parser,
 		cookie,
 		dom,
@@ -42,7 +43,6 @@ define([
 		hash,
 		topic,
 		on,
-		Card,
 		HomepageBanner,
 		PageBanner,
 		ContentPane
@@ -53,49 +53,45 @@ define([
 			unloadBanner: function() {
 				var deferred = new Deferred();
 				(function() {
-					if (registry.byId('headerPane') !== undefined) {
-						var obj = registry.byId('headerPane');
-						domConstruct.empty(registry.byId('headerPane').containerNode);
-						registry.remove('headerPane');
+					if (registry.byId('header-pane') !== undefined) {
+						var obj = registry.byId('header-pane');
+						domConstruct.empty(obj.containerNode);
 						deferred.resolve(true);
-					} else {
-						deferred.resolve(false);
-					}
+				} else {
+				  deferred.resolve(false);
+				}
 				})();
 				return deferred.promise;
 			},
 
 			unloadContent: function() {
-				var deferred = new Deferred();
+			var deferred = new Deferred();
 				(function() {
+					
 					if (registry.byId('main-content') !== undefined) {
-						domConstruct.empty(registry.byId('main-content').containerNode);
-						registry.remove('main-content');
+						var obj = registry.byId('main-content');
+						domConstruct.empty(obj.containerNode);
 						deferred.resolve(true);
 					} else {
-						deferred.resolve(false);
+						deferred.resolve('no widgets were found in main-content domNode');
 					}
 				})();
 				return deferred.promise;
-			},
+		    },
 
 			unloadSection: function() {
+				var self = this;
 				var deferred = new Deferred();
-				all([this.unloadBanner(), this.unloadContent()]).then(function(arr) {
+				all([self.unloadBanner(), self.unloadContent()]).then(function(arr) {
 					deferred.resolve("page cleaned, ready for new page load");
 				});
 				return deferred.promise;
 			},
 
-			loadCards: function(objects, domNode) {
+			loadCards: function(Card, objects) {
 				// each card object has [baseClass, imgSrc, href, header, content]
 				var mainDeferred = new Deferred();
-
-				var pane = new ContentPane({
-					id: 'main-content'
-				}, 'main-content');
-
-
+				var pane = registry.byId('main-content');
 				var nodelist = Array.map(objects, function(e) {
 					var deferred = new Deferred();
 					if (registry.byId(e.id) !== undefined) {
@@ -114,7 +110,6 @@ define([
 				});
 
 				all(nodelist).then(function(arr) {
-					pane.startup();
 					Array.forEach(arr, function(e) {
 						pane.addChild(e);
 					});
@@ -123,7 +118,7 @@ define([
 				return mainDeferred.promise;
 			},
 
-			getGroups: function() {
+			getGroups: function(url) {
 				var deferred = new Deferred();
 				// var user_list = query('.user-nav-name');
 				var user_list = ["siteadmin"];
@@ -131,7 +126,7 @@ define([
 					// var username = user_list[0].innerText;
 					var username = user_list[0];
 					(function() {
-						request("https://gisapps.aroraengineers.com:8004/groups/", {
+						request(url, {
 							method: "POST",
 							preventCache: true,
 							handleAs: 'json',
@@ -155,6 +150,48 @@ define([
 					deferred.resolve(["anonymous"]); 
 				}
 
+				return deferred.promise;
+			},
+
+			loadIframe: function() {
+				var self = this;
+				self.unloadIframe().then(function(e) {
+				console.log(e);
+				var pane = new ContentPane({
+				  id: "iframe-pane",
+				  style: {
+				    position: "relative",
+				    width: "100%",
+				    height: "90vh",
+				    overflow: "hidden"
+				  }
+				});
+				pane.startup();
+				pane.set('content', domConstruct.create("iframe",  {
+				    src: self.href,
+				    // frameborder: 0,
+				    height: '100%',
+				    width: '100%',
+				    allowfullscreen: true
+				}));
+				pane.placeAt(dom.byId('main-content'));
+				aspect.after(pane, 'resize', function(evt) {
+					domStyle.set(pane.domNode, "height", "90vh");
+					});
+				});
+			},
+
+			unloadIframe: function() {
+				var self = this;
+				var deferred = new Deferred();
+				var iframe_pane = registry.byId("iframe-pane");
+				if (iframe_pane !== undefined) {
+					iframe_pane.destroy();
+					registry.remove(iframe_pane);
+					deferred.resolve("iframe-pane removed from registry");
+				} else {
+					deferred.resolve("iframe-pane not found");
+				}
 				return deferred.promise;
 			}
 		});
