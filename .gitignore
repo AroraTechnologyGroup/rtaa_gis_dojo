@@ -1,16 +1,20 @@
 .git
 build.sh
-.jshintrc
 makefile
 dist/
 bower_components/
 node_modules/
 .idea/
 **/*/.DS_Store
-src/*
-!src/static/home/app
-!src/index.html
-
+src/static/home/dgrid/
+src/static/home/dijit/
+src/static/home/dojo/
+src/static/home/dojo-themes/
+src/static/home/dojox/
+src/static/home/dstore/
+src/static/home/esri/
+src/static/home/moment/
+src/static/home/util/
 
 *.fla
 
