@@ -40,7 +40,7 @@ module.exports = function(grunt) {
     dojo: {
       dist: {
           options: {
-              releaseDir: './dist/static/home'
+              releaseDir: './dist'
           }
       },
       options: {

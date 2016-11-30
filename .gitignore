@@ -9,7 +9,7 @@ node_modules/
 **/*/.DS_Store
 src/*
 !src/static/home/app
-!src/static/home/index.html
+!src/index.html
 
 
 *.fla
