@@ -7,9 +7,9 @@ bower_components/
 node_modules/
 .idea/
 **/*/.DS_Store
-src/*
+src/
 !src/static/home/app
-!src/static/home/index.html
+!src/index.html
 
 
 *.fla
