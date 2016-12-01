@@ -122,35 +122,24 @@ define([
 
 			getGroups: function(url) {
 				var deferred = new Deferred();
-				// var user_list = query('.user-nav-name');
-				var user_list = ["siteadmin"];
-				if (user_list.length > 0) {
-					// var username = user_list[0].innerText;
-					var username = user_list[0];
-					(function() {
-						request(url, {
-							method: "POST",
-							preventCache: true,
-							handleAs: 'json',
-							data: {
-								'username': username,
-							},
-							headers: {
-					            "X-Requested-With": null,
-					            "X-CSRFToken": cookie('csrftoken')
-					        }
-						}).then(function(data) {
-							console.log(data);
-							deferred.resolve(data);
-						}, function(err) {
-							console.log(err);
-							deferred.cancel(err);
-						});
-					})();
-					
-				} else {
-					deferred.resolve(["anonymous"]); 
-				}
+				
+				(function() {
+					request(url, {
+						method: "POST",
+						preventCache: true,
+						handleAs: 'json',
+						headers: {
+				            "X-Requested-With": null,
+				            "X-CSRFToken": cookie('csrftoken')
+				        }
+					}).then(function(data) {
+						console.log(data);
+						deferred.resolve(data);
+					}, function(err) {
+						console.log(err);
+						deferred.cancel(err);
+					});
+				})();
 
 				return deferred.promise;
 			},
