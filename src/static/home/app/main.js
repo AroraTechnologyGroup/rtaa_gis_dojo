@@ -66,7 +66,13 @@ define([
 		var app = {};
 		lang.mixin(app, new namedFunctions());
 
-		var ldap_url = JSON.parse(ldapConfig).url;
+		var ldap_url;
+		if (Array.indexOf(['localhost', '127.0.0.1'], window.location.hostname) !== -1) {
+			ldap_url = JSON.parse(ldapConfig).test_url;
+		} else {
+			ldap_url = JSON.parse(ldapConfig).production_url;
+		}
+	
 		var header_pane = new ContentPane({
 			id: "header-pane",
 			style: "top: 0"
