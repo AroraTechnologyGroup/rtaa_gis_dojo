@@ -84,6 +84,8 @@ define([
 				var deferred = new Deferred();
 				all([self.unloadBanner(), self.unloadContent()]).then(function(arr) {
 					deferred.resolve("page cleaned, ready for new page load");
+				}, function(err) {
+					deferred.cancel(err);
 				});
 				return deferred.promise;
 			},
@@ -193,6 +195,101 @@ define([
 					deferred.resolve("iframe-pane not found");
 				}
 				return deferred.promise;
+			},
+
+			buildTitleBar: function(evt) {
+				var self = this;
+				var deferred = new Deferred();
+				self.unloadSection().then(function(e) {
+				var pane;
+				if (registry.byId('header-pane') === undefined) {
+					pane = new ContentPane({
+						style: "display: flex",
+						id: 'header-pane'
+					}, 'headerPane');
+					pane.startup();
+				} else {
+					pane = registry.byId('header-pane');
+				}
+				
+				if (registry.byId('homepage-banner') === undefined) {
+					self.header = new HomepageBanner({
+						id: 'homepage-banner',
+						baseClass: 'sub-nav-title text-white leader-0 trailer-6 animate-fade-in',
+						title: 'Reno/Tahoe International Airport GIS Website'
+					});
+				} else {
+					self.header = registry.byId('homepage-banner');
+				}
+
+				pane.set('content', self.header);
+				deferred.resolve(pane);
+			}, function(err) {
+				console.log(err);
+				deferred.cancel(pane);
+			});
+				return deferred.promise;
+
+			},
+
+			buildGISPortal: function(evt, groups) {
+				var self = this;
+				var deferred = new Deferred();
+				self.unloadSection().then(function(e) {
+					try {
+						registry.byId('gisportal-banner').destroyRecursive();
+					} catch(err) {
+						console.log(err);
+					}
+					var node = query(".loader")[0];
+                  	domClass.add(node, 'is-active');
+					// if the user is admin, allow for browse data and backend api
+					
+					var routes;
+					domClass.remove(node, 'is-active');
+					var test = Array.indexOf(groups, 'GIS');
+					if (test !== -1) {
+						routes = [{
+								title: 'Dashboard',
+								href: '/#gisportal/dashboard'
+							}, {
+								title: 'Web Mapping Apps',
+								href: '/#gisportal/apps'
+							}, {
+								title: 'AGOL Browser',
+								href: '/#gisportal/gis-data-browse'
+							}, {
+								title: 'Backend Database APIs',
+								href: '/#gisportal/backend-apis'
+							}];
+					} else {
+						routes = [{
+								title: 'Dashboard',
+								href: '/#gisportal/dashboard'
+							}, {
+								title: 'Web Mapping Apps',
+								href: '/#gisportal/apps'
+							}];
+					}
+
+					self.header = new PageBanner({
+							id: 'gisportal-banner',
+							baseClass: 'text-white font-size-4 page-banner',
+							title: 'Geographic Information Systems',
+							routes: routes
+						});
+
+					
+					var pane = registry.byId('header-pane');
+					pane.set('content', self.header);
+					pane.resize();
+					deferred.resolve(pane.content);
+				}, function(err) {
+					console.log(err);
+					deferred.cancel(err);
+				});
+				return deferred.promise;
+
 			}
 		});
 	});

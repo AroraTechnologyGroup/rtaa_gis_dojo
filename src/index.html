@@ -153,7 +153,7 @@
                   var node = query(".loader")[0];
                   domClass.remove(node, 'is-active');
                   var link = domConstruct.create("a", {href: "/#home"});
-                  link.click();
+                  // link.click();
                   domConstruct.destroy(link);
 
                   var footer_links = query("footer li");
@@ -167,18 +167,13 @@
                   var top_nav_title = query(".top-nav-title");
                   Array.forEach(top_nav_title, function(e) {
                       on(e, 'click', function(evt) {
-                          domClass.remove(footer[0], 'animate-out-up')
-                          // domClass.remove(headerPane[0], 'animate-in-down');
-                           // domClass.add(headerPane[0], 'animate-in-down');
+                          domClass.remove(footer[0], 'animate-out-up');
                       });
                   });
                   var top_nav_link = query(".top-nav-link");
                   Array.forEach(top_nav_link, function(e) {
                       on(e, 'click', function(evt) {
-                          
                           domClass.add(footer[0], 'animate-out-up');
-                           // domClass.remove(headerPane[0], 'animate-out-down');
-                           // domClass.add(headerPane[0], 'animate-in-down');
                       });
                   });
            });
