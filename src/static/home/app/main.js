@@ -93,270 +93,120 @@ define([
 		router.register("gisportal/home", function(evt) {
 			evt.preventDefault();
 			console.log('loading ' + evt.newPath);
-
-			// Get groups before tearing down to limit visual 
-			
-				app.buildGISPortal(evt, groups).then(function(e) {
-					console.log(e);
-				});
+			app.buildGISPortal(evt, groups).then(function(e) {
+				console.log(e);
+				//TODO-add a redirect to the dashboard
+			});
 		}, function(err) {
 			console.log(err);
 		});
 		
 
 		router.register("gisportal/dashboard", function(evt) {
-						evt.preventDefault();
-						console.log('loading ' + evt.newPath);
-						app.unloadContent().then(function(e) {
-							if (registry.byId('gisportal-banner') !== undefined) {
-								app.header.set('title', 'Home');
-							}
-						}, function(err) {
-							console.log(err);
-						});
-
-
+			evt.preventDefault();
+			app.buildGISPortal(evt, groups).then(function(e) {
+				app.buildDashboard(evt, Card, groups).then(function(e) {
+					console.log(e);
+				});
+			}, function(err) {
+				console.log(err);
+			});
 		});
 
 		router.register("gisportal/apps", function(evt) {
-						evt.preventDefault();
-						app.buildGISPortal(evt, groups).then(function(e) {
-							console.log('loading ' + evt.newPath);
-
-							if (registry.byId('gisportal-banner') !== undefined) {
-								registry.byId('gisportal-banner').set('title', "Geospatial Applications");
-							}
-
-							
-							var airspace_app = {
-								id: "AirspaceAppCard",
-								imgSrc: 'static/home/app/img/thumbnails/airspace_app.png',
-								href: 'https://aroragis.maps.arcgis.com/apps/3DScene/index.html?appid=5f7bf59e212c4339a3ffda29315972be',
-								header: 'Airspace',
-								baseClass: 'card column-4 leader-2 trailer-2',
-								contents: ''
-							};
-
-							var eDoc_app = {
-								id: "eDocAppCard",
-								imgSrc: 'static/home/app/img/thumbnails/eDoc_app.png',
-								href: 'https://gisapps.aroraengineers.com:3344/webappbuilder/apps/2/',
-								header: 'eDoc Search Tool',
-								baseClass: 'card column-4 leader-2 trailer-2',
-								contents: ''
-							};
-
-							var airfield_app = {
-								id: "AirfieldAppCard",
-								imgSrc: 'static/home/app/img/thumbnails/airfield_app.png',
-								href: 'https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=ff605fe1a736477fad9b8b22709388d1',
-								header: 'Airfield',
-								baseClass: 'card column-4 leader-2 trailer-2',
-								contents: ''
-							};
-
-							var noise_app = {
-								id: "NoiseAppCard",
-								imgSrc: 'static/home/app/img/thumbnails/NoiseApp.png',
-								href: "https://gisapps.aroraengineers.com/bcad-noise-mit/",
-								header: 'Noise Mitigation',
-								baseClass: 'card column-4 leader-2 trailer-2',
-								contents: ''
-							};
-
-							
-							var cards;
-							var test = Array.indexOf(groups, 'GIS');
-							if (test !== -1) {
-								cards = [airspace_app, eDoc_app, airfield_app, noise_app];
-							} else {
-								cards = [airspace_app];
-							}
-							app.loadCards(Card, cards).then(function(e) {
-								console.log(e);
-							}, function(err) {
-								console.log(err);
-							});
-							
-						});
+			evt.preventDefault();
+			console.log('loading ' + evt.newPath);
+			app.buildGISPortal(evt, groups).then(function(e) {
+				app.buildApps(evt, Card, groups).then(function(e) {
+					console.log(e);
+				});
+			});
 		});
 
 		router.register("gisportal/gis-data-browse", function(evt) {
-						evt.preventDefault();
-						console.log("loading "+evt.newPath);
-						app.unloadContent().then(function(e) {
-							if (registry.byId('gisportal-banner') !== undefined) {
-								registry.byId('gisportal-banner').set('title', 'Browse GIS Data');
-							}
-						});
+			evt.preventDefault();
+			console.log("loading "+evt.newPath);
+			app.buildGISPortal(evt, groups).then(function(e) {
+				app.buildDataBrowser(evt, Card, groups).then(function(e) {
+					console.log(e);
+				});
+			});
 
 		});
 
 		router.register("gisportal/backend-apis", function(evt) {
-						evt.preventDefault();
-						console.log("loading "+evt.newPath);
-						app.unloadContent().then(function(e) {
-							if (registry.byId('gisportal-banner') !== undefined) {
-								registry.byId('gisportal-banner').set('title', 'Backend APIs');
-							}
-
-							app.loadCards(Card, [{
-								id: "eDoc Rest API",
-								imgSrc: 'static/home/app/img/thumbnails/restapi_app.png',
-								href: 'https://gisapps.aroraengineers.com:8004/edoc/swag',
-								header: 'eDoc Rest API',
-								baseClass: 'card column-4 leader-1 trailer-2',
-								contents: 'Manage the eDoc Rest API'
-							}]).then(function(e) {
-								console.log(e);
-							}, function(err) {
-								console.log(err);
-							});
-						});
+			evt.preventDefault();
+			console.log("loading "+evt.newPath);
+			app.buildGISPortal(evt, groups).then(function(e) {
+				app.buildBackEndAPIs(evt, Card, groups).then(function(e) {
+					console.log(e);
+				});
+			});
 
 		});
 
 		router.register("departments/home", function(evt) {
-						evt.preventDefault();
-						console.log("loading "+evt.newPath);
-						app.unloadSection().then(function(e) {
-							try {
-								registry.byId('departments-banner').destroyRecursive();
-							} catch(err) {
-								// console.log(err);
-							}
-							app.header = new PageBanner({
-								id: 'departments-banner',
-								baseClass: 'text-white font-size-4 page-banner',
-								title: "Airport Departments",
-								routes: [{
-									title: 'Engineering',
-									href: '/#departments/engineering'
-								}, {
-									title: 'Operations',
-									href: '/#departments/operations'
-								}, {
-									title: 'Planning',
-									href: '/#departments/planning'
-								}, {
-									title: 'Utilities',
-									href: '/#departments/utilities'
-								}]
-							});
-
-							var pane = registry.byId('header-pane');
-							pane.set('content', app.header);
-						});
-
+			evt.preventDefault();
+			console.log("loading "+evt.newPath);
+			app.buildDepartments(evt, groups).then(function(e) {
+				console.log(e);
+			});
 		});
 
 		router.register("departments/engineering", function(evt) {
-						evt.preventDefault();
-						console.log("loading "+evt.newPath);
-						app.unloadContent().then(function(e) {
-							if (registry.byId('departments-banner') !== undefined) {
-								registry.byId('departments-banner').set('title', 'Engineering');
-							}
-						});
-
+			evt.preventDefault();
+			console.log("loading "+evt.newPath);
+			app.buildDepartments(evt, groups).then(function(e) {
+				app.buildEngineering(evt, Card, groups).then(function(e) {
+					console.log(e);
+				});
+			});
 		});
 
 		router.register("departments/operations", function(evt) {
-						evt.preventDefault();
-						console.log('loading '+evt.newPath);
-						app.unloadContent().then(function(e) {
-							if (registry.byId('departments-banner') !== undefined) {
-								registry.byId('departments-banner').set('title', 'Operations');
-							}
-						});
-
+			evt.preventDefault();
+			console.log('loading '+evt.newPath);
+			app.buildDepartments(evt, groups).then(function(e) {
+				app.buildOperations(evt, Card, groups).then(function(e) {
+					console.log(e); 
+				});
+			});
 		});
 
 		router.register("departments/planning", function(evt) {
-						evt.preventDefault();
-						console.log('loading '+evt.newPath);
-						app.unloadContent().then(function(e) {
-							if (registry.byId('departments-banner') !== undefined) {
-								registry.byId('departments-banner').set('title', 'Airport Planning');
-							}
-						});
+			evt.preventDefault();
+			console.log('loading '+evt.newPath);
+			app.buildDepartments(evt, groups).then(function(e) {
+				app.buildPlanning(evt, Card, groups).then(function(e) {
+					console.log(e);
+				});
+			});
 		});
 
 		router.register("departments/utilities", function(evt) {
-						evt.preventDefault();
-						console.log('loading '+evt.newPath);
-						app.unloadContent().then(function(e) {
-							if (registry.byId('departments-banner') !== undefined) {
-								registry.byId('departments-banner').set('title', 'Airfield Utilities');
-							}
-						});
+			evt.preventDefault();
+			console.log('loading '+evt.newPath);
+			app.buildDepartments(evt, groups).then(function(e) {
+				app.buildUtilities(evt, Card, groups).then(function(e) {
+					console.log(e);
+				});
+			});
 		});
 
 		router.register("web-resources/home", function(evt) {
-						evt.preventDefault();
-						console.log('loading '+evt.newPath);
-						app.unloadSection().then(function(e) {
-							try {
-								registry.byId('web-resources-banner').destroyRecursive();
-							} catch(err) {
-								// console.log(err);
-							}
-							app.header = new PageBanner({
-								id: 'web-resources-banner',
-								baseClass: 'text-white font-size-4 page-banner',
-								title: 'Online Resource Library',
-								routes: [{
-									title: 'Live Data Feeds',
-									href: '/#web-resources/live-data'
-								}, {
-									title: 'State Level GIS Data',
-									href: '/#web-resources/state-level'
-								}, {
-									title: 'County Level GIS Data',
-									href: '/#web-resources/county-level'
-								}, {
-									title: 'ESRI Online Resources',
-									href: '/#web-resources/esri-resources'
-								}]
-							});
-
-							var pane = registry.byId('header-pane');
-							pane.set('content', app.header);
-						});
-
+			evt.preventDefault();
+			console.log('loading '+evt.newPath);
+			app.buildWebResources(evt, groups).then(function(e) {
+				console.log(e);
+			});
 		});
 
 		router.register("help/home", function(evt) {
-						evt.preventDefault();
-						console.log('loading '+evt.newPath);
-						app.unloadSection().then(function(e) {
-							try {
-								registry.byId('help-banner').destroyRecursive();
-							} catch(err) {
-								// console.log(err);
-							}
-							app.header = new PageBanner({
-								id: 'help-banner',
-								baseClass: 'text-white font-size-4 page-banner',
-								title: 'Help Documentation',
-								routes: [{
-									title: 'Technical Details',
-									href: '/#help/tech-details'
-								}, {
-									title: 'About this Site',
-									href: '/#help/about'
-								}, {
-									title: 'Request Help Ticket',
-									href: '/#help/request-ticket'
-								}, {
-									title: 'Tutorials',
-									href: '/#help/tutorials'
-								}]
-							});
-
-							var pane = registry.byId('header-pane');
-							pane.set('content', app.header);
-						});
+			evt.preventDefault();
+			console.log('loading '+evt.newPath);
+			app.buildHelp().then(function(e) {
+				console.log(e);
+			});
 		});
 
 		router.startup();
