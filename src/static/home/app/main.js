@@ -131,7 +131,7 @@ define([
 							var airspace_app = {
 								id: "AirspaceAppCard",
 								imgSrc: 'static/home/app/img/thumbnails/airspace_app.png',
-								href: 'https://aroragis.maps.arcgis.com/apps/3DScene/index.html?appid=5f7bf59e212c4339a3ffda29315972be',
+								href: 'https://gisapps.aroraengineers.com/rtaa_3d/',
 								header: 'Airspace',
 								baseClass: 'card column-4 leader-2 trailer-2',
 								contents: ''
@@ -140,20 +140,20 @@ define([
 							var eDoc_app = {
 								id: "eDocAppCard",
 								imgSrc: 'static/home/app/img/thumbnails/eDoc_app.png',
-								href: 'https://gisapps.aroraengineers.com:3344/webappbuilder/apps/2/',
+								href: 'https://gisapps.aroraengineers.com/eDoc/',
 								header: 'eDoc Search Tool',
 								baseClass: 'card column-4 leader-2 trailer-2',
 								contents: ''
 							};
 
-							var airfield_app = {
-								id: "AirfieldAppCard",
-								imgSrc: 'static/home/app/img/thumbnails/airfield_app.png',
-								href: 'https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=ff605fe1a736477fad9b8b22709388d1',
-								header: 'Airfield',
-								baseClass: 'card column-4 leader-2 trailer-2',
-								contents: ''
-							};
+							// var airfield_app = {
+							// 	id: "AirfieldAppCard",
+							// 	imgSrc: 'static/home/app/img/thumbnails/airfield_app.png',
+							// 	href: 'https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=ff605fe1a736477fad9b8b22709388d1',
+							// 	header: 'Airfield',
+							// 	baseClass: 'card column-4 leader-2 trailer-2',
+							// 	contents: ''
+							// };
 
 							var noise_app = {
 								id: "NoiseAppCard",
