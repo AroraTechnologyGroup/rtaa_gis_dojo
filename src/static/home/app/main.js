@@ -120,6 +120,7 @@ define([
 		});
 
 		router.register("gisportal/apps", function(evt) {
+
 			evt.preventDefault();
 			console.log('loading ' + evt.newPath);
 			app.buildGISPortal(evt, groups).then(function(e) {
@@ -127,6 +128,7 @@ define([
 					console.log(e);
 				});
 			});
+
 		});
 
 		router.register("gisportal/published-layers", function(evt) {

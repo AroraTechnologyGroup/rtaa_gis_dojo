@@ -454,6 +454,7 @@ define([
 					imgSrc: 'static/home/app/img/thumbnails/property_app.png',
 					href: 'https://gisapps.aroraengineers.com/rtaa_property/',
 					header: 'Parcel, Easement, and Leases',
+
 					baseClass: 'card column-4 leader-2 trailer-2',
 					contents: ''
 				};
