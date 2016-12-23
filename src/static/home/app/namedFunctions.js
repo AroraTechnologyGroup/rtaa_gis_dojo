@@ -170,6 +170,21 @@ define([
 					domStyle.set(pane.domNode, "height", "90vh");
 					});
 				});
+				var target = query(".top-nav-list")[0];
+
+				var node = domConstruct.create("button", {
+					class: "btn-green",
+					innerHTML: "back to apps"
+				}, target);
+
+				on(node, 'click', function(e) {
+					self.unloadIframe().then(function(e) {
+						self.buildApps().then(function(e) {
+							console.log(e);
+							node.destroy();
+						});
+					});
+				});
 			},
 
 			unloadIframe: function() {
@@ -250,11 +265,11 @@ define([
 					var test = Array.indexOf(groups, 'GIS_admin');
 					if (test !== -1) {
 						routes.push({
-								title: 'AGOL Browser',
-								href: '/#gisportal/gis-data-browse'
+								title: 'Data Viewer',
+								href: '/#gisportal/published-layers'
 							}, {
-								title: 'Backend Database APIs',
-								href: '/#gisportal/backend-apis'
+								title: 'Publishing Tools',
+								href: '/#gisportal/publishing-tools'
 							});
 					} 
 
@@ -398,7 +413,8 @@ define([
 				var self = this;
 				var deferred = new Deferred();
 				if (registry.byId('gisportal-banner') !== undefined) {
-					var nodeList = query("h1", 'gisportal-banner');
+					var t = dom.byId('gisportal-banner');
+					var nodeList = query("h1", t);
 					nodeList[0].innerText = "Geospatial Applications";
 					registry.byId('gisportal-banner').set('title', 'Geospatial Applications');
 					deferred.progress(nodeList[0]);
@@ -409,7 +425,7 @@ define([
 				var airspace_app = {
 					id: "AirspaceAppCard",
 					imgSrc: 'static/home/app/img/thumbnails/airspace_app.png',
-					href: 'https://aroragis.maps.arcgis.com/apps/3DScene/index.html?appid=5f7bf59e212c4339a3ffda29315972be',
+					href: 'https://gisapps.aroraengineers.com/rtaa_airspace/',
 					header: 'Airspace',
 					baseClass: 'card column-4 leader-2 trailer-2',
 					contents: ''
@@ -427,17 +443,17 @@ define([
 				var airfield_app = {
 					id: "AirfieldAppCard",
 					imgSrc: 'static/home/app/img/thumbnails/airfield_app.png',
-					href: 'https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=ff605fe1a736477fad9b8b22709388d1',
+					href: 'https://gisapps.aroraengineers.com/rtaa_airfield/',
 					header: 'Airfield',
 					baseClass: 'card column-4 leader-2 trailer-2',
 					contents: ''
 				};
 
-				var noise_app = {
-					id: "NoiseAppCard",
-					imgSrc: 'static/home/app/img/thumbnails/NoiseApp.png',
-					href: "https://gisapps.aroraengineers.com/bcad-noise-mit/",
-					header: 'Noise Mitigation',
+				var property_app = {
+					id: "PropertyAppCard",
+					imgSrc: 'static/home/app/img/thumbnails/property_app.png',
+					href: 'https://gisapps.aroraengineers.com/rtaa_property/',
+					header: 'Parcel, Easement, and Leases',
 					baseClass: 'card column-4 leader-2 trailer-2',
 					contents: ''
 				};
@@ -446,9 +462,9 @@ define([
 				var cards;
 				var test = Array.indexOf(groups, 'GIS_admin');
 				if (test !== -1) {
-					cards = [airspace_app, eDoc_app, airfield_app, noise_app];
+					cards = [airspace_app, eDoc_app, airfield_app, property_app];
 				} else {
-					cards = [airspace_app];
+					cards = [airspace_app, airfield_app, property_app];
 				}
 				self.loadCards(Card, cards).then(function(e) {
 					console.log(e);
@@ -465,11 +481,23 @@ define([
 				var deferred = new Deferred();
 				if (registry.byId('gisportal-banner') !== undefined) {
 					var nodeList = query("h1", 'gisportal-banner');
-					nodeList[0].innerText = 'Browse GIS Data';
-					registry.byId('gisportal-banner').set('title', 'Browse GIS Data');
+					nodeList[0].innerText = 'Admin: Published Layers';
+					registry.byId('gisportal-banner').set('title', 'Admin: Published Layers');
 				}
-
-				deferred.resolve("no code written for this method");
+				self.loadCards(Card, [{
+					id: "Data Viewer",
+					imgSrc: 'static/home/app/img/thumbnails/data_viewer.png',
+					href: 'https://gisapps.aroraengineers.com/rtaa_data_viewer',
+					header: 'Data Viewer',
+					baseClass: 'card column-4 leader-1 trailer-2',
+					contents: 'View Published Layers from AGOL'
+				}]).then(function(e) {
+					console.log(e);
+					deferred.resolve(e);
+				}, function(err) {
+					console.log(err);
+					deferred.cancel(err);
+				});
 				return deferred.promise;
 			},
 
@@ -479,8 +507,8 @@ define([
 				var deferred = new Deferred();
 				if (registry.byId('gisportal-banner') !== undefined) {
 					var nodeList = query("h1", 'gisportal-banner');
-					nodeList[0].innerText = 'Backend APIs';
-					registry.byId('gisportal-banner').set('title', 'Backend APIs');
+					nodeList[0].innerText = 'Admin: Inspect GDB / Publish Layers';
+					registry.byId('gisportal-banner').set('title', 'Admin: Inspect GDB / Publish Layers');
 				}
 				self.loadCards(Card, [{
 					id: "eDoc Rest API",

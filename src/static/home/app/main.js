@@ -129,7 +129,7 @@ define([
 			});
 		});
 
-		router.register("gisportal/gis-data-browse", function(evt) {
+		router.register("gisportal/published-layers", function(evt) {
 			evt.preventDefault();
 			console.log("loading "+evt.newPath);
 			app.buildGISPortal(evt, groups).then(function(e) {
@@ -140,7 +140,7 @@ define([
 
 		});
 
-		router.register("gisportal/backend-apis", function(evt) {
+		router.register("gisportal/publishing-tools", function(evt) {
 			evt.preventDefault();
 			console.log("loading "+evt.newPath);
 			app.buildGISPortal(evt, groups).then(function(e) {
