@@ -20,13 +20,11 @@ define([
   return declare([_WidgetBase, _OnDijitClickMixin, _TemplatedMixin], {
     templateString: template,
     options: {
-      baseClass: null,
       title: null
     },
 
     constructor: function(options) {
       declare.safeMixin(this.options, options);
-      this.set("baseClass", this.options.baseClass);
       this.set("title", this.options.title);
     },
 
