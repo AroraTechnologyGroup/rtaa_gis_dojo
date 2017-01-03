@@ -179,10 +179,8 @@ define([
 
 				on(node, 'click', function(e) {
 					self.unloadIframe().then(function(e) {
-						self.buildApps().then(function(e) {
-							console.log(e);
-							node.destroy();
-						});
+						router.go("gisportal/apps");
+						domConstruct.destroy(node);
 					});
 				});
 			},
@@ -413,7 +411,7 @@ define([
 				var self = this;
 				var deferred = new Deferred();
 				if (registry.byId('gisportal-banner') !== undefined) {
-					var t = dom.byId('gisportal-banner');
+					var t = registry.byId('gisportal-banner').domNode;
 					var nodeList = query("h1", t);
 					nodeList[0].innerText = "Geospatial Applications";
 					registry.byId('gisportal-banner').set('title', 'Geospatial Applications');
