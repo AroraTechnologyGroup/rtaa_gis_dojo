@@ -22,15 +22,14 @@ define([
   return declare([_WidgetBase, _OnDijitClickMixin, _TemplatedMixin], {
     templateString: template,
     options: {
-      baseClass: null,
       title: null,
       routes: []
     },
     constructor: function(options) {
       this.inherited(arguments);
       declare.safeMixin(this.options, options);
-      this.set("baseClass", this.options.baseClass);
       this.set("title", this.options.title);
+      this.set("subtitle", this.options.subtitle);
       this.set("routes", this.options.routes);
     },
     postCreate: function() {
