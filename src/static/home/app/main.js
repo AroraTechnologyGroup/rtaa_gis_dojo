@@ -67,10 +67,13 @@ define([
 		lang.mixin(app, new namedFunctions());
 
 		var ldap_url;
+		var ldap_config = JSON.parse(ldapConfig);
 		if (Array.indexOf(['localhost', '127.0.0.1'], window.location.hostname) !== -1) {
-			ldap_url = JSON.parse(ldapConfig).test_url;
-		} else {
-			ldap_url = JSON.parse(ldapConfig).production_url;
+			ldap_url = ldap_config.test_url;
+		} else if (window.location.port === "8443") {
+			ldap_url = ldap_config.production_url;
+		} else if (window.location.port === "8004") {
+			ldap_url = ldap_config.staging_url;
 		}
 	
 		var header_pane = new ContentPane({
@@ -101,34 +104,10 @@ define([
 			console.log('loading ' + evt.newPath);
 			app.buildGISPortal(evt, groups).then(function(e) {
 				console.log(e);
-				//TODO-add a redirect to the dashboard
+				router.go("gisportal/published-layers");
 			});
 		}, function(err) {
 			console.log(err);
-		});
-		
-
-		router.register("gisportal/dashboard", function(evt) {
-			evt.preventDefault();
-			app.buildGISPortal(evt, groups).then(function(e) {
-				app.buildDashboard(evt, Card, groups).then(function(e) {
-					console.log(e);
-				});
-			}, function(err) {
-				console.log(err);
-			});
-		});
-
-		router.register("gisportal/apps", function(evt) {
-
-			evt.preventDefault();
-			console.log('loading ' + evt.newPath);
-			app.buildGISPortal(evt, groups).then(function(e) {
-				app.buildApps(evt, Card, groups).then(function(e) {
-					console.log(e);
-				});
-			});
-
 		});
 
 		router.register("gisportal/published-layers", function(evt) {
@@ -153,54 +132,15 @@ define([
 
 		});
 
-		router.register("departments/home", function(evt) {
+		router.register("applications/home", function(evt) {
 			evt.preventDefault();
 			console.log("loading "+evt.newPath);
-			app.buildDepartments(evt, groups).then(function(e) {
+			app.buildApplications(evt, Card, groups).then(function(e) {
 				console.log(e);
 			});
 		});
 
-		router.register("departments/engineering", function(evt) {
-			evt.preventDefault();
-			console.log("loading "+evt.newPath);
-			app.buildDepartments(evt, groups).then(function(e) {
-				app.buildEngineering(evt, Card, groups).then(function(e) {
-					console.log(e);
-				});
-			});
-		});
-
-		router.register("departments/operations", function(evt) {
-			evt.preventDefault();
-			console.log('loading '+evt.newPath);
-			app.buildDepartments(evt, groups).then(function(e) {
-				app.buildOperations(evt, Card, groups).then(function(e) {
-					console.log(e); 
-				});
-			});
-		});
-
-		router.register("departments/planning", function(evt) {
-			evt.preventDefault();
-			console.log('loading '+evt.newPath);
-			app.buildDepartments(evt, groups).then(function(e) {
-				app.buildPlanning(evt, Card, groups).then(function(e) {
-					console.log(e);
-				});
-			});
-		});
-
-		router.register("departments/utilities", function(evt) {
-			evt.preventDefault();
-			console.log('loading '+evt.newPath);
-			app.buildDepartments(evt, groups).then(function(e) {
-				app.buildUtilities(evt, Card, groups).then(function(e) {
-					console.log(e);
-				});
-			});
-		});
-
+		
 		router.register("web-resources/home", function(evt) {
 			evt.preventDefault();
 			console.log('loading '+evt.newPath);

@@ -20,12 +20,14 @@ define([
   return declare([_WidgetBase, _OnDijitClickMixin, _TemplatedMixin], {
     templateString: template,
     options: {
-      title: null
+      title: null,
+      subtitle: null
     },
 
     constructor: function(options) {
       declare.safeMixin(this.options, options);
       this.set("title", this.options.title);
+      this.set("subtitle", this.options.subtitle);
     },
 
     postCreate: function() {

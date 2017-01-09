@@ -42,21 +42,22 @@ define([
     templateString: template,
     id: null,
     options: {
-      baseClass: null,
       imgSrc: null,
       href: null,
       header: null,
-      contents: null
+      content1: null,
+      content2: null
     },
     constructor: function(options, srcNodeRef) {
       this.inherited(arguments);
       declare.safeMixin(this.options, options);
       this.set("imgSrc", this.options.imgSrc);
       this.set("header", this.options.header);
-      this.set("contents", this.options.contents);
+      this.set("content1", this.options.content1);
+      this.set("content2", this.options.content2);
       this.set("href", this.options.href);
-      this.set("baseClass", this.options.baseClass);
       this.set("srcNodeRef", this.srcNodeRef);
+      this.set("back_url", this.back_url);
       this.id = this.options.id;
       
     },
@@ -67,7 +68,7 @@ define([
         evt.preventDefault();
         if (mouse.isLeft(event)) {
           self.unloadSection().then(function(e) {
-            self.loadIframe();
+            self.loadIframe(self.back_url);
             console.log(event);
           });
           

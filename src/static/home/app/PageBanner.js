@@ -35,10 +35,12 @@ define([
     postCreate: function() {
       var routes = this.routes;
       var targetNode = this.routeNode;
-      Array.forEach(routes, function(e) {
-        var string = "<a class='sub-nav-link' href="+e.href+">"+e.title+"</a>";
-        domConstruct.place(string, targetNode, 'last');
-      });
+      if (routes.length >= 1) {
+        Array.forEach(routes, function(e) {
+          var string = "<a class='sub-nav-link' href="+e.href+">"+e.title+"</a>";
+          domConstruct.place(string, targetNode, 'last');
+        });
+      }
     }
   });
 });
