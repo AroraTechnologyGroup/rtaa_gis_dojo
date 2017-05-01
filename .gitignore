@@ -6,15 +6,10 @@ bower_components/
 node_modules/
 .idea/
 **/*/.DS_Store
-src/static/home/dgrid/
-src/static/home/dijit/
-src/static/home/dojo/
-src/static/home/dojo-themes/
-src/static/home/dojox/
-src/static/home/dstore/
-src/static/home/esri/
-src/static/home/moment/
-src/static/home/util/
+src/
+!src/app/
+!src/app/index.html
+!src/app/built.html
 
 *.fla
 

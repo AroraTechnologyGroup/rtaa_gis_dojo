@@ -1,5 +1,0 @@
-{
-	"test_url": "http://127.0.0.1:8080/groups/",
-	"staging_url": "https://gisapps.aroraengineers.com:8004/groups/",
-	"production_url": "https://gisapps.aroraengineers.com:8443/groups/"
-}

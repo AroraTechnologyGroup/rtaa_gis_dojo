@@ -1,14 +1,12 @@
 module.exports = function(grunt) {
-    'use strict';
+    
     grunt.loadNpmTasks('grunt-dojo');
-    grunt.loadNpmTasks('grunt-sync');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-stylus');
-    grunt.loadNpmTasks('grunt-babel');
 
   
   grunt.initConfig({
@@ -28,9 +26,9 @@ module.exports = function(grunt) {
         main: {
             files: [{
                 expand: true,
-                cwd: './src',
-                src: ['index.html'],
-                dest: './dist',
+                cwd: 'src/',
+                src: ['built.html'],
+                dest: './dist/',
                 rename: function (dest, src) {
                     return dest + 'index.html';
                 }
@@ -40,15 +38,16 @@ module.exports = function(grunt) {
     dojo: {
       dist: {
           options: {
-              releaseDir: './dist'
+              releaseDir: '../dist'
           }
       },
       options: {
           profile: 'build.profile.js',
-          dojo: 'src/static/home/dojo/dojo.js',
+          dojo: 'src/dojo/dojo.js',
           load: 'build',
           cwd: './',
-          basePath: './src/static/home'
+          basePath: './src'
+  
         }
     },
     // uglify: {
@@ -78,7 +77,7 @@ module.exports = function(grunt) {
           }
       },
       main: {
-        cwd: 'src/static/home',
+        cwd: '.',
         files: [
           'app/**/*.js',
           'app/*.js',
@@ -106,8 +105,8 @@ module.exports = function(grunt) {
           require('autoprefixer-stylus')
         ],
         files: [{
-          './src/static/home/app/resources/app.css': [
-            './src/static/home/app/resources/app.styl'
+          './src/app/resources/app.css': [
+            './src/app/resources/app.styl'
           ]
         }]
       }
@@ -123,7 +122,7 @@ module.exports = function(grunt) {
         dojo: true
       },
 
-      all: ['gruntfile.js', './src/static/home/app/**/*.js', './tests/**/*.js']
+      all: ['gruntfile.js', './src/app/**/*.js', './tests/**/*.js']
     },
 
     connect: {

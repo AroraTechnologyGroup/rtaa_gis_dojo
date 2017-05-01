@@ -23,8 +23,8 @@ define({
 	maxConcurrency: Infinity,
 
 	loaders: {
-			'host-node': 'dojo/dojo',
-			'host-browser': "src/static/home/dojo/dojo.js",
+			// 'host-node': 'dojo/dojo',
+			'host-browser': 'src/dojo/dojo.js'
 	},
 
 
@@ -33,35 +33,17 @@ define({
 
 
 		packages: [ {
-            name: 'dgrid',
-            location: 'src/static/home/dgrid'
-          }, {
-            name: 'dstore',
-            location: 'src/static/home/dstore'
-          }, {
+			name: 'app',
+			location: 'src/app'
+			}, {
             name: 'dijit',
-            location: 'src/static/home/dijit'
-          }, {
-            name: 'esri',
-            location: 'src/static/home/esri'
+            location: 'src/dijit'
           }, {
             name: 'dojo',
-            location: 'src/static/home/dojo'
+            location: 'src/dojo'
           }, {
             name: 'dojox',
-            location: 'src/static/home/dojox'
-          }, {
-            name: 'util',
-            location: 'src/static/home/util'
-          }, {
-            name: 'app',
-            location: 'src/static/home/app'
-          }, {
-            name: 'tests',
-            location: 'tests'
-          }, {
-            name: 'moment',
-            location: 'src/static/home/moment'
+            location: 'src/dojox'
           }
         ]
 	},

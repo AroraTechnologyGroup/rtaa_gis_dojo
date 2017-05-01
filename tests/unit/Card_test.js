@@ -3,7 +3,7 @@ define([
   'intern/chai!expect',
   'dijit/registry',
   'app/Card',
-  'dojo/_base/Array',
+  'dojo/_base/array',
   'dojo/Deferred',
   'dojo/promise/all'
 ], function(
