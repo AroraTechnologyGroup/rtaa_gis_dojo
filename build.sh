@@ -6,7 +6,7 @@ set -e
 BASEDIR=$(cd $(dirname $0) && pwd)
 
 # Source directory for unbuilt code
-SRCDIR="$BASEDIR/src/static/home"
+SRCDIR="$BASEDIR/src"
 
 # Directory containing dojo build utilities
 TOOLSDIR="$SRCDIR/util/buildscripts"

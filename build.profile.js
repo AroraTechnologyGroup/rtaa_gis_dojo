@@ -9,9 +9,11 @@
  */
 
 var profile = {
+  insertAbsMids: 0,
+  internStrings: true,
   // `basePath` is relative to the directory containing this profile file; in this case, it is being set to the
   // src/ directory, which is the same place as the `baseUrl` directory in the loader configuration.
-  basePath: './src/static/home',
+  basePath: './src',
 
   // Builds a new release.
   action: 'release',
@@ -42,6 +44,9 @@ var profile = {
     'dojox',
     'dstore',
     'dgrid',
+    'dgrid1',
+    "xstyle",
+    "put-selector",
     'esri', {
       name: 'moment',
       location: 'moment',
@@ -73,7 +78,7 @@ var profile = {
   // The default selector engine is not included by default in a dojo.js build in order to make mobile builds
   // smaller. We add it back here to avoid that extra HTTP request. There is also an "acme" selector available; if
   // you use that, you will need to set the `selectorEngine` property in index.html, too.
-  selectorEngine: 'lite',
+  selectorEngine: 'acme',
 
   // Any module in an application can be converted into a "layer" module, which consists of the original module +
   // additional dependencies built into the same file. Using layers allows applications to reduce the number of HTTP
@@ -94,26 +99,13 @@ var profile = {
         // dependencies of esri/map that will be requested if not included
         'dojox/gfx/path',
         'dojox/gfx/svg',
+        'dojox/gfx/filters',
+        'dojox/gfx/svgext',
         'dojox/gfx/shape',
-
-        // esri stuff for 3D maps
-        'esri/layers/FeatureLayer',
-        'esri/layers/support/LabelClass',
-        'esri/layers/graphics/controllers/SnapshotController',
-        'esri/portal/creators/TiledServiceLayerCreator',
-        'esri/portal/creators/TiledElevationServiceLayerCreator',
-        'esri/portal/creators/layersCreator',
-        'esri/views/3d/layers/TiledLayerView3D',
-        'esri/views/layers/GraphicsLayerView',
-        'esri/views/3d/layers/GraphicsLayerView3D',
-        'esri/views/3d/layers/graphics/TextureCollection',
-        'esri/views/3d/layers/graphics/SymbolConverter',
-        'esri/views/3d/webgl-engine/lib/FloatingBoxLocalOriginFactory',
-        'esri/views/3d/webgl-engine/lib/Layer',
-        'esri/views/3d/webgl-engine/lib/MaterialCollection',
-        'esri/views/3d/webgl-engine/lib/Octree',
-        'esri/views/3d/webgl-engine/lib/TextTextureAtlas'
-      ],
+        'esri/dijit/Attribution',
+        "esri/IdentityManager"
+        ],
+  
       // You can define the locale for your application if you like
       includeLocales: ['en-us']
     }
@@ -174,6 +166,11 @@ var profile = {
       'extend-esri': 0,
       'dojo-has-api': 1,
       'dojo-undef-api': 0
-    }
+    },
+     packages: [{
+      name: "moment",
+      location: "moment",
+      main: "moment"
+    }]
   }
 };
