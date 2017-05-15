@@ -96,6 +96,7 @@ define([
 				// each card object has [baseClass, imgSrc, href, header, content]
 				var mainDeferred = new Deferred();
 				var pane = registry.byId('main-content');
+				domClass.add(pane.domNode, "block-group block-group-4-up tablet-block-group-3-up phone-block-group-1-up");
 				var nodelist = Array.map(objects, function(e) {
 					var deferred = new Deferred();
 					if (registry.byId(e.id) !== undefined) {
