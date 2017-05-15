@@ -8,8 +8,8 @@ node_modules/
 **/*/.DS_Store
 src/
 !src/app/
-!src/app/index.html
-!src/app/built.html
+!src/index.html
+!src/built.html
 
 *.fla
 
