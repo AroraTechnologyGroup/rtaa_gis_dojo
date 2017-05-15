@@ -30,7 +30,7 @@ module.exports = function(grunt) {
                 expand: true,
                 cwd: './src',
                 src: ['index.html'],
-                dest: './dist',
+                dest: './dist/',
                 rename: function (dest, src) {
                     return dest + 'index.html';
                 }
