@@ -110,7 +110,7 @@ define([
 						content2: e.content2,
 						imgSrc: e.imgSrc,
 						header: e.header,
-						back_url: e.back_url
+						isActive: e.isActive
 					}, div);
 					return deferred.resolve(new_card);
 				});
@@ -237,7 +237,7 @@ define([
 					var cards = JSON.parse(app_cards);
 					// remove cards that are not active
 					var active_cards = Array.filter(cards, function(e) {
-						return e.active && !e.isAdmin;
+						return e.isActive && !e.isAdmin;
 					}); 
 
 					self.loadCards(Card, active_cards).then(function(e) {
@@ -311,7 +311,7 @@ define([
 				var cards = JSON.parse(app_cards);
 				// remove cards that are not active
 				var active_cards = Array.filter(cards, function(e) {
-					return e.active && e.isAdmin;
+					return e.isActive && e.isAdmin;
 				}); 
 
 				self.loadCards(Card, active_cards).then(function(e) {
@@ -368,7 +368,7 @@ define([
 					var cards = JSON.parse(app_cards);
 					// remove cards that are not active
 					var active_cards = Array.filter(cards, function(e) {
-						return e.active && !e.isAdmin;
+						return e.isActive && !e.isAdmin;
 					});
 					self.header = new PageBanner({
 						id: 'applications-banner',
