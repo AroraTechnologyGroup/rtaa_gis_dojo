@@ -9,7 +9,18 @@ node_modules/
 !src/app/
 !src/index.html
 !src/built.html
-src/
+src/dgrid/
+src/dgrid1/
+src/dijit/
+src/dojo/
+src/dojo-themes/
+src/dojox/
+src/dstore/
+src/esri/
+src/moment/
+src/put-selector/
+src/util/
+src/xstyle/
 
 
 *.fla

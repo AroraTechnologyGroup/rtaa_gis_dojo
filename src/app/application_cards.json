@@ -1,0 +1,80 @@
+[
+	{
+		"id": "GIS Data Viewer",
+		"active": true,
+		"isAdmin": false,
+		"imgSrc": "app/img/thumbnails/data_viewer.png",
+		"path": "viewer",
+		"header": "GIS Data Viewer",
+		"content1": "View and Interact with layers",
+		"content2": "* available to all users",
+		"back_url": "applications/home"
+	},
+	{
+		"id": "Data Viewer",
+		"active": true,
+		"isAdmin": true,
+		"imgSrc": "app/img/thumbnails/data_viewer.png",
+		"path": "viewer",
+		"header": "Data Viewer",
+		"content1": "Sign into ArcGIS Online and browse the available Published Layers",
+		"content2": "*only available to GIS_admin members",
+		"back_url": "gisportal/home"
+	},
+	{
+		"id": "eDoc Search Tool",
+		"active": true,
+		"isAdmin": false,
+		"imgSrc": "app/img/thumbnails/eDoc_app.png",
+		"path": "eDoc",
+		"header": "eDoc Search Tool",
+		"content1": "Use this tool to assign files to grid cells",
+		"content2": "* available to specific groups",
+		"back_url": "applications/home"
+	}, 
+	{
+		"id": "Airspace",
+		"active": true,
+		"isAdmin": false,
+		"imgSrc": "app/img/thumbnails/airspace_app.png",
+		"path": "airspace",
+		"header": "Airspace",
+		"content1": "View and Interact with Airspace data",
+		"content2": "* available to specific groups",
+		"back_url": "applications/home"
+	}, 
+	{
+		"id": "Economic Dev.",
+		"active": true,
+		"isAdmin": false,
+		"imgSrc": "app/img/thumbnails/eConDev.png",
+		"path": "econDev",
+		"header": "Economic Development",
+		"content1": "View and Interact with GIS Data for Economic Development",
+		"content2": "* available to specific groups",
+		"back_url": "applications/home"
+	}, 
+	{
+		"id": "Airfield Signage and Marking",
+		"active": false,
+		"isAdmin": false,
+		"imgSrc": "static/home/app/img/background.png",
+		"path": "signageMarking",
+		"header": "Airfield Signage",
+		"content1": "View and Interact with the airfield signage data",
+		"content2": "* available to specific groups",
+		"back_url": "applications/home"
+	}, 
+	{
+		"id": "Mobile Collection",
+		"active": false,
+		"isAdmin": false,
+		"imgSrc": "static/home/app/img/background.png",
+		"path": "mobile",
+		"header": "Mobile Collection",
+		"content1": "Mobile app for collecting locations and attributes of features",
+		"content2": "* available to specific groups",
+		"back_url": "applications/home"
+	}
+]
+	
