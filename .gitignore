@@ -6,10 +6,11 @@ bower_components/
 node_modules/
 .idea/
 **/*/.DS_Store
-src/
-!src/app/**
+!src/app/
 !src/index.html
 !src/built.html
+src/
+
 
 *.fla
 
