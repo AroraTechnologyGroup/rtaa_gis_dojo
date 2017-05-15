@@ -1,80 +1,73 @@
 [
 	{
 		"id": "GIS Data Viewer",
-		"active": true,
+		"isActive": true,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/data_viewer.png",
 		"path": "viewer",
 		"header": "GIS Data Viewer",
 		"content1": "View and Interact with layers",
-		"content2": "* available to all users",
-		"back_url": "applications/home"
+		"content2": "* available to all users"
 	},
 	{
 		"id": "Data Viewer",
-		"active": true,
+		"isActive": true,
 		"isAdmin": true,
 		"imgSrc": "app/img/thumbnails/data_viewer.png",
 		"path": "viewer",
 		"header": "Data Viewer",
 		"content1": "Sign into ArcGIS Online and browse the available Published Layers",
-		"content2": "*only available to GIS_admin members",
-		"back_url": "gisportal/home"
+		"content2": "*only available to GIS_admin members"
 	},
 	{
 		"id": "eDoc Search Tool",
-		"active": true,
+		"isActive": false,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "eDoc",
 		"header": "eDoc Search Tool",
 		"content1": "Use this tool to assign files to grid cells",
-		"content2": "* available to specific groups",
-		"back_url": "applications/home"
+		"content2": "* Coming Soon"
 	}, 
 	{
 		"id": "Airspace",
-		"active": true,
+		"isActive": false,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "airspace",
 		"header": "Airspace",
 		"content1": "View and Interact with Airspace data",
-		"content2": "* available to specific groups",
-		"back_url": "applications/home"
+		"content2": "* Coming Soon"
 	}, 
 	{
 		"id": "Economic Dev.",
-		"active": true,
+		"isActive": false,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "econDev",
 		"header": "Economic Development",
 		"content1": "View and Interact with GIS Data for Economic Development",
-		"content2": "* available to specific groups",
-		"back_url": "applications/home"
+		"content2": "* Coming Soon"
 	}, 
 	{
 		"id": "Airfield Signage and Marking",
-		"active": true,
+		"isActive": false,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "signageMarking",
 		"header": "Airfield Signage",
 		"content1": "View and Interact with the airfield signage data",
-		"content2": "* available to specific groups",
-		"back_url": "applications/home"
+		"content2": "* Coming Soon"
 	}, 
 	{
 		"id": "Mobile Collection",
-		"active": true,
+		"isActive": false,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "mobile",
 		"header": "Mobile Collection",
 		"content1": "Mobile app for collecting locations and attributes of features",
-		"content2": "* available to specific groups",
-		"back_url": "applications/home"
+		"content2": "* Coming Soon"
 	}
 ]
 	
