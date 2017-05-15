@@ -21,7 +21,7 @@
 	},
 	{
 		"id": "eDoc Search Tool",
-		"isActive": true,
+		"isActive": false,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "eDoc",
@@ -31,7 +31,7 @@
 	}, 
 	{
 		"id": "Airspace",
-		"isActive": true,
+		"isActive": false,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "airspace",
@@ -41,7 +41,7 @@
 	}, 
 	{
 		"id": "Economic Dev.",
-		"isActive": true,
+		"isActive": false,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "econDev",
@@ -51,7 +51,7 @@
 	}, 
 	{
 		"id": "Airfield Signage and Marking",
-		"isActive": true,
+		"isActive": false,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "signageMarking",
@@ -61,7 +61,7 @@
 	}, 
 	{
 		"id": "Mobile Collection",
-		"isActive": true,
+		"isActive": false,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "mobile",

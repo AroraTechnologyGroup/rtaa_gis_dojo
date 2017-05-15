@@ -110,6 +110,7 @@ define([
 						content2: e.content2,
 						imgSrc: e.imgSrc,
 						header: e.header,
+						isAdmin: e.isAdmin,
 						isActive: e.isActive
 					}, div);
 					return deferred.resolve(new_card);
@@ -235,12 +236,14 @@ define([
 
 					// these are loaded from dojo/text!./application_cards.json
 					var cards = JSON.parse(app_cards);
-					// remove cards that are not active
-					var active_cards = Array.filter(cards, function(e) {
-						return e.isActive && !e.isAdmin;
+
+					// remove cards that are not admin
+					var reg_cards = Array.filter(cards, function(e) {
+						return !e.isAdmin;
+
 					}); 
 
-					self.loadCards(Card, active_cards).then(function(e) {
+					self.loadCards(Card, reg_cards).then(function(e) {
 						console.log(e);
 						deferred.resolve(pane);
 					}, function(err) {
@@ -309,12 +312,12 @@ define([
 
 				// these are loaded from dojo/text!./application_cards.json
 				var cards = JSON.parse(app_cards);
-				// remove cards that are not active
-				var active_cards = Array.filter(cards, function(e) {
-					return e.isActive && e.isAdmin;
+				// remove cards that are not admin
+				var reg_cards = Array.filter(cards, function(e) {
+					return !e.isAdmin;
 				}); 
 
-				self.loadCards(Card, active_cards).then(function(e) {
+				self.loadCards(Card, reg_cards).then(function(e) {
 					console.log(e);
 					deferred.resolve(e);
 				}, function(err) {
@@ -366,10 +369,11 @@ define([
 
 					// these are loaded from dojo/text!./application_cards.json
 					var cards = JSON.parse(app_cards);
-					// remove cards that are not active
-					var active_cards = Array.filter(cards, function(e) {
-						return e.isActive && !e.isAdmin;
+					// remove cards that are not admin
+					var reg_cards = Array.filter(cards, function(e) {
+						return !e.isAdmin;
 					});
+
 					self.header = new PageBanner({
 						id: 'applications-banner',
 						baseClass: 'text-white font-size-4 page-banner',
@@ -380,7 +384,7 @@ define([
 					var pane = registry.byId('header-pane');
 					pane.set('content', self.header);
 					// set overflow scroll on main-content
-					self.loadCards(Card, active_cards).then(function(e) {
+					self.loadCards(Card, reg_cards).then(function(e) {
 						console.log(e);
 						deferred.resolve(e);
 					}, function(err) {

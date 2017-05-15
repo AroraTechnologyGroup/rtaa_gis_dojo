@@ -47,7 +47,8 @@ define([
       header: null,
       content1: null,
       content2: null,
-      isActive: null
+      isActive: null,
+      isAdmin: null
     },
     constructor: function(options, srcNodeRef) {
       this.inherited(arguments);
