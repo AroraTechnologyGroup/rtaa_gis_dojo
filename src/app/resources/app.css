@@ -3,8 +3,15 @@
 .hover {
   cursor: pointer !important;
 }
-.card-wide {
+._Card {
   margin: 5px;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -o-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
 }
 #homepage-banner {
   width: 100%;
@@ -35,7 +42,7 @@
 .sub-nav {
   background-color: #9bc19c;
 }
-.search-bar {
+._PageBanner .search-bar {
   -webkit-box-pack: right;
   -moz-box-pack: right;
   -o-box-pack: right;
@@ -43,7 +50,7 @@
   -webkit-justify-content: right;
   justify-content: right;
 }
-h1 {
+._PageBanner h1 {
   float: left;
   margin-top: 10px;
 }
@@ -62,12 +69,18 @@ body {
   padding-bottom: 3px;
 }
 #main-content {
-  -webkit-box-pack: center;
-  -moz-box-pack: center;
-  -o-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -o-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: start;
+  -moz-box-pack: start;
+  -o-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
   margin-left: auto;
   margin-right: auto;
   margin-top: 10px;

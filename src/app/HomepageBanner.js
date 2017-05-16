@@ -21,6 +21,7 @@ define([
 ) {
   return declare([_WidgetBase, _OnDijitClickMixin, _TemplatedMixin], {
     templateString: template,
+    baseClass: "_HomepageBanner",
     options: {
       title: null,
       subtitle: null

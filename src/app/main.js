@@ -116,10 +116,21 @@ define([
 					console.log('loading ' + evt.newPath);
 					obj.buildGISPortal(evt, groups).then(function(e) {
 						console.log(e);
-						hash("gisportal/viewer");
+						hash("gisportal/analytics");
 					});
 				}, function(err) {
 					console.log(err);
+				});
+
+				router.register("gisportal/analytics", function(evt) {
+					evt.preventDefault();
+					console.log('loading ' + evt.newPath);
+					obj.buildGISPortal(evt, groups).then(function(e) {
+						obj.buildAnalytics(evt, groups).then(function(e) {
+							console.log(e);
+							// load analytics widgets
+						});
+					});
 				});
 
 				router.register("gisportal/viewer", function(evt) {

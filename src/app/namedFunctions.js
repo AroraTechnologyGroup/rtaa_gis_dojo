@@ -149,61 +149,6 @@ define([
 				return deferred.promise;
 			},
 
-			loadIframe: function(back_url) {
-				var self = this;
-				self.unloadIframe().then(function(e) {
-				console.log(e);
-				var pane = new ContentPane({
-				  id: "iframe-pane",
-				  style: {
-				    position: "relative",
-				    width: "100%",
-				    height: "90vh",
-				    overflow: "hidden"
-				  }
-				});
-				pane.startup();
-				pane.set('content', domConstruct.create("iframe",  {
-				    src: self.href,
-				    frameborder: 0,
-				    height: '100%',
-				    width: '100%',
-				    allowfullscreen: true
-				}));
-				pane.placeAt(dom.byId('main-content'));
-				aspect.after(pane, 'resize', function(evt) {
-					domStyle.set(pane.domNode, "height", "90vh");
-					});
-				});
-				var target = query(".top-nav-list")[0];
-
-				var node = domConstruct.create("button", {
-					class: "btn-green",
-					innerHTML: "back to apps"
-				}, target);
-
-				on(node, 'click', function(e) {
-					self.unloadIframe().then(function(e) {
-						router.go(self.back_url);
-						domConstruct.destroy(node);
-					});
-				});
-			},
-
-			unloadIframe: function() {
-				var self = this;
-				var deferred = new Deferred();
-				var iframe_pane = registry.byId("iframe-pane");
-				if (iframe_pane !== undefined) {
-					iframe_pane.destroy();
-					registry.remove(iframe_pane);
-					deferred.resolve("iframe-pane removed from registry");
-				} else {
-					deferred.resolve("iframe-pane not found");
-				}
-				return deferred.promise;
-			},
-
 			buildTitleBar: function(evt, Card) {
 				var self = this;
 				var deferred = new Deferred();
@@ -240,7 +185,6 @@ define([
 					// remove cards that are not admin
 					var reg_cards = Array.filter(cards, function(e) {
 						return !e.isAdmin;
-
 					}); 
 
 					self.loadCards(Card, reg_cards).then(function(e) {
@@ -273,6 +217,9 @@ define([
 					// if the user is admin, allow for browse data and backend api
 					
 					var routes = [{
+								title: 'Site Analytics',
+								href: 'gisportal/analytics'
+							}, {
 								title: 'Data Viewer',
 								href: 'gisportal/viewer'
 							}, {
@@ -292,7 +239,7 @@ define([
 					var pane = registry.byId('header-pane');
 					pane.set('content', self.header);
 					pane.resize();
-					deferred.resolve(pane.content);
+					deferred.resolve(pane);
 				}, function(err) {
 					console.log(err);
 					deferred.cancel(err);
@@ -300,8 +247,18 @@ define([
 				return deferred.promise;
 
 			},
-
-			buildDataBrowser: function(evt, Card, groups) {
+			buildAnalytics: function(evt, groups) {
+				var self = this;
+				var deferred = new Deferred();
+				if (registry.byId('gisportal-banner') !== undefined) {
+					var nodeList = query("h1", 'gisportal-banner');
+					nodeList[0].innerText = 'Admin: Site Analytics';
+					registry.byId('gisportal-banner').set('title', 'Admin: Site Analytics');
+				}
+				deferred.resolve();
+				return deferred.promise;
+			},
+			buildDataBrowser: function(evt, groups) {
 				var self = this;
 				var deferred = new Deferred();
 				if (registry.byId('gisportal-banner') !== undefined) {
@@ -309,49 +266,19 @@ define([
 					nodeList[0].innerText = 'Admin: Online Data Viewer';
 					registry.byId('gisportal-banner').set('title', 'Admin: Online Data Viewer');
 				}
-
-				// these are loaded from dojo/text!./application_cards.json
-				var cards = JSON.parse(app_cards);
-				// remove cards that are not admin
-				var reg_cards = Array.filter(cards, function(e) {
-					return !e.isAdmin;
-				}); 
-
-				self.loadCards(Card, reg_cards).then(function(e) {
-					console.log(e);
-					deferred.resolve(e);
-				}, function(err) {
-					console.log(err);
-					deferred.cancel(err);
-				});
+				deferred.resolve();
 				return deferred.promise;
 			},
 
 			buildBackEndAPIs: function(evt, Card, groups) {
 				var self = this;
-
 				var deferred = new Deferred();
 				if (registry.byId('gisportal-banner') !== undefined) {
 					var nodeList = query("h1", 'gisportal-banner');
 					nodeList[0].innerText = 'Admin: Publishing Tools';
 					registry.byId('gisportal-banner').set('title', 'Admin: Publishing Tools');
 				}
-				self.loadCards(Card, [
-				// {
-				// 	id: "eDoc Rest API",
-				// 	imgSrc: 'static/home/app/img/thumbnails/restapi_app.png',
-				// 	path: 'https://gisapps.aroraengineers.com:8004/edoc/swag',
-				// 	header: 'eDoc Rest API',
-				// 	content1: 'Interact with the eDoc Rest API through this graphical api page.',
-				// 	content2: 'available for members of the GIS_admin group'
-				// }
-				]).then(function(e) {
-					console.log(e);
-					deferred.resolve(e);
-				}, function(err) {
-					console.log(err);
-					deferred.cancel(err);
-				});
+				deferred.resolve();
 				return deferred.promise;
 			},
 

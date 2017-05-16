@@ -41,6 +41,7 @@ define([
   return declare([_WidgetBase, _TemplatedMixin], {
     templateString: template,
     id: null,
+    baseClass: "_Card",
     options: {
       imgSrc: null,
       path: null,
