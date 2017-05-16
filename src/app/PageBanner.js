@@ -3,6 +3,7 @@ define([
   "dojo/_base/lang",
   "dojo/dom-construct",
   "dojo/dom-style",
+  "dojo/dom-class",
   "dojo/query",
   "dojo/_base/array",
   "dijit/_WidgetBase",
@@ -18,6 +19,7 @@ define([
   lang,
   domConstruct,
   domStyle,
+  domClass,
   query,
   Array,
   _WidgetBase,
@@ -44,9 +46,10 @@ define([
       this.set("routes", this.options.routes);
     },
     postCreate: function() {
-      var routes = this.routes;
-      var targetNode = this.routeNode;
-     
+      var self = this;
+      var routes = self.routes;
+      var targetNode = self.routeNode;
+      domClass.add(self.domNode, self.class);
       if (routes.length >= 1) {
         Array.forEach(routes, function(e) {
           var link = domConstruct.toDom("<a class='sub-nav-link'>"+e.title+"</a>");

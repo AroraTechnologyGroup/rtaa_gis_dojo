@@ -133,22 +133,31 @@ define([
 					});
 				});
 
-				router.register("gisportal/viewer", function(evt) {
+				router.register("gisportal/2dviewer", function(evt) {
 					evt.preventDefault();
 					console.log("loading "+evt.newPath);
 					obj.buildGISPortal(evt, groups).then(function(e) {
-						obj.buildDataBrowser(evt, Card, groups).then(function(e) {
+						obj.build2dViewer(evt, groups).then(function(e) {
 							console.log(e);
 						});
 					});
+				});
 
+				router.register("gisportal/3dviewer", function(evt) {
+					evt.preventDefault();
+					console.log("loading "+evt.newPath);
+					obj.buildGISPortal(evt, groups).then(function(e) {
+						obj.build3dViewer(evt, groups).then(function(e) {
+							console.log(e);
+						});
+					});
 				});
 
 				router.register("gisportal/publishing-tools", function(evt) {
 					evt.preventDefault();
 					console.log("loading "+evt.newPath);
 					obj.buildGISPortal(evt, groups).then(function(e) {
-						obj.buildBackEndAPIs(evt, Card, groups).then(function(e) {
+						obj.buildBackEndAPIs(evt, groups).then(function(e) {
 							console.log(e);
 						});
 					});

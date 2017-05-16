@@ -58,6 +58,7 @@ define([
 					if (registry.byId('header-pane') !== undefined) {
 						var obj = registry.byId('header-pane');
 						domConstruct.empty(obj.containerNode);
+						domClass.remove(obj.containerNode);
 						deferred.resolve(true);
 				} else {
 				  deferred.resolve(false);
@@ -73,6 +74,7 @@ define([
 					if (registry.byId('main-content') !== undefined) {
 						var obj = registry.byId('main-content');
 						domConstruct.empty(obj.containerNode);
+						domClass.remove(obj.containerNode);
 						deferred.resolve(true);
 					} else {
 						deferred.resolve('no widgets were found in main-content domNode');
@@ -96,6 +98,7 @@ define([
 				// each card object has [baseClass, imgSrc, href, header, content]
 				var mainDeferred = new Deferred();
 				var pane = registry.byId('main-content');
+
 				domClass.add(pane.domNode, "block-group block-group-4-up tablet-block-group-3-up phone-block-group-1-up");
 				var nodelist = Array.map(objects, function(e) {
 					var deferred = new Deferred();
@@ -220,8 +223,11 @@ define([
 								title: 'Site Analytics',
 								href: 'gisportal/analytics'
 							}, {
-								title: 'Data Viewer',
-								href: 'gisportal/viewer'
+								title: '2D Data Viewer',
+								href: 'gisportal/2dviewer'
+							}, {
+								title: '3D Data Viewer',
+								href: 'gisportal/3dviewer'
 							}, {
 								title: 'Publishing Tools',
 								href: 'gisportal/publishing-tools'
@@ -230,7 +236,7 @@ define([
 
 					self.header = new PageBanner({
 							id: 'gisportal-banner',
-							baseClass: 'text-white font-size-4 page-banner',
+							class: 'text-white font-size-4 page-banner',
 							title: 'Geographic Information Systems',
 							routes: routes
 						});
@@ -258,19 +264,32 @@ define([
 				deferred.resolve();
 				return deferred.promise;
 			},
-			buildDataBrowser: function(evt, groups) {
+			build2dViewer: function(evt, groups) {
 				var self = this;
 				var deferred = new Deferred();
 				if (registry.byId('gisportal-banner') !== undefined) {
 					var nodeList = query("h1", 'gisportal-banner');
-					nodeList[0].innerText = 'Admin: Online Data Viewer';
-					registry.byId('gisportal-banner').set('title', 'Admin: Online Data Viewer');
+					nodeList[0].innerText = 'Admin: Online 2D Data Viewer';
+					registry.byId('gisportal-banner').set('title', 'Admin: Online 2D Data Viewer');
+					self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=9244a03e2c4b4213959096d6cb7d4927");
+				}
+				deferred.resolve();
+				return deferred.promise;
+			},
+			build3dViewer: function(evt, groups) {
+				var self = this;
+				var deferred = new Deferred();
+				if (registry.byId('gisportal-banner') !== undefined) {
+					var nodeList = query("h1", 'gisportal-banner');
+					nodeList[0].innerText = 'Admin: Online 3D Data Viewer';
+					registry.byId('gisportal-banner').set('title', 'Admin: Online 3D Data Viewer');
+					self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer3d/index.html?id=01fbf7699e68478b9a8116f7e36a0d1e");
 				}
 				deferred.resolve();
 				return deferred.promise;
 			},
 
-			buildBackEndAPIs: function(evt, Card, groups) {
+			buildBackEndAPIs: function(evt, groups) {
 				var self = this;
 				var deferred = new Deferred();
 				if (registry.byId('gisportal-banner') !== undefined) {
@@ -282,53 +301,7 @@ define([
 				return deferred.promise;
 			},
 
-			buildApplications: function(evt, Card, groups) {
-				var self = this;
-				var deferred = new Deferred();
-				var footer = query("#footer-container");
-				domClass.add(footer[0], 'animate-out-up');
-				self.unloadSection().then(function(e) {
-					try {
-						registry.byId('applications-banner').destroyRecursive();
-					} catch(err) {
-						// console.log(err);
-					}
-
-					// these are loaded from dojo/text!./application_cards.json
-					var cards = JSON.parse(app_cards);
-					// remove cards that are not admin
-					var reg_cards = Array.filter(cards, function(e) {
-						return !e.isAdmin;
-					});
-
-					self.header = new PageBanner({
-						id: 'applications-banner',
-						baseClass: 'text-white font-size-4 page-banner',
-						title: "Web Mapping Applications",
-						routes: []
-					});
-
-					var pane = registry.byId('header-pane');
-					pane.set('content', self.header);
-					// set overflow scroll on main-content
-					self.loadCards(Card, reg_cards).then(function(e) {
-						console.log(e);
-						deferred.resolve(e);
-					}, function(err) {
-						console.log(err);
-						deferred.cancel(err);
-					});
-
-				}, function(err) {
-					console.log(err);
-					deferred.cancel(err);
-				});
-				return deferred.promise;
-			},
-
-			
-
-			buildWebResources: function(evt, Card, groups) {
+			buildWebResources: function(evt, groups) {
 				var self = this;
 				var deferred = new Deferred();
 				var footer = query("#footer-container");
@@ -341,7 +314,7 @@ define([
 					}
 					self.header = new PageBanner({
 						id: 'web-resources-banner',
-						baseClass: 'text-white font-size-4 page-banner',
+						class: 'text-white font-size-4 page-banner',
 						title: 'Online Resource Library',
 						routes: [{
 							title: 'State Level GIS Data',
@@ -362,7 +335,7 @@ define([
 				return deferred.promise;
 			},
 
-			buildHelp: function(evt, Card, groups) {
+			buildHelp: function(evt, groups) {
 				var self = this;
 				var deferred = new Deferred();
 				var footer = query("#footer-container");
@@ -375,7 +348,7 @@ define([
 					}
 					self.header = new PageBanner({
 						id: 'help-banner',
-						baseClass: 'text-white font-size-4 page-banner',
+						class: 'text-white font-size-4 page-banner',
 						title: 'Help Documentation',
 						routes: [{
 							title: 'Technical Details',
@@ -397,6 +370,49 @@ define([
 					deferred.resolve(pane);
 				});
 				return deferred.promise;
-			}
+			},
+
+			loadIframe: function(url) {
+				var self = this;
+				self.unloadIframe().then(function(e) {
+				console.log(e);
+				var pane = new ContentPane({
+				  id: "iframe-pane",
+				  style: {
+				    position: "relative",
+				    width: "100%",
+				    height: "100vh",
+				    overflow: "hidden"
+				  }
+				});
+				pane.startup();
+				pane.set('content', domConstruct.create("iframe",  {
+				    src: url,
+				    margin: 0,
+				    frameborder: 0,
+				    height: '100%',
+				    width: '100%',
+				    allowfullscreen: true
+				}));
+				pane.placeAt(dom.byId('main-content'));
+				aspect.after(pane, 'resize', function(evt) {
+					domStyle.set(pane.domNode, "height", "90vh");
+					});
+				});
+			},
+
+			unloadIframe: function() {
+				var self = this;
+				var deferred = new Deferred();
+				var iframe_pane = registry.byId("iframe-pane");
+				if (iframe_pane !== undefined) {
+					iframe_pane.destroy();
+					registry.remove(iframe_pane);
+					deferred.resolve("iframe-pane removed from registry");
+				} else {
+					deferred.resolve("iframe-pane not found");
+				}
+				return deferred.promise;
+			},
 		});
 	});
