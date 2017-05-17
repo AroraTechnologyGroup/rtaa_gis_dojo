@@ -1,6 +1,7 @@
 define([
 	'dijit/registry',
 	"dojo/_base/declare",
+	'dojo/window',
 	"dojo/aspect",
 	'dojo/parser',
 	"dojo/cookie",
@@ -21,11 +22,13 @@ define([
 	'dojo/on',
 	'app/HomepageBanner',
 	'app/PageBanner',
+	'esri/IdentityManager',
 	'dijit/layout/ContentPane',
 	'dojo/text!./application_cards.json'
 	], function(
 		registry,
 		declare,
+		win,
 		aspect,
 		parser,
 		cookie,
@@ -46,6 +49,7 @@ define([
 		on,
 		HomepageBanner,
 		PageBanner,
+		IdentityManager,
 		ContentPane,
 		app_cards
 		) {
@@ -99,7 +103,7 @@ define([
 				var mainDeferred = new Deferred();
 				var pane = registry.byId('main-content');
 
-				domClass.add(pane.domNode, "block-group block-group-4-up tablet-block-group-3-up phone-block-group-1-up");
+				domClass.add(pane.domNode, "block-group block-group-3-up tablet-block-group-2-up phone-block-group-1-up");
 				var nodelist = Array.map(objects, function(e) {
 					var deferred = new Deferred();
 					if (registry.byId(e.id) !== undefined) {
@@ -271,6 +275,8 @@ define([
 					var nodeList = query("h1", 'gisportal-banner');
 					nodeList[0].innerText = 'Admin: Online 2D Data Viewer';
 					registry.byId('gisportal-banner').set('title', 'Admin: Online 2D Data Viewer');
+					// sign-in to AGOL
+
 					self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=9244a03e2c4b4213959096d6cb7d4927");
 				}
 				deferred.resolve();
@@ -397,8 +403,10 @@ define([
 				pane.placeAt(dom.byId('main-content'));
 				aspect.after(pane, 'resize', function(evt) {
 					domStyle.set(pane.domNode, "height", "90vh");
+					win.scrollIntoView(pane.domNode);
 					});
 				});
+				win.scrollIntoView('main-content');
 			},
 
 			unloadIframe: function() {

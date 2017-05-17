@@ -32,20 +32,22 @@ define({
 		// Packages that should be registered with the loader in each testing environment
 
 
-		packages: [ {
+		packages: [{
+			name: 'esri',
+			location: 'src/esri'
+		}, {
 			name: 'app',
 			location: 'src/app'
-			}, {
+		}, {
             name: 'dijit',
             location: 'src/dijit'
-          }, {
+		}, {
             name: 'dojo',
             location: 'src/dojo'
-          }, {
+		}, {
             name: 'dojox',
             location: 'src/dojox'
-          }
-        ]
+		}]
 	},
 
 

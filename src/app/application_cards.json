@@ -7,7 +7,7 @@
 		"path": "viewer",
 		"header": "GIS Data Viewer",
 		"content1": "View and Interact with layers",
-		"content2": "* available to all users"
+		"content2": "Available Now"
 	},
 	{
 		"id": "Admin Data Viewer",
@@ -17,7 +17,7 @@
 		"path": "viewer",
 		"header": "Data Viewer",
 		"content1": "Sign into ArcGIS Online and browse the available Published Layers",
-		"content2": "*only available to GIS_admin members"
+		"content2": "* only available to GIS_admin members"
 	},
 	{
 		"id": "eDoc Search Tool",
