@@ -2,7 +2,9 @@ define([
 	'dijit/registry',
 	"dojo/_base/declare",
 	'dojo/window',
+	"dojo/_base/unload",
 	"dojo/aspect",
+	'dojo/json',
 	'dojo/parser',
 	"dojo/cookie",
 	'dojo/dom',
@@ -23,13 +25,16 @@ define([
 	'app/HomepageBanner',
 	'app/PageBanner',
 	'esri/IdentityManager',
+	'esri/arcgis/OAuthInfo',
 	'dijit/layout/ContentPane',
 	'dojo/text!./application_cards.json'
 	], function(
 		registry,
 		declare,
 		win,
+		baseUnload,
 		aspect,
+		JSON,
 		parser,
 		cookie,
 		dom,
@@ -49,7 +54,8 @@ define([
 		on,
 		HomepageBanner,
 		PageBanner,
-		IdentityManager,
+		esriId,
+		OAuthInfo,
 		ContentPane,
 		app_cards
 		) {
@@ -275,9 +281,9 @@ define([
 					var nodeList = query("h1", 'gisportal-banner');
 					nodeList[0].innerText = 'Admin: Online 2D Data Viewer';
 					registry.byId('gisportal-banner').set('title', 'Admin: Online 2D Data Viewer');
-					// sign-in to AGOL
-
-					self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=9244a03e2c4b4213959096d6cb7d4927");
+					self.agolLogin().then(function(e) {
+						self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=9244a03e2c4b4213959096d6cb7d4927");
+					});
 				}
 				deferred.resolve();
 				return deferred.promise;
@@ -289,7 +295,9 @@ define([
 					var nodeList = query("h1", 'gisportal-banner');
 					nodeList[0].innerText = 'Admin: Online 3D Data Viewer';
 					registry.byId('gisportal-banner').set('title', 'Admin: Online 3D Data Viewer');
-					self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer3d/index.html?id=01fbf7699e68478b9a8116f7e36a0d1e");
+					self.agolLogin().then(function(e) {
+						self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer3d/index.html?id=01fbf7699e68478b9a8116f7e36a0d1e");
+					});
 				}
 				deferred.resolve();
 				return deferred.promise;
@@ -378,6 +386,73 @@ define([
 				return deferred.promise;
 			},
 
+			agolLogin: function() {
+				var self = this;
+				var deferred = new Deferred();
+				var cred = "esri_jsapi_id_manager_data";
+				baseUnload.addOnUnload(storeCredentials);
+				loadCredentials().then(function(e) {
+					deferred.resolve(e);
+				});
+				return deferred.promise;
+
+				function loadCredentials() {
+					var _deferred = new Deferred();
+					var idJson, idObject;
+					if (supports_local_storage()) {
+						idJson = window.localStorage.getItem(cred);
+					} else {
+						idJson = cookie(cred);
+					}
+
+					if (idJson && idJon !== "null" && idJson.length > 4) {
+						idObject = JSON.parse(idJson);
+						esriId.initialize(idObject);
+						_deferred.resolve(idObject);
+					} else {
+						// _deferred.cancel("unable to locate credential from storage");
+						var info = new OAuthInfo({
+							appId: "ZiLmgjAhbXtBT7Ge",
+							popup: true
+						});
+						esriId.registerOAuthInfos([info]);
+						// on(dom.byId("sign-in"), "click", function (){
+					 //      console.log("click", arguments);
+					 //      // user will be redirected to OAuth Sign In page
+					 //      esriId.getCredential(info.portalUrl + "/sharing");
+					 //    });
+
+					 //    on(dom.byId("sign-out"), "click", function (){
+					 //      esriId.destroyCredentials();
+					 //      window.location.reload();
+					 //    });
+					    deferred.resolve(esriId);
+
+					}
+					return _deferred.promise;
+				}
+
+				function storeCredentials() {
+					if (esriId.credentials.length === 0) {
+						return;
+					}
+
+					var idString = JSON.stringify(esriId.toJson());
+					if (supports_local_storage()) {
+						window.localStorage.setItem(cred, idString);
+					} else {
+						cookie(cred, idString, {expires: 1});
+					}
+				}
+
+				function supports_local_storage() {
+					try {
+						return "localStorage" in window && window.localStorage !== null;
+					} catch (e) {
+						return false;
+					}
+				}
+			},
 			loadIframe: function(url) {
 				var self = this;
 				self.unloadIframe().then(function(e) {
