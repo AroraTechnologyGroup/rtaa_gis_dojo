@@ -158,7 +158,6 @@ define([
 						deferred.cancel(err);
 					});
 				})();
-
 				return deferred.promise;
 			},
 
@@ -255,14 +254,29 @@ define([
 					var pane = registry.byId('header-pane');
 					pane.set('content', self.header);
 					pane.resize();
-					deferred.resolve(pane);
+					var info = new OAuthInfo({
+							appId: "ZiLmgjAhbXtBT7Ge",
+							popup: false
+						});
+					esriId.registerOAuthInfos([info]);
+					esriId.checkSignInStatus(info.portalUrl + "/sharing").then(function(status) {
+						self.agolLogin().then(function(e) {
+							deferred.resolve(e);
+						});
+					}, function (err) {
+							esriId.getCredential("https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=9244a03e2c4b4213959096d6cb7d4927").then(function(e) {
+								self.agolLogin().then(function(e) {
+									deferred.resolve(e);
+								});
+							});	
+					});
 				}, function(err) {
 					console.log(err);
 					deferred.cancel(err);
 				});
 				return deferred.promise;
-
 			},
+
 			buildAnalytics: function(evt, groups) {
 				var self = this;
 				var deferred = new Deferred();
@@ -274,6 +288,7 @@ define([
 				deferred.resolve();
 				return deferred.promise;
 			},
+
 			build2dViewer: function(evt, groups) {
 				var self = this;
 				var deferred = new Deferred();
@@ -281,13 +296,12 @@ define([
 					var nodeList = query("h1", 'gisportal-banner');
 					nodeList[0].innerText = 'Admin: Online 2D Data Viewer';
 					registry.byId('gisportal-banner').set('title', 'Admin: Online 2D Data Viewer');
-					self.agolLogin().then(function(e) {
-						self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=9244a03e2c4b4213959096d6cb7d4927");
-					});
+					self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=9244a03e2c4b4213959096d6cb7d4927");
 				}
 				deferred.resolve();
 				return deferred.promise;
 			},
+
 			build3dViewer: function(evt, groups) {
 				var self = this;
 				var deferred = new Deferred();
@@ -405,30 +419,14 @@ define([
 						idJson = cookie(cred);
 					}
 
-					if (idJson && idJon !== "null" && idJson.length > 4) {
+					if (idJson && idJson !== "null" && idJson.length > 4) {
 						idObject = JSON.parse(idJson);
 						esriId.initialize(idObject);
 						_deferred.resolve(idObject);
 					} else {
-						// _deferred.cancel("unable to locate credential from storage");
-						var info = new OAuthInfo({
-							appId: "ZiLmgjAhbXtBT7Ge",
-							popup: true
-						});
-						esriId.registerOAuthInfos([info]);
-						// on(dom.byId("sign-in"), "click", function (){
-					 //      console.log("click", arguments);
-					 //      // user will be redirected to OAuth Sign In page
-					 //      esriId.getCredential(info.portalUrl + "/sharing");
-					 //    });
-
-					 //    on(dom.byId("sign-out"), "click", function (){
-					 //      esriId.destroyCredentials();
-					 //      window.location.reload();
-					 //    });
-					    deferred.resolve(esriId);
-
+						_deferred.cancel("unable to located credential");
 					}
+					
 					return _deferred.promise;
 				}
 
