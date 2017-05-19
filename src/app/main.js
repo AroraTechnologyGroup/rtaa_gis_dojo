@@ -4,6 +4,7 @@ define([
 	"dojo/_base/lang",
 	"dojo/_base/unload",
 	'dojo/parser',
+	"dojo/window",
 	'dojo/dom',
 	"dojo/dom-style",
 	'dojo/dom-construct',
@@ -32,6 +33,7 @@ define([
 		lang,
 		baseUnload,
 		parser,
+		win,
 		dom,
 		domStyle,
 		domConstruct,
@@ -116,7 +118,6 @@ define([
 					console.log('loading ' + evt.newPath);
 					obj.buildGISPortal(evt, groups).then(function(e) {
 						console.log(e);
-						hash("gisportal/analytics");
 					});
 				}, function(err) {
 					console.log(err);
@@ -125,43 +126,27 @@ define([
 				router.register("gisportal/analytics", function(evt) {
 					evt.preventDefault();
 					console.log('loading ' + evt.newPath);
-					obj.buildGISPortal(evt, groups).then(function(e) {
-						obj.buildAnalytics(evt, groups).then(function(e) {
-							console.log(e);
-							// load analytics widgets
-						});
-					});
+					// scroll to analytics div
+					win.scrollIntoView('main-content');
 				});
 
 				router.register("gisportal/2dviewer", function(evt) {
 					evt.preventDefault();
 					console.log("loading "+evt.newPath);
-					obj.buildGISPortal(evt, groups).then(function(e) {
-						obj.build2dViewer(evt, groups).then(function(e) {
-							console.log(e);
-						});
-					});
+					// scroll to 2dviewer div
+					win.scrollIntoView('viewer2d');
 				});
 
 				router.register("gisportal/3dviewer", function(evt) {
 					evt.preventDefault();
 					console.log("loading "+evt.newPath);
-					obj.buildGISPortal(evt, groups).then(function(e) {
-						obj.build3dViewer(evt, groups).then(function(e) {
-							console.log(e);
-						});
-					});
+					// scroll to 3d viewer div
 				});
 
 				router.register("gisportal/publishing-tools", function(evt) {
 					evt.preventDefault();
 					console.log("loading "+evt.newPath);
-					obj.buildGISPortal(evt, groups).then(function(e) {
-						obj.buildBackEndAPIs(evt, groups).then(function(e) {
-							console.log(e);
-						});
-					});
-
+					// scroll to publishing tool div
 				});
 				
 				router.register("web-resources/home", function(evt) {

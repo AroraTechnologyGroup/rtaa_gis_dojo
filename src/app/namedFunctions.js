@@ -254,21 +254,24 @@ define([
 					var pane = registry.byId('header-pane');
 					pane.set('content', self.header);
 					pane.resize();
-					var info = new OAuthInfo({
-							appId: "ZiLmgjAhbXtBT7Ge",
-							popup: false
-						});
-					esriId.registerOAuthInfos([info]);
-					esriId.checkSignInStatus(info.portalUrl + "/sharing").then(function(status) {
-						self.agolLogin().then(function(e) {
-							deferred.resolve(e);
-						});
-					}, function (err) {
-							esriId.getCredential("https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=9244a03e2c4b4213959096d6cb7d4927").then(function(e) {
-								self.agolLogin().then(function(e) {
-									deferred.resolve(e);
+					
+					self.buildAnalytics(evt, groups).then(function(resp) {
+						self.build2dViewer(evt, groups).then(function(resp2) {
+							self.build3dViewer(evt, groups).then(function(resp3) {
+								self.buildBackEndAPIs(evt, groups).then(function(resp4) {
+									console.log("all gisportal loaded");
+									deferred.resolve(resp4);
+								}, function(err) {
+									console.log(err);
 								});
-							});	
+							}, function(err) {
+								console.log(err);
+							});
+						}, function(err) {
+							console.log(err);
+						});
+					}, function(err) {
+						console.log(err);
 					});
 				}, function(err) {
 					console.log(err);
@@ -277,54 +280,68 @@ define([
 				return deferred.promise;
 			},
 
-			buildAnalytics: function(evt, groups) {
+			buildAnalytics: function(event, gr) {
 				var self = this;
 				var deferred = new Deferred();
-				if (registry.byId('gisportal-banner') !== undefined) {
-					var nodeList = query("h1", 'gisportal-banner');
-					nodeList[0].innerText = 'Admin: Site Analytics';
-					registry.byId('gisportal-banner').set('title', 'Admin: Site Analytics');
-				}
+				// if (registry.byId('gisportal-banner') !== undefined) {
+				// 	var nodeList = query("h1", 'gisportal-banner');
+				// 	nodeList[0].innerText = 'Admin: Site Analytics';
+				// 	registry.byId('gisportal-banner').set('title', 'Admin: Site Analytics');
+				// }
+				
+				var cp = new ContentPane();
+				
+				cp.placeAt('main-content').startup();
+				request("http://127.0.0.1:8080", {
+					headers: {
+			            "X-Requested-With": null
+			        }
+				}).then(function(e) {
+					cp.set('content', e);
+					deferred.resolve(e);
+				});
+				return deferred.promise;
+			},
+
+			build2dViewer: function(event, gr) {
+				var self = this;
+				var deferred = new Deferred();
+				// if (registry.byId('gisportal-banner') !== undefined) {
+				// 	var nodeList = query("h1", 'gisportal-banner');
+				// 	nodeList[0].innerText = 'Admin: Online 2D Data Viewer';
+				// 	registry.byId('gisportal-banner').set('title', 'Admin: Online 2D Data Viewer');
+				// 	self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=9244a03e2c4b4213959096d6cb7d4927");
+				// }
+				self.loadIframe('viewer2d', "https://gisapps.aroraengineers.com/rtaa_admin_viewer").then(function(e) {
+					deferred.resolve();
+				});
+				return deferred.promise;
+			},
+
+			build3dViewer: function(event, gr) {
+				var self = this;
+				var deferred = new Deferred();
+				// if (registry.byId('gisportal-banner') !== undefined) {
+				// 	var nodeList = query("h1", 'gisportal-banner');
+				// 	nodeList[0].innerText = 'Admin: Online 3D Data Viewer';
+				// 	registry.byId('gisportal-banner').set('title', 'Admin: Online 3D Data Viewer');
+				// 	self.agolLogin().then(function(e) {
+				// 		self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer3d/index.html?id=01fbf7699e68478b9a8116f7e36a0d1e");
+				// 	});
+				// }
+
 				deferred.resolve();
 				return deferred.promise;
 			},
 
-			build2dViewer: function(evt, groups) {
+			buildBackEndAPIs: function(event, gr) {
 				var self = this;
 				var deferred = new Deferred();
-				if (registry.byId('gisportal-banner') !== undefined) {
-					var nodeList = query("h1", 'gisportal-banner');
-					nodeList[0].innerText = 'Admin: Online 2D Data Viewer';
-					registry.byId('gisportal-banner').set('title', 'Admin: Online 2D Data Viewer');
-					self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=9244a03e2c4b4213959096d6cb7d4927");
-				}
-				deferred.resolve();
-				return deferred.promise;
-			},
-
-			build3dViewer: function(evt, groups) {
-				var self = this;
-				var deferred = new Deferred();
-				if (registry.byId('gisportal-banner') !== undefined) {
-					var nodeList = query("h1", 'gisportal-banner');
-					nodeList[0].innerText = 'Admin: Online 3D Data Viewer';
-					registry.byId('gisportal-banner').set('title', 'Admin: Online 3D Data Viewer');
-					self.agolLogin().then(function(e) {
-						self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer3d/index.html?id=01fbf7699e68478b9a8116f7e36a0d1e");
-					});
-				}
-				deferred.resolve();
-				return deferred.promise;
-			},
-
-			buildBackEndAPIs: function(evt, groups) {
-				var self = this;
-				var deferred = new Deferred();
-				if (registry.byId('gisportal-banner') !== undefined) {
-					var nodeList = query("h1", 'gisportal-banner');
-					nodeList[0].innerText = 'Admin: Publishing Tools';
-					registry.byId('gisportal-banner').set('title', 'Admin: Publishing Tools');
-				}
+				// if (registry.byId('gisportal-banner') !== undefined) {
+				// 	var nodeList = query("h1", 'gisportal-banner');
+				// 	nodeList[0].innerText = 'Admin: Publishing Tools';
+				// 	registry.byId('gisportal-banner').set('title', 'Admin: Publishing Tools');
+				// }
 				deferred.resolve();
 				return deferred.promise;
 			},
@@ -400,63 +417,14 @@ define([
 				return deferred.promise;
 			},
 
-			agolLogin: function() {
+			
+			loadIframe: function(id, url) {
 				var self = this;
 				var deferred = new Deferred();
-				var cred = "esri_jsapi_id_manager_data";
-				baseUnload.addOnUnload(storeCredentials);
-				loadCredentials().then(function(e) {
-					deferred.resolve(e);
-				});
-				return deferred.promise;
-
-				function loadCredentials() {
-					var _deferred = new Deferred();
-					var idJson, idObject;
-					if (supports_local_storage()) {
-						idJson = window.localStorage.getItem(cred);
-					} else {
-						idJson = cookie(cred);
-					}
-
-					if (idJson && idJson !== "null" && idJson.length > 4) {
-						idObject = JSON.parse(idJson);
-						esriId.initialize(idObject);
-						_deferred.resolve(idObject);
-					} else {
-						_deferred.cancel("unable to located credential");
-					}
-					
-					return _deferred.promise;
-				}
-
-				function storeCredentials() {
-					if (esriId.credentials.length === 0) {
-						return;
-					}
-
-					var idString = JSON.stringify(esriId.toJson());
-					if (supports_local_storage()) {
-						window.localStorage.setItem(cred, idString);
-					} else {
-						cookie(cred, idString, {expires: 1});
-					}
-				}
-
-				function supports_local_storage() {
-					try {
-						return "localStorage" in window && window.localStorage !== null;
-					} catch (e) {
-						return false;
-					}
-				}
-			},
-			loadIframe: function(url) {
-				var self = this;
 				self.unloadIframe().then(function(e) {
 				console.log(e);
 				var pane = new ContentPane({
-				  id: "iframe-pane",
+				  id: id,
 				  style: {
 				    position: "relative",
 				    width: "100%",
@@ -476,10 +444,10 @@ define([
 				pane.placeAt(dom.byId('main-content'));
 				aspect.after(pane, 'resize', function(evt) {
 					domStyle.set(pane.domNode, "height", "90vh");
-					win.scrollIntoView(pane.domNode);
 					});
 				});
-				win.scrollIntoView('main-content');
+				deferred.resolve();
+				return deferred.promise;
 			},
 
 			unloadIframe: function() {
