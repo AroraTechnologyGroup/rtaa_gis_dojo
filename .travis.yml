@@ -3,5 +3,6 @@ node_js:
   - "node"
 before_script:
   - npm install -g grunt-cli
+  - npm install -g bower
 script:
   - grunt build --force
