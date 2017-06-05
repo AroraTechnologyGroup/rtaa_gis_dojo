@@ -5,7 +5,7 @@
   "author": "Richard Hughes at Arora Engineers, Inc.",
   "license": "ISC",
   "scripts": {
-    "preinstall": "bower install"
+    "postinstall": "bower install"
   },
   "devDependencies": {
     "autoprefixer-stylus": "^0.9.3",
