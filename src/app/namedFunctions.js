@@ -259,12 +259,14 @@ define([
 							popup: false
 						});
 					esriId.registerOAuthInfos([info]);
-					esriId.checkSignInStatus(info.portalUrl + "/sharing").then(function(status) {
+					esriId.checkSignInStatus(info.portalUrl + "/sharing").then(function(credential) {
+						self.storeCredentials();
 						self.agolLogin().then(function(e) {
 							deferred.resolve(e);
 						});
 					}, function (err) {
-							esriId.getCredential("https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=9244a03e2c4b4213959096d6cb7d4927").then(function(e) {
+							esriId.getCredential(info.portalUrl + "/sharing").then(function(e) {
+								self.storeCredentials();
 								self.agolLogin().then(function(e) {
 									deferred.resolve(e);
 								});
@@ -400,56 +402,59 @@ define([
 				return deferred.promise;
 			},
 
+			loadCredentials: function() {
+				var self = this;
+				var cred = "esri_jsapi_id_manager_data";
+				var _deferred = new Deferred();
+				var idJson, idObject;
+				if (self.supports_local_storage()) {
+					idJson = window.localStorage.getItem(cred);
+				} else {
+					idJson = cookie(cred);
+				}
+
+				if (idJson && idJson !== "null" && idJson.length > 4) {
+					idObject = JSON.parse(idJson);
+					esriId.initialize(idObject);
+					_deferred.resolve(idObject);
+				} else {
+					_deferred.cancel("unable to locate credential");
+				}
+				
+				return _deferred.promise;
+			},
+
+			storeCredentials: function() {
+				var self = this;
+				var cred = "esri_jsapi_id_manager_data";
+				if (esriId.credentials.length === 0) {
+					return;
+				}
+
+				var idString = JSON.stringify(esriId.toJson());
+				if (self.supports_local_storage()) {
+					window.localStorage.setItem(cred, idString);
+				} else {
+					cookie(cred, idString, {expires: 1});
+				}
+			},
+
+			supports_local_storage: function() {
+				try {
+					return "localStorage" in window && window.localStorage !== null;
+				} catch (e) {
+					return false;
+				}
+			},
+
 			agolLogin: function() {
 				var self = this;
 				var deferred = new Deferred();
-				var cred = "esri_jsapi_id_manager_data";
-				baseUnload.addOnUnload(storeCredentials);
-				loadCredentials().then(function(e) {
+				baseUnload.addOnUnload(self.storeCredentials);
+				self.loadCredentials().then(function(e) {
 					deferred.resolve(e);
 				});
 				return deferred.promise;
-
-				function loadCredentials() {
-					var _deferred = new Deferred();
-					var idJson, idObject;
-					if (supports_local_storage()) {
-						idJson = window.localStorage.getItem(cred);
-					} else {
-						idJson = cookie(cred);
-					}
-
-					if (idJson && idJson !== "null" && idJson.length > 4) {
-						idObject = JSON.parse(idJson);
-						esriId.initialize(idObject);
-						_deferred.resolve(idObject);
-					} else {
-						_deferred.cancel("unable to located credential");
-					}
-					
-					return _deferred.promise;
-				}
-
-				function storeCredentials() {
-					if (esriId.credentials.length === 0) {
-						return;
-					}
-
-					var idString = JSON.stringify(esriId.toJson());
-					if (supports_local_storage()) {
-						window.localStorage.setItem(cred, idString);
-					} else {
-						cookie(cred, idString, {expires: 1});
-					}
-				}
-
-				function supports_local_storage() {
-					try {
-						return "localStorage" in window && window.localStorage !== null;
-					} catch (e) {
-						return false;
-					}
-				}
 			},
 			loadIframe: function(url) {
 				var self = this;
