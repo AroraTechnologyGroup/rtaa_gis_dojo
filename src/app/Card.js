@@ -1,7 +1,7 @@
 define([
-  "app/namedFunctions",
   "dojo/_base/declare",
   "dojo/_base/lang",
+  "dojo/_base/array",
   "dojo/dom-construct",
   "dojo/dom-class",
   "dojo/dom",
@@ -18,9 +18,9 @@ define([
   "dijit/layout/ContentPane",
   "dojo/text!./templates/Card_template.html"
 ], function(
-  namedFunctions,
   declare,
   lang,
+  Array,
   domConstruct,
   domClass,
   dom,
@@ -56,25 +56,22 @@ define([
 
       var imgSrc = options.imgSrc;
       var path = options.path;
-      var pathname = window.location.pathname.split("/")[1];
       var port = window.location.port;
+      var pathname = window.location.pathname.split("/")[1];
       var origin = window.location.origin;
       var url;
-      if (pathname !== "index.html") {
+      if (Array.indexOf([8000, 8080, 3000], port) === -1) {
         var new_imgSrc = "static/home/" + imgSrc;
         var new_path = pathname + "/" + path;
         options.imgSrc = new_imgSrc;
         options.path = origin + "/" + new_path + "/";
-      } else {
-        options.imgSrc = imgSrc;
-        options.path = origin + "/" + path + "/";
-      }
+      } 
+      
       this.id = this.options.id;
       declare.safeMixin(this.options, options);
     },
     postCreate: function() {
       var self = this;
-      lang.mixin(this, new namedFunctions());
       if (self.isActive) {
         self.on("mouseup", function(evt) {
           evt.preventDefault();

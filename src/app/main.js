@@ -113,6 +113,7 @@ define([
 					});
 				});
 
+				////////////////////////////////////////////////////////////////
 				router.register("gisportal/home", function(evt) {
 					evt.preventDefault();
 					console.log('loading ' + evt.newPath);
@@ -127,7 +128,7 @@ define([
 					evt.preventDefault();
 					console.log('loading ' + evt.newPath);
 					// scroll to analytics div
-					win.scrollIntoView('main-content');
+					win.scrollIntoView('analytics');
 				});
 
 				router.register("gisportal/2dviewer", function(evt) {
@@ -141,13 +142,16 @@ define([
 					evt.preventDefault();
 					console.log("loading "+evt.newPath);
 					// scroll to 3d viewer div
+					win.scrollIntoView('viewer3d');
 				});
 
 				router.register("gisportal/publishing-tools", function(evt) {
 					evt.preventDefault();
 					console.log("loading "+evt.newPath);
 					// scroll to publishing tool div
+					win.scrollIntoView('publishing');
 				});
+				/////////////////////////////////////////////////////////////////
 				
 				router.register("web-resources/home", function(evt) {
 					evt.preventDefault();

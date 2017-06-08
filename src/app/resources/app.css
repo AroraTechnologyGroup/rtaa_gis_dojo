@@ -86,3 +86,6 @@ body {
   margin-right: auto;
   margin-top: 10px;
 }
+.admin-panel {
+  border: 0.5px #000 solid;
+}

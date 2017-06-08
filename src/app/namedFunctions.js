@@ -24,6 +24,9 @@ define([
 	'dojo/on',
 	'app/HomepageBanner',
 	'app/PageBanner',
+	'app/Analytics',
+	'app/Viewer3d',
+	'app/PublishingTools',
 	'esri/IdentityManager',
 	'esri/arcgis/OAuthInfo',
 	'dijit/layout/ContentPane',
@@ -54,6 +57,9 @@ define([
 		on,
 		HomepageBanner,
 		PageBanner,
+		Analytics,
+		Viewer3d,
+		PublishingTools,
 		esriId,
 		OAuthInfo,
 		ContentPane,
@@ -242,7 +248,6 @@ define([
 								href: 'gisportal/publishing-tools'
 							}];
 				
-
 					self.header = new PageBanner({
 							id: 'gisportal-banner',
 							class: 'text-white font-size-4 page-banner',
@@ -250,11 +255,17 @@ define([
 							routes: routes
 						});
 
-					
 					var pane = registry.byId('header-pane');
 					pane.set('content', self.header);
 					pane.resize();
 					
+					// create the sticky buttons to navigate the page
+					var nav_btns = domConstruct.create("div", {
+						class: "js-sticky scroll-show is-sticky",
+						"data-top": "50px",
+						"innerHTML": "<a href='#'>Back to Top</a>"
+					}, 'main-content');
+
 					self.buildAnalytics(evt, groups).then(function(resp) {
 						self.build2dViewer(evt, groups).then(function(resp2) {
 							self.build3dViewer(evt, groups).then(function(resp3) {
@@ -263,7 +274,6 @@ define([
 									deferred.resolve(resp4);
 								}, function(err) {
 									console.log(err);
-
 								});
 							}, function(err) {
 								console.log(err);
@@ -284,21 +294,9 @@ define([
 			buildAnalytics: function(event, gr) {
 				var self = this;
 				var deferred = new Deferred();
-				// if (registry.byId('gisportal-banner') !== undefined) {
-				// 	var nodeList = query("h1", 'gisportal-banner');
-				// 	nodeList[0].innerText = 'Admin: Site Analytics';
-				// 	registry.byId('gisportal-banner').set('title', 'Admin: Site Analytics');
-				// }
-				
-				var cp = new ContentPane();
-				
-				cp.placeAt('main-content').startup();
-				request("http://127.0.0.1:8080", {
-					headers: {
-			            "X-Requested-With": null
-			        }
-				}).then(function(e) {
-					cp.set('content', e);
+				var analytics = new Analytics();
+				analytics.startup().then(function(e) {
+					domConstruct.place(analytics.domNode, 'main-content');
 					deferred.resolve(e);
 				});
 				return deferred.promise;
@@ -307,12 +305,6 @@ define([
 			build2dViewer: function(event, gr) {
 				var self = this;
 				var deferred = new Deferred();
-				// if (registry.byId('gisportal-banner') !== undefined) {
-				// 	var nodeList = query("h1", 'gisportal-banner');
-				// 	nodeList[0].innerText = 'Admin: Online 2D Data Viewer';
-				// 	registry.byId('gisportal-banner').set('title', 'Admin: Online 2D Data Viewer');
-				// 	self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer/index.html?id=9244a03e2c4b4213959096d6cb7d4927");
-				// }
 				self.loadIframe('viewer2d', "https://gisapps.aroraengineers.com/rtaa_admin_viewer").then(function(e) {
 					deferred.resolve();
 				});
@@ -322,28 +314,22 @@ define([
 			build3dViewer: function(event, gr) {
 				var self = this;
 				var deferred = new Deferred();
-				// if (registry.byId('gisportal-banner') !== undefined) {
-				// 	var nodeList = query("h1", 'gisportal-banner');
-				// 	nodeList[0].innerText = 'Admin: Online 3D Data Viewer';
-				// 	registry.byId('gisportal-banner').set('title', 'Admin: Online 3D Data Viewer');
-				// 	self.agolLogin().then(function(e) {
-				// 		self.loadIframe("https://rtaa.maps.arcgis.com/apps/webappviewer3d/index.html?id=01fbf7699e68478b9a8116f7e36a0d1e");
-				// 	});
-				// }
-
-				deferred.resolve();
+				var viewer3d = new Viewer3d();
+				viewer3d.startup().then(function(e) {
+					domConstruct.place(viewer3d.domNode, 'main-content', "last");
+					deferred.resolve(e);
+				});
 				return deferred.promise;
 			},
 
 			buildBackEndAPIs: function(event, gr) {
 				var self = this;
 				var deferred = new Deferred();
-				// if (registry.byId('gisportal-banner') !== undefined) {
-				// 	var nodeList = query("h1", 'gisportal-banner');
-				// 	nodeList[0].innerText = 'Admin: Publishing Tools';
-				// 	registry.byId('gisportal-banner').set('title', 'Admin: Publishing Tools');
-				// }
-				deferred.resolve();
+				var publishing = new PublishingTools();
+				publishing.startup().then(function(e) {
+					domConstruct.place(publishing.domNode, 'main-content', "last");
+					deferred.resolve(e);
+				});
 				return deferred.promise;
 			},
 
@@ -421,6 +407,11 @@ define([
 			loadIframe: function(id, url) {
 				var self = this;
 				var deferred = new Deferred();
+				baseUnload.addOnUnload(function() {
+					if (registry.byId(id)) {
+						registry.byId(id).destroyRecursive();
+					}
+				});
 				self.unloadIframe().then(function(e) {
 				console.log(e);
 				var pane = new ContentPane({
@@ -446,6 +437,7 @@ define([
 					domStyle.set(pane.domNode, "height", "90vh");
 					});
 				});
+				
 				deferred.resolve();
 				return deferred.promise;
 			},
@@ -462,6 +454,6 @@ define([
 					deferred.resolve("iframe-pane not found");
 				}
 				return deferred.promise;
-			},
+			}
 		});
 	});
