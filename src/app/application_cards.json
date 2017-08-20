@@ -7,21 +7,21 @@
 		"path": "viewer",
 		"header": "GIS Data Viewer",
 		"content1": "View and Interact with layers",
-		"content2": "Available Now"
+		"content2": ""
 	},
 	{
 		"id": "Admin Data Viewer",
 		"isActive": true,
 		"isAdmin": true,
 		"imgSrc": "app/img/thumbnails/data_viewer.png",
-		"path": "viewer",
+		"path": "eDoc",
 		"header": "Data Viewer",
 		"content1": "Sign into ArcGIS Online and browse the available Published Layers",
 		"content2": "* only available to GIS_admin members"
 	},
 	{
 		"id": "eDoc Search Tool",
-		"isActive": false,
+		"isActive": true,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "eDoc",
@@ -31,13 +31,13 @@
 	}, 
 	{
 		"id": "Airspace",
-		"isActive": false,
+		"isActive": true,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "airspace",
 		"header": "Airspace",
 		"content1": "View and Interact with Airspace data",
-		"content2": "* Coming Soon"
+		"content2": ""
 	}, 
 	{
 		"id": "Economic Dev.",
@@ -51,17 +51,17 @@
 	}, 
 	{
 		"id": "Airfield Signage and Marking",
-		"isActive": false,
+		"isActive": true,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "signageMarking",
 		"header": "Airfield Signage",
 		"content1": "View and Interact with the airfield signage data",
-		"content2": "* Coming Soon"
+		"content2": "* Now in Beta Testing"
 	}, 
 	{
-		"id": "Mobile Collection",
-		"isActive": false,
+		"id": "Mobile Collection Guide",
+		"isActive": true,
 		"isAdmin": false,
 		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "mobile",

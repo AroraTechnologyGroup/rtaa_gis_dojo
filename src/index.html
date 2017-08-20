@@ -19,10 +19,10 @@
       <nav class="drawer-nav" role="navigation">
         <aside class="side-nav">
           <h2 class="side-nav-title">RTAA GIS</h2>
-          <a href="home" class="side-nav-link">HomePage</a>
-          <a href="gisportal/home" class="side-nav-link">GIS Admin</a>
-          <a href="web-resources/home" class="side-nav-link">Web Resources</a>
-          <a href="help/home" class="side-nav-link">Help</a>
+          <a href="#home" class="side-nav-link">HomePage</a>
+          <a href="#gisportal/home" class="side-nav-link">GIS Admin</a>
+          <a href="#web-resources/home" class="side-nav-link">Web Resources</a>
+          <a href="#help/home" class="side-nav-link">Help</a>
         </aside>
       </nav>
 
@@ -32,11 +32,11 @@
         <div class="grid-container">
           <div class="column-24">
             <div class="tablet-hide">
-              <a href="home" class="top-nav-title">RTAA GIS</a>
+              <a href="#home" class="top-nav-title">RTAA GIS</a>
               <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
-                <a class="top-nav-link" href="gisportal/home">GIS Admin</a>
-                <a class="top-nav-link" href="web-resources/home">Web Resources</a>
-                <a class="top-nav-link" href="help/home">Help</a>
+                <a class="top-nav-link" href="#gisportal/home">GIS Admin</a>
+                <a class="top-nav-link" href="#web-resources/home">Web Resources</a>
+                <a class="top-nav-link" href="#help/home">Help</a>
               </nav>
             </div>
             <div class="tablet-show">
@@ -52,8 +52,7 @@
       <!--the sub-nav section is controlled by router -->
       <header id="headerPane" class="sub-nav" role="banner">
       </header>
-
-    
+  
       <!-- busy indicator -->
       <div class="loader is-active padding-leader-3 padding-trailer-3">
         <div class="loader-bars"></div>
@@ -140,13 +139,23 @@
     <!-- interactive patterns need to be initialized -->
     <script>
        calcite.init();
-       require(['dojo/_base/array', 'dojo/on', "dojo/hash", 'dojo/parser', 'app/main', 'dojo/query', 'dojo/dom-construct', 'dojo/dom-class', 'dojo/domReady!'],
-               function (Array, on, hash, parser, app, query, domConstruct, domClass) {
+       require(["dojo/_base/array", 'dijit/registry', 'dojo/_base/unload', "app/main", "dojo/hash", "dojo/query", "dojo/dom-class", "dojo/dom-construct", "dojo/dom", "dojo/on", 'dojo/domReady!'],
+               function (Array, registry, baseUnload, app, hash, query, domClass, domConstruct, dom, on) {
                   var my_app = new app();
-                  my_app.startup().then(function(tree) {
-                    var my_router = tree.router;
-                    hash('home');
-
+                  var unLoad = function() {
+                      Array.forEach(registry.toArray(), function(item) {
+                          item.destroyRecursive();
+                      });
+                  };
+                  baseUnload.addOnUnload(unLoad);
+                  my_app.startup().then(function(e) {
+                    var request_hash = hash();
+                    if (request_hash) {
+                        hash(request_hash);
+                    } else {
+                        hash("home");
+                    }
+                    // disable the loader gif
                     var node = query(".loader")[0];
                     domClass.remove(node, 'is-active');
 
@@ -155,24 +164,24 @@
                         domClass.add(e, "font-size--3");
                     });
 
-                    var headerPane = query("#headerPane");
-                    var footer = query("#footer-container");
+                    // var headerPane = query("#headerPane");
+                    // var footer = query("#footer-container");
 
-                    var selection = [".top-nav-link", ".top-nav-title", ".side-nav-link"];
+                    // var selection = [".top-nav-link", ".top-nav-title", ".side-nav-link"];
 
-                    Array.forEach(selection, function(item) {
+                    // Array.forEach(selection, function(item) {
 
-                      var nodes = query(item);
-                      Array.forEach(nodes, function(tab) {
-                        on(tab, 'click', function(evt) {
-                          evt.preventDefault();
-                          var current = hash();
-                          if (evt.target.pathname.substr(1) !== current) {
-                            hash(evt.target.pathname.substr(1));
-                          }
-                        });
-                      });
-                    });
+                    //   var nodes = query(item);
+                    //   Array.forEach(nodes, function(tab) {
+                    //     on(tab, 'click', function(evt) {
+                    //       evt.preventDefault();
+                    //       var current = hash();
+                    //       if (evt.target.pathname.substr(1) !== current) {
+                    //         hash(evt.target.pathname.substr(1));
+                    //       }
+                    //     });
+                    //   });
+                    // });
                     // var top_nav_title = query(".top-nav-title");
                     // Array.forEach(top_nav_title, function(e) {
                     //     on(e, 'click', function(evt) {

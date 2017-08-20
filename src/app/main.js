@@ -124,6 +124,13 @@ define([
 					console.log(err);
 				});
 
+				router.register("gisportal/guides", function(evt) {
+					evt.preventDefault();
+					console.log('loading ' + evt.newPath);
+					// scroll to project guide div
+					win.scrollIntoView('project-guides');
+				});
+				
 				router.register("gisportal/analytics", function(evt) {
 					evt.preventDefault();
 					console.log('loading ' + evt.newPath);

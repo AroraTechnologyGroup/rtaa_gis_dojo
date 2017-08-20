@@ -27,6 +27,7 @@ define([
 	'app/Analytics',
 	'app/Viewer3d',
 	'app/PublishingTools',
+	'app/ProjectGuides',
 	'esri/IdentityManager',
 	'esri/arcgis/OAuthInfo',
 	'dijit/layout/ContentPane',
@@ -60,6 +61,7 @@ define([
 		Analytics,
 		Viewer3d,
 		PublishingTools,
+		ProjectGuides,
 		esriId,
 		OAuthInfo,
 		ContentPane,
@@ -149,12 +151,11 @@ define([
 				
 				(function() {
 					request(url, {
-						method: "POST",
+						method: "GET",
 						preventCache: true,
 						handleAs: 'json',
 						headers: {
-				            "X-Requested-With": null,
-				            "X-CSRFToken": cookie('csrftoken')
+				            "X-Requested-With": null
 				        }
 					}).then(function(data) {
 						console.log(data);
@@ -241,9 +242,14 @@ define([
 								title: '2D Data Viewer',
 								href: 'gisportal/2dviewer'
 							}, {
-								title: '3D Data Viewer',
-								href: 'gisportal/3dviewer'
-							}, {
+								title: 'Project Documentation',
+								href: 'gisportal/guides'
+							}, 
+							// {
+							// 	title: '3D Data Viewer',
+							// 	href: 'gisportal/3dviewer'
+							// }, 
+							{
 								title: 'Publishing Tools',
 								href: 'gisportal/publishing-tools'
 							}];
@@ -251,30 +257,35 @@ define([
 					self.header = new PageBanner({
 							id: 'gisportal-banner',
 							class: 'text-white font-size-4 page-banner',
-							title: 'Geographic Information Systems',
+							title: 'Administrative Portal',
 							routes: routes
 						});
+				
 
 					var pane = registry.byId('header-pane');
 					pane.set('content', self.header);
 					pane.resize();
 					
-					// create the sticky buttons to navigate the page
-					var nav_btns = domConstruct.create("div", {
-						class: "js-sticky scroll-show is-sticky",
-						"data-top": "50px",
-						"innerHTML": "<a href='#'>Back to Top</a>"
-					}, 'main-content');
+					// // create the sticky buttons to navigate the page
+					// var nav_btns = domConstruct.create("div", {
+					// 	class: "js-sticky scroll-show is-sticky",
+					// 	"data-top": "50px",
+					// 	"innerHTML": "<a href='#'>Back to Top</a>"
+					// }, 'main-content');
 
 					self.buildAnalytics(evt, groups).then(function(resp) {
 						self.build2dViewer(evt, groups).then(function(resp2) {
-							self.build3dViewer(evt, groups).then(function(resp3) {
-								self.buildBackEndAPIs(evt, groups).then(function(resp4) {
-									console.log("all gisportal loaded");
-									deferred.resolve(resp4);
-								}, function(err) {
-									console.log(err);
-								});
+							self.buildProjectGuides(evt, groups).then(function(resp) {
+								// self.build3dViewer(evt, groups).then(function(resp3) {
+									self.buildBackEndAPIs(evt, groups).then(function(resp4) {
+										console.log("all gisportal loaded");
+										deferred.resolve(resp4);
+									}, function(err) {
+										console.log(err);
+									});
+								// }, function(err) {
+								// 	console.log(err);
+								// });
 							}, function(err) {
 								console.log(err);
 							});
@@ -287,6 +298,17 @@ define([
 				}, function(err) {
 					console.log(err);
 					deferred.cancel(err);
+				});
+				return deferred.promise;
+			},
+
+			buildProjectGuides: function(event, gr) {
+				var self = this;
+				var deferred = new Deferred();
+				var projectGuides = new ProjectGuides();
+				projectGuides.startup().then(function(e) {
+					domConstruct.place(projectGuides.domNode, 'main-content');
+					deferred.resolve(e);
 				});
 				return deferred.promise;
 			},

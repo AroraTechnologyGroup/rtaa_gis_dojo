@@ -122,7 +122,7 @@ module.exports = function(grunt) {
         dojo: true
       },
 
-      all: ['gruntfile.js', './src/app/**/*.js', './tests/**/*.js']
+      all: ['gruntfile.js', './src/app/**/*.js', './tests/**/*.js', '!./src/app/resources/**/*.js']
     },
 
     connect: {
