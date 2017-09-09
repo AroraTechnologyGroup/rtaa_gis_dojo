@@ -25,9 +25,8 @@ define([
 	'app/HomepageBanner',
 	'app/PageBanner',
 	'app/Analytics',
-	'app/Viewer3d',
 	'app/PublishingTools',
-	'app/ProjectGuides',
+	'app/IframeLoader',
 	'esri/IdentityManager',
 	'esri/arcgis/OAuthInfo',
 	'dijit/layout/ContentPane',
@@ -59,9 +58,8 @@ define([
 		HomepageBanner,
 		PageBanner,
 		Analytics,
-		Viewer3d,
 		PublishingTools,
-		ProjectGuides,
+		IFrameLoader,
 		esriId,
 		OAuthInfo,
 		ContentPane,
@@ -69,7 +67,51 @@ define([
 		) {
 
 		return declare([], {
-			
+			adminRoutes: [
+				{
+					title: 'Site Analytics',
+					href: 'gisportal/site-analytics'
+				}, {
+					title: '2D Data Viewer',
+					href: 'gisportal/viewer2d'
+				}, {
+					title: '3D Data Viewer',
+					href: 'gisportal/viewer3d'
+				}, {
+					title: 'Publishing Tools',
+					href: 'gisportal/publishing-tools'
+				}
+			],
+
+			webResourceRoutes: [
+				{
+					title: 'State Level GIS Data',
+					href: 'web-resources/state-level'
+				}, {
+					title: 'County Level GIS Data',
+					href: 'web-resources/county-level'
+				}, {
+					title: 'ESRI Online Resources',
+					href: 'web-resources/esri-resources'
+				}
+			],
+
+			helpRoutes: [
+				{
+					title: 'Technical Details',
+					href: 'help/tech-details'
+				}, {
+					title: 'About this Site',
+					href: 'help/about'
+				}, {
+					title: 'Request Help Ticket',
+					href: 'help/request-ticket'
+				}, {
+					title: 'Tutorials',
+					href: 'help/tutorials'
+				}
+			],
+
 			unloadBanner: function() {
 				var deferred = new Deferred();
 				(function() {
@@ -95,7 +137,7 @@ define([
 						domClass.remove(obj.containerNode);
 						deferred.resolve(true);
 					} else {
-						deferred.resolve('no widgets were found in main-content domNode');
+						deferred.resolve('the main-content div was not replaced by the ContentPane dijit in main.js');
 					}
 				})();
 				return deferred.promise;
@@ -234,27 +276,8 @@ define([
 						console.log(err);
 					}
 					
-					// if the user is admin, allow for browse data and backend api
-					
-					var routes = [{
-								title: 'Site Analytics',
-								href: 'gisportal/analytics'
-							}, {
-								title: '2D Data Viewer',
-								href: 'gisportal/2dviewer'
-							}, {
-								title: 'Project Documentation',
-								href: 'gisportal/guides'
-							}, 
-							// {
-							// 	title: '3D Data Viewer',
-							// 	href: 'gisportal/3dviewer'
-							// }, 
-							{
-								title: 'Publishing Tools',
-								href: 'gisportal/publishing-tools'
-							}];
-				
+					var routes = self.adminRoutes;
+
 					self.header = new PageBanner({
 							id: 'gisportal-banner',
 							class: 'text-white font-size-4 page-banner',
@@ -266,27 +289,15 @@ define([
 					var pane = registry.byId('header-pane');
 					pane.set('content', self.header);
 					pane.resize();
-					
-					// // create the sticky buttons to navigate the page
-					// var nav_btns = domConstruct.create("div", {
-					// 	class: "js-sticky scroll-show is-sticky",
-					// 	"data-top": "50px",
-					// 	"innerHTML": "<a href='#'>Back to Top</a>"
-					// }, 'main-content');
 
 					self.buildAnalytics(evt, groups).then(function(resp) {
-						self.build2dViewer(evt, groups).then(function(resp2) {
-							self.buildProjectGuides(evt, groups).then(function(resp) {
-								// self.build3dViewer(evt, groups).then(function(resp3) {
-									self.buildBackEndAPIs(evt, groups).then(function(resp4) {
-										console.log("all gisportal loaded");
-										deferred.resolve(resp4);
-									}, function(err) {
-										console.log(err);
-									});
-								// }, function(err) {
-								// 	console.log(err);
-								// });
+						self.build2dViewer(evt, groups).then(function(resp) {
+							self.build3dViewer(evt, groups).then(function(resp) {
+								self.buildBackEndAPIs(evt, groups).then(function(resp) {
+									deferred.resolve(resp);
+								}, function(err) {
+									console.log(err);
+								});
 							}, function(err) {
 								console.log(err);
 							});
@@ -303,56 +314,85 @@ define([
 				return deferred.promise;
 			},
 
-			buildProjectGuides: function(event, gr) {
-				var self = this;
-				var deferred = new Deferred();
-				var projectGuides = new ProjectGuides();
-				projectGuides.startup().then(function(e) {
-					domConstruct.place(projectGuides.domNode, 'main-content');
-					deferred.resolve(e);
-				});
-				return deferred.promise;
-			},
-
 			buildAnalytics: function(event, gr) {
 				var self = this;
 				var deferred = new Deferred();
-				var analytics = new Analytics();
-				analytics.startup().then(function(e) {
-					domConstruct.place(analytics.domNode, 'main-content');
-					deferred.resolve(e);
-				});
+				var widget = registry.byId('site-analytics');
+				if (!widget) {
+					widget = new Analytics({
+						id: "site-analytics"
+					});
+				
+					widget.startup().then(function(e) {
+						domConstruct.place(e.domNode, 'main-content');
+						deferred.resolve(e);
+					});
+				} else {
+					domConstruct.place(widget.domNode, 'main-content');
+					deferred.resolve(widget);
+				}
 				return deferred.promise;
 			},
 
 			build2dViewer: function(event, gr) {
 				var self = this;
 				var deferred = new Deferred();
-				self.loadIframe('viewer2d', "https://gisapps.aroraengineers.com/rtaa_admin_viewer").then(function(e) {
-					deferred.resolve();
-				});
+				var widget = registry.byId('viewer2d');
+				if (!widget) {
+					widget =  new IFrameLoader({
+						id: "viewer2d",
+						url: "https://gisapps.aroraengineers.com/rtaa_admin_viewer"
+					});
+				
+					widget.startup().then(function(e) {
+						domConstruct.place(e.domNode, 'main-content');
+						deferred.resolve(e);
+					});
+				} else {
+					domConstruct.place(widget.domNode, 'main-content');
+					deferred.resolve(widget);
+				}
 				return deferred.promise;
 			},
 
 			build3dViewer: function(event, gr) {
 				var self = this;
 				var deferred = new Deferred();
-				var viewer3d = new Viewer3d();
-				viewer3d.startup().then(function(e) {
-					domConstruct.place(viewer3d.domNode, 'main-content', "last");
-					deferred.resolve(e);
-				});
+				var widget = registry.byId('viewer3d');
+				if (!widget) {
+					widget = new IFrameLoader({
+						id: "viewer3d",
+						url: "https://gisapps.aroraengineers.com/rtaa_airspace"
+					});
+				
+					widget.startup().then(function(e) {
+						domConstruct.place(e.domNode, 'main-content');
+						deferred.resolve(e);
+					});
+				} else {
+					domConstruct.place(widget.domNode, 'main-content');
+					deferred.resolve(widget);
+				}
 				return deferred.promise;
 			},
 
 			buildBackEndAPIs: function(event, gr) {
 				var self = this;
 				var deferred = new Deferred();
-				var publishing = new PublishingTools();
-				publishing.startup().then(function(e) {
-					domConstruct.place(publishing.domNode, 'main-content', "last");
-					deferred.resolve(e);
-				});
+				var widget = registry.byId('publishing-tools');
+				if (!widget) {
+					widget = new PublishingTools({
+						id: "publishing-tools"
+					});
+				
+					widget.startup().then(function(e) {
+						domConstruct.place(e.domNode, 'main-content', "last");
+						deferred.resolve(e.domNode);
+					});
+				} else {
+					domConstruct.place(widget.domNode, 'main-content');
+					deferred.resolve(widget);
+				}
 				return deferred.promise;
 			},
 
@@ -367,24 +407,19 @@ define([
 					} catch(err) {
 						console.log(err);
 					}
+					var routes = self.webResourceRoutes;
+
 					self.header = new PageBanner({
 						id: 'web-resources-banner',
 						class: 'text-white font-size-4 page-banner',
 						title: 'Online Resource Library',
-						routes: [{
-							title: 'State Level GIS Data',
-							href: 'web-resources/state-level'
-						}, {
-							title: 'County Level GIS Data',
-							href: 'web-resources/county-level'
-						}, {
-							title: 'ESRI Online Resources',
-							href: 'web-resources/esri-resources'
-						}]
+						routes: routes
 					});
 
 					var pane = registry.byId('header-pane');
 					pane.set('content', self.header);
+					pane.resize();
+
 					deferred.resolve(pane);
 				});
 				return deferred.promise;
@@ -401,82 +436,66 @@ define([
 					} catch(err) {
 						console.log(err);
 					}
+					var routes = self.helpRoutes;
+
 					self.header = new PageBanner({
 						id: 'help-banner',
 						class: 'text-white font-size-4 page-banner',
 						title: 'Help Documentation',
-						routes: [{
-							title: 'Technical Details',
-							href: 'help/tech-details'
-						}, {
-							title: 'About this Site',
-							href: 'help/about'
-						}, {
-							title: 'Request Help Ticket',
-							href: 'help/request-ticket'
-						}, {
-							title: 'Tutorials',
-							href: 'help/tutorials'
-						}]
+						routes: routes
 					});
 
 					var pane = registry.byId('header-pane');
 					pane.set('content', self.header);
+					pane.resize();
+
 					deferred.resolve(pane);
 				});
 				return deferred.promise;
-			},	
-					
-			loadIframe: function(id, url) {
-				var self = this;
-				var deferred = new Deferred();
-				baseUnload.addOnUnload(function() {
-					if (registry.byId(id)) {
-						registry.byId(id).destroyRecursive();
-					}
-				});
-				self.unloadIframe().then(function(e) {
-				console.log(e);
-				var pane = new ContentPane({
-				  id: id,
-				  style: {
-				    position: "relative",
-				    width: "100%",
-				    height: "100vh",
-				    overflow: "hidden"
-				  }
-				});
-				pane.startup();
-				pane.set('content', domConstruct.create("iframe",  {
-				    src: url,
-				    margin: 0,
-				    frameborder: 0,
-				    height: '100%',
-				    width: '100%',
-				    allowfullscreen: true
-				}));
-				pane.placeAt(dom.byId('main-content'));
-				aspect.after(pane, 'resize', function(evt) {
-					domStyle.set(pane.domNode, "height", "90vh");
-					});
-				});
-				
-				deferred.resolve();
-				return deferred.promise;
 			},
 
-			unloadIframe: function() {
+			enablePage: function(page) {
 				var self = this;
-				var deferred = new Deferred();
-				var iframe_pane = registry.byId("iframe-pane");
-				if (iframe_pane !== undefined) {
-					iframe_pane.destroy();
-					registry.remove(iframe_pane);
-					deferred.resolve("iframe-pane removed from registry");
+				var routes = self.adminRoutes;
+				var names = [];
+				Array.forEach(routes, function(e) {
+					var path = e.href;
+					var name = path.split(/\//)[1];
+					names.push(name);
+				});
+				var result = Array.every(names, function(e) {
+					var node = dom.byId(e);
+					if (!node) {
+						var widget = registry.byId(e);
+						if (!widget) {
+							return false;
+						} else {
+							node = widget.domNode;
+						}
+					}
+
+					if (node) {
+						if (e !== page) {
+							domClass.remove(node, "activated");
+							domClass.add(node, "off");
+						}
+						return true;
+					}
+					
+				});
+
+				if (result) {
+					var node = dom.byId(page);
+					if (!node) {
+						node = registry.byId(page).domNode;
+					}
+					domClass.remove(node, "off");
+					domClass.add(node, "activated");
 				} else {
-					deferred.resolve("iframe-pane not found");
+					self.buildGISPortal(null, null).then(function(e) {
+						self.enablePage(page);
+					});
 				}
-				return deferred.promise;
 			}
 		});
 	});

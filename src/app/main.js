@@ -123,40 +123,29 @@ define([
 				}, function(err) {
 					console.log(err);
 				});
-
-				router.register("gisportal/guides", function(evt) {
-					evt.preventDefault();
-					console.log('loading ' + evt.newPath);
-					// scroll to project guide div
-					win.scrollIntoView('project-guides');
-				});
 				
-				router.register("gisportal/analytics", function(evt) {
+				router.register("gisportal/site-analytics", function(evt) {
 					evt.preventDefault();
 					console.log('loading ' + evt.newPath);
-					// scroll to analytics div
-					win.scrollIntoView('analytics');
+					obj.enablePage("site-analytics");
 				});
 
-				router.register("gisportal/2dviewer", function(evt) {
+				router.register("gisportal/viewer2d", function(evt) {
 					evt.preventDefault();
 					console.log("loading "+evt.newPath);
-					// scroll to 2dviewer div
-					win.scrollIntoView('viewer2d');
+					obj.enablePage("viewer2d");
 				});
 
-				router.register("gisportal/3dviewer", function(evt) {
+				router.register("gisportal/viewer3d", function(evt) {
 					evt.preventDefault();
 					console.log("loading "+evt.newPath);
-					// scroll to 3d viewer div
-					win.scrollIntoView('viewer3d');
+					obj.enablePage("viewer3d");
 				});
 
 				router.register("gisportal/publishing-tools", function(evt) {
 					evt.preventDefault();
 					console.log("loading "+evt.newPath);
-					// scroll to publishing tool div
-					win.scrollIntoView('publishing');
+					obj.enablePage("publishing-tools");
 				});
 				/////////////////////////////////////////////////////////////////
 				

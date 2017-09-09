@@ -13,6 +13,12 @@
   -webkit-flex-grow: 1;
   flex-grow: 1;
 }
+._Card.off {
+  display: none;
+}
+._Card.activated {
+  display: auto;
+}
 #homepage-banner {
   width: 100%;
   background-image: url("../img/banner/header_banner_resize.png");
@@ -39,6 +45,12 @@
   justify-content: center;
   padding-top: 10px;
 }
+#homepage-banner.off {
+  display: none;
+}
+#homepage-banner.activated {
+  display: auto;
+}
 ._PageBanner {
   background-color: #9bc19c;
 }
@@ -53,6 +65,30 @@
 ._PageBanner h1 {
   float: left;
   margin-top: 10px;
+}
+._PageBanner.off {
+  display: none;
+}
+._PageBanner.activated {
+  display: auto;
+}
+._iframe-loader.off {
+  display: none;
+}
+._iframe-loader.activated {
+  display: auto;
+}
+._analytics.off {
+  display: none;
+}
+._analytics.activated {
+  display: auto;
+}
+._publishing-tools.off {
+  display: none;
+}
+._publishing-tools.activated {
+  display: auto;
 }
 html {
   overflow-x: hidden;
