@@ -118,6 +118,7 @@ define([
 					evt.preventDefault();
 					console.log('loading ' + evt.newPath);
 					obj.buildGISPortal(evt, groups).then(function(e) {
+						obj.enablePage("viewer3d");
 						console.log(e);
 					});
 				}, function(err) {

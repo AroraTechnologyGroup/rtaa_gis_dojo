@@ -42,6 +42,7 @@ define([
     templateString: template,
     id: null,
     baseClass: "_Card",
+    imgSrc: null,
     options: {
       path: null,
       header: null,
@@ -51,19 +52,30 @@ define([
     },
     constructor: function(options, srcNodeRef) {
       this.inherited(arguments);
-
+      var self = this;
       var path = options.path;
+      var imgSrc = options.imgSrc;
       var port = window.location.port;
       var pathname = window.location.pathname.split("/")[1];
       var origin = window.location.origin;
-      var url;
-      if (Array.indexOf([8000, 8080, 3000], port) === -1) {
-        var new_path = pathname + "/" + path;
-        options.path = origin + "/" + new_path + "/";
+      var new_path;
+      if (Array.indexOf([3000], port) === -1) {
+        // the connect grunt server is not serving the files
+        // check if the django web server is using a ForceScriptName variable
+        if (!pathname) {
+          new_path = "/" + path;
+          
+        } else {
+          new_path = "/" + pathname + "/" + path;
+          
+        }
+        options.path = origin + new_path;
+        options.imgSrc = "static/home/"+imgSrc;
       } 
-      
+
       this.id = this.options.id;
       declare.safeMixin(this.options, options);
+
     },
     postCreate: function() {
       var self = this;
@@ -74,12 +86,7 @@ define([
             var pathname = window.location.pathname.split("/")[1];
             var port = window.location.port;
             var origin = window.location.origin;
-            var url;
-            if (pathname === "index.html" || port === "8080") {
-              url = "http://127.0.0.1:8080/" + self.path;
-            } else {
-              url = self.path;
-            }
+            var url = self.path;
             window.open(url, '_self', "", false);
             
           } else if (mouse.isRight(event)) {

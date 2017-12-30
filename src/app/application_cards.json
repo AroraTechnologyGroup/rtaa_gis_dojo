@@ -4,7 +4,7 @@
 		"isActive": true,
 		"path": "viewer",
 		"header": "GIS Data Viewer",
-		"imgSrc": "app/img/thumbnails/lpm1.png",
+		"imgSrc": "app/img/thumbnails/ViewerThumb.png",
 		"content1": "Browse published layers and interact with data"
 	},
 	{
@@ -20,7 +20,7 @@
 		"isActive": true,
 		"path": "airspace",
 		"header": "Airspace",
-		"imgSrc": "app/img/thumbnails/lpm2.png",
+		"imgSrc": "app/img/thumbnails/AirspaceThumb.png",
 		"content1": "Browse and interact with Airspace data"
 	}, 
 	{
@@ -36,7 +36,7 @@
 		"isActive": true,
 		"path": "signageMarking",
 		"header": "Airfield Signage",
-		"imgSrc": "app/img/thumbnails/Signage3.png",
+		"imgSrc": "app/img/thumbnails/SignageThumb.png",
 		"content1": "View and Interact with the airfield signage data"
 	}, 
 	{

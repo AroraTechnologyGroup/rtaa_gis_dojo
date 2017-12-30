@@ -278,23 +278,25 @@ define([
 					pane.set('content', self.header);
 					pane.resize();
 
-					self.buildAnalytics(evt, groups).then(function(resp) {
+					// self.buildAnalytics(evt, groups).then(function(resp) {
 						self.build2dViewer(evt, groups).then(function(resp) {
 							self.build3dViewer(evt, groups).then(function(resp) {
-								self.buildBackEndAPIs(evt, groups).then(function(resp) {
-									deferred.resolve(resp);
-								}, function(err) {
-									console.log(err);
-								});
+								
+								deferred.resolve(resp);
+								// self.buildBackEndAPIs(evt, groups).then(function(resp) {
+								// 	deferred.resolve(resp);
+								// }, function(err) {
+								// 	console.log(err);
+								// });
 							}, function(err) {
 								console.log(err);
 							});
 						}, function(err) {
 							console.log(err);
 						});
-					}, function(err) {
-						console.log(err);
-					});
+					// }, function(err) {
+					// 	console.log(err);
+					// });
 				}, function(err) {
 					console.log(err);
 					deferred.cancel(err);

@@ -30,6 +30,10 @@
   -webkit-justify-content: flex-start;
   justify-content: flex-start;
   min-height: 300px;
+  max-height: 400px;
+}
+._Card img {
+  max-height: 200px;
 }
 #homepage-banner {
   display: -webkit-box;
