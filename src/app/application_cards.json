@@ -2,72 +2,50 @@
 	{
 		"id": "GIS Data Viewer",
 		"isActive": true,
-		"isAdmin": false,
-		"imgSrc": "app/img/thumbnails/data_viewer.png",
 		"path": "viewer",
 		"header": "GIS Data Viewer",
-		"content1": "View and Interact with layers",
-		"content2": ""
-	},
-	{
-		"id": "Admin Data Viewer",
-		"isActive": true,
-		"isAdmin": true,
-		"imgSrc": "app/img/thumbnails/data_viewer.png",
-		"path": "eDoc",
-		"header": "Data Viewer",
-		"content1": "Sign into ArcGIS Online and browse the available Published Layers",
-		"content2": "* only available to GIS_admin members"
+		"imgSrc": "app/img/thumbnails/lpm1.png",
+		"content1": "Browse published layers and interact with data"
 	},
 	{
 		"id": "eDoc Search Tool",
 		"isActive": true,
-		"isAdmin": false,
-		"imgSrc": "app/img/thumbnails/ComingSoon.png",
-		"path": "eDoc",
+		"path": "fileApp/eDocViewer",
 		"header": "eDoc Search Tool",
-		"content1": "Use this tool to assign files to grid cells",
-		"content2": "* Coming Soon"
+		"imgSrc": "app/img/thumbnails/edoc2.png",
+		"content1": "Search, Retrieve, and Catalog Engineering Documents"
 	}, 
 	{
 		"id": "Airspace",
 		"isActive": true,
-		"isAdmin": false,
-		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "airspace",
 		"header": "Airspace",
-		"content1": "View and Interact with Airspace data",
-		"content2": ""
+		"imgSrc": "app/img/thumbnails/lpm2.png",
+		"content1": "Browse and interact with Airspace data"
 	}, 
 	{
-		"id": "Economic Dev.",
-		"isActive": false,
-		"isAdmin": false,
-		"imgSrc": "app/img/thumbnails/ComingSoon.png",
-		"path": "econDev",
-		"header": "Economic Development",
-		"content1": "View and Interact with GIS Data for Economic Development",
-		"content2": "* Coming Soon"
+		"id": "Lease and Property Management",
+		"isActive": true,
+		"path": "leaseProperty",
+		"header": "Lease and Property Management",
+		"imgSrc": "app/img/thumbnails/lpm2.png",
+		"content1": "View and Interact with GIS Data for Lease and Property Mangement"
 	}, 
 	{
 		"id": "Airfield Signage and Marking",
 		"isActive": true,
-		"isAdmin": false,
-		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "signageMarking",
 		"header": "Airfield Signage",
-		"content1": "View and Interact with the airfield signage data",
-		"content2": "* Coming Soon"
+		"imgSrc": "app/img/thumbnails/Signage3.png",
+		"content1": "View and Interact with the airfield signage data"
 	}, 
 	{
-		"id": "Mobile Collection Guide",
+		"id": "Mobile Apps",
 		"isActive": true,
-		"isAdmin": false,
-		"imgSrc": "app/img/thumbnails/ComingSoon.png",
 		"path": "mobile",
-		"header": "Mobile Collection",
-		"content1": "Mobile app for collecting locations and attributes of features",
-		"content2": "* Coming Soon"
+		"header": "Mobile Apps",
+		"imgSrc": "app/img/thumbnails/collector2.png",
+		"content1": "Guides and Tips for mobile apps"
 	}
 ]
 	

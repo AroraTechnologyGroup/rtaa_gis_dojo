@@ -124,11 +124,11 @@ define([
 					console.log(err);
 				});
 				
-				router.register("gisportal/site-analytics", function(evt) {
-					evt.preventDefault();
-					console.log('loading ' + evt.newPath);
-					obj.enablePage("site-analytics");
-				});
+				// router.register("gisportal/site-analytics", function(evt) {
+				// 	evt.preventDefault();
+				// 	console.log('loading ' + evt.newPath);
+				// 	obj.enablePage("site-analytics");
+				// });
 
 				router.register("gisportal/viewer2d", function(evt) {
 					evt.preventDefault();
@@ -142,11 +142,11 @@ define([
 					obj.enablePage("viewer3d");
 				});
 
-				router.register("gisportal/publishing-tools", function(evt) {
-					evt.preventDefault();
-					console.log("loading "+evt.newPath);
-					obj.enablePage("publishing-tools");
-				});
+				// router.register("gisportal/publishing-tools", function(evt) {
+				// 	evt.preventDefault();
+				// 	console.log("loading "+evt.newPath);
+				// 	obj.enablePage("publishing-tools");
+				// });
 				/////////////////////////////////////////////////////////////////
 				
 				router.register("web-resources/home", function(evt) {

@@ -4,6 +4,11 @@
   cursor: pointer !important;
 }
 ._Card {
+  opacity: 0.9;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+  filter: alpha(opacity=90);
+}
+._Card .card-content {
   margin: 5px;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -12,19 +17,21 @@
   box-flex: 1;
   -webkit-flex-grow: 1;
   flex-grow: 1;
-}
-._Card.off {
-  display: none;
-}
-._Card.activated {
-  display: auto;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-pack: start;
+  -moz-box-pack: start;
+  -o-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  min-height: 300px;
 }
 #homepage-banner {
-  width: 100%;
-  background-image: url("../img/banner/header_banner_resize.png");
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
   display: -webkit-box;
   display: -moz-box;
   display: -webkit-flex;
@@ -43,16 +50,13 @@
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-top: 10px;
+  padding-top: 20px;
 }
 #homepage-banner.off {
   display: none;
 }
 #homepage-banner.activated {
   display: auto;
-}
-._PageBanner {
-  background-color: #9bc19c;
 }
 ._PageBanner .search-bar {
   -webkit-box-pack: right;
@@ -72,6 +76,9 @@
 ._PageBanner.activated {
   display: auto;
 }
+._PageBanner {
+  background-color: transparent;
+}
 ._iframe-loader.off {
   display: none;
 }
@@ -90,6 +97,30 @@
 ._publishing-tools.activated {
   display: auto;
 }
+._resourcePage.off {
+  display: none;
+}
+._resourcePage.activated {
+  display: auto;
+}
+._aboutSite.off {
+  display: none;
+}
+._aboutSite.activated {
+  display: auto;
+}
+._technicalDetails.off {
+  display: none;
+}
+._technicalDetails.activated {
+  display: auto;
+}
+._requestHelp.off {
+  display: none;
+}
+._requestHelp.activated {
+  display: auto;
+}
 html {
   overflow-x: hidden;
 }
@@ -102,8 +133,11 @@ body {
   padding: 0;
 }
 .footer {
-  padding-bottom: 3px;
-  margin-top: 10px;
+  padding-bottom: 50px;
+  background-color: #fff;
+}
+#footer-container {
+  height: 0px;
 }
 #main-content {
   -webkit-box-orient: horizontal;
@@ -120,8 +154,13 @@ body {
   justify-content: flex-start;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 10px;
 }
 .admin-panel {
   border: 0.5px #000 solid;
+}
+.wrapper {
+  background-image: url("../img/AirportViewB008-300dpi.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
 }

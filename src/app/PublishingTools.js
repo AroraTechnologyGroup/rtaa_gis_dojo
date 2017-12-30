@@ -41,7 +41,7 @@ define([
 				var self = this;
 				var cp = new ContentPane({
 					class: 'admin-panel',
-					style: "height: 100vh; width: 100%;"
+					style: "height: 100vh; width: 100%; background-color: white"
 				});
 				cp.set('content', domConstruct.toDom("<h1>Publishing Tools</h1>"));
 				cp.placeAt(this.content);

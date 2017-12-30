@@ -43,27 +43,22 @@ define([
     id: null,
     baseClass: "_Card",
     options: {
-      imgSrc: null,
       path: null,
       header: null,
+      imgSrc: null,
       content1: null,
-      content2: null,
-      isActive: null,
-      isAdmin: null
+      isActive: null
     },
     constructor: function(options, srcNodeRef) {
       this.inherited(arguments);
 
-      var imgSrc = options.imgSrc;
       var path = options.path;
       var port = window.location.port;
       var pathname = window.location.pathname.split("/")[1];
       var origin = window.location.origin;
       var url;
       if (Array.indexOf([8000, 8080, 3000], port) === -1) {
-        var new_imgSrc = "static/home/" + imgSrc;
         var new_path = pathname + "/" + path;
-        options.imgSrc = new_imgSrc;
         options.path = origin + "/" + new_path + "/";
       } 
       

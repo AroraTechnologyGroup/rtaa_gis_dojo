@@ -26,7 +26,11 @@ define([
 	'app/PageBanner',
 	'app/Analytics',
 	'app/PublishingTools',
-	'app/IframeLoader',
+	'app/IFrameLoader',
+	'app/ResourcePage',
+	'app/AboutSite',
+	'app/RequestHelp',
+	'app/TechnicalDetails',
 	'esri/IdentityManager',
 	'esri/arcgis/OAuthInfo',
 	'dijit/layout/ContentPane',
@@ -60,6 +64,10 @@ define([
 		Analytics,
 		PublishingTools,
 		IFrameLoader,
+		ResourcePage,
+		AboutSite,
+		RequestHelp,
+		TechnicalDetails,
 		esriId,
 		OAuthInfo,
 		ContentPane,
@@ -68,32 +76,21 @@ define([
 
 		return declare([], {
 			adminRoutes: [
-				{
-					title: 'Site Analytics',
-					href: 'gisportal/site-analytics'
-				}, {
+				// {
+				// 	title: 'Site Analytics',
+				// 	href: 'gisportal/site-analytics'
+				// }, {
+					{
 					title: '2D Data Viewer',
 					href: 'gisportal/viewer2d'
 				}, {
 					title: '3D Data Viewer',
 					href: 'gisportal/viewer3d'
-				}, {
-					title: 'Publishing Tools',
-					href: 'gisportal/publishing-tools'
 				}
-			],
-
-			webResourceRoutes: [
-				{
-					title: 'State Level GIS Data',
-					href: 'web-resources/state-level'
-				}, {
-					title: 'County Level GIS Data',
-					href: 'web-resources/county-level'
-				}, {
-					title: 'ESRI Online Resources',
-					href: 'web-resources/esri-resources'
-				}
+				// }, {
+				// 	title: 'Publishing Tools',
+				// 	href: 'gisportal/publishing-tools'
+				// }
 			],
 
 			helpRoutes: [
@@ -103,13 +100,11 @@ define([
 				}, {
 					title: 'About this Site',
 					href: 'help/about'
-				}, {
-					title: 'Request Help Ticket',
-					href: 'help/request-ticket'
-				}, {
-					title: 'Tutorials',
-					href: 'help/tutorials'
 				}
+				// }, {
+				// 	title: 'Request Help Ticket',
+				// 	href: 'help/request-ticket'
+				// }
 			],
 
 			unloadBanner: function() {
@@ -170,10 +165,8 @@ define([
 						id: e.id,
 						path: e.path,
 						content1: e.content1,
-						content2: e.content2,
-						imgSrc: e.imgSrc,
 						header: e.header,
-						isAdmin: e.isAdmin,
+						imgSrc: e.imgSrc,
 						isActive: e.isActive
 					}, div);
 					return deferred.resolve(new_card);
@@ -244,12 +237,7 @@ define([
 					// these are loaded from dojo/text!./application_cards.json
 					var cards = JSON.parse(app_cards);
 
-					// remove cards that are not admin
-					var reg_cards = Array.filter(cards, function(e) {
-						return !e.isAdmin;
-					}); 
-
-					self.loadCards(Card, reg_cards).then(function(e) {
+					self.loadCards(Card, cards).then(function(e) {
 						console.log(e);
 						deferred.resolve(pane);
 					}, function(err) {
@@ -281,7 +269,7 @@ define([
 					self.header = new PageBanner({
 							id: 'gisportal-banner',
 							class: 'text-white font-size-4 page-banner',
-							title: 'Administrative Portal',
+							title: 'GIS Administrative Portal',
 							routes: routes
 						});
 				
@@ -407,21 +395,45 @@ define([
 					} catch(err) {
 						console.log(err);
 					}
-					var routes = self.webResourceRoutes;
 
 					self.header = new PageBanner({
 						id: 'web-resources-banner',
 						class: 'text-white font-size-4 page-banner',
 						title: 'Online Resource Library',
-						routes: routes
+						routes: {}
 					});
 
 					var pane = registry.byId('header-pane');
 					pane.set('content', self.header);
 					pane.resize();
-
-					deferred.resolve(pane);
+					self.buildResourcePage(evt, groups).then(function(resp) {
+						deferred.resolve(resp);
+					}, function(err) {
+						console.log(err);
+					});
+				}, function(err) {
+					deferred.cancel(err);
 				});
+				return deferred.promise;
+			},
+
+			buildResourcePage: function(evt, groups) {
+				var self = this;
+				var deferred = new Deferred();
+				var widget = registry.byId('resourcePage');
+				if (!widget) {
+					widget = new ResourcePage({
+						id: "resourcePage"
+					});
+				
+					widget.startup().then(function(e) {
+						domConstruct.place(e.domNode, 'main-content');
+						deferred.resolve(e);
+					});
+				} else {
+					domConstruct.place(widget.domNode, 'main-content');
+					deferred.resolve(widget);
+				}
 				return deferred.promise;
 			},
 
@@ -449,8 +461,80 @@ define([
 					pane.set('content', self.header);
 					pane.resize();
 
-					deferred.resolve(pane);
+					self.buildTechnicalDetails(evt, groups).then(function(resp) {
+						self.buildAboutSite(evt, groups).then(function(resp) {
+							self.buildRequestHelp(evt, groups).then(function(resp) {
+								deferred.resolve(resp);
+							}, function(err) {
+								console.log(err);
+							});
+						}, function(err) {
+							console.log(err);
+						});
+					}, function(err) {
+						console.log(err);
+					});
 				});
+				return deferred.promise;
+			},
+
+			buildTechnicalDetails: function(evt, groups) {
+				var self = this;
+				var deferred = new Deferred();
+				var widget = registry.byId('technicalDetails');
+				if (!widget) {
+					widget = new TechnicalDetails({
+						id: "technicalDetails"
+					});
+				
+					widget.startup().then(function(e) {
+						domConstruct.place(e.domNode, 'main-content');
+						deferred.resolve(e);
+					});
+				} else {
+					domConstruct.place(widget.domNode, 'main-content');
+					deferred.resolve(widget);
+				}
+				return deferred.promise;
+			},
+
+			buildAboutSite: function(evt, groups) {
+				var self = this;
+				var deferred = new Deferred();
+				var widget = registry.byId('aboutSite');
+				if (!widget) {
+					widget = new AboutSite({
+						id: "aboutSite"
+					});
+				
+					widget.startup().then(function(e) {
+						domConstruct.place(e.domNode, 'main-content');
+						deferred.resolve(e);
+					});
+				} else {
+					domConstruct.place(widget.domNode, 'main-content');
+					deferred.resolve(widget);
+				}
+				return deferred.promise;
+			},
+
+			buildRequestHelp: function(evt, groups) {
+				var self = this;
+				var deferred = new Deferred();
+				var widget = registry.byId('requestHelp');
+				if (!widget) {
+					widget = new RequestHelp({
+						id: "requestHelp"
+					});
+				
+					widget.startup().then(function(e) {
+						domConstruct.place(e.domNode, 'main-content');
+						deferred.resolve(e);
+					});
+				} else {
+					domConstruct.place(widget.domNode, 'main-content');
+					deferred.resolve(widget);
+				}
 				return deferred.promise;
 			},
 
