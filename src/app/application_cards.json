@@ -1,6 +1,6 @@
 [
 	{
-		"id": "GIS Data Viewer",
+		"name": "viewer",
 		"isActive": true,
 		"path": "viewer",
 		"header": "GIS Data Viewer",
@@ -8,7 +8,7 @@
 		"content1": "Browse published layers and interact with data"
 	},
 	{
-		"id": "eDoc Search Tool",
+		"name": "edoc",
 		"isActive": true,
 		"path": "fileApp/eDocViewer",
 		"header": "eDoc Search Tool",
@@ -16,7 +16,7 @@
 		"content1": "Search, Retrieve, and Catalog Engineering Documents"
 	}, 
 	{
-		"id": "Airspace",
+		"name": "airspace",
 		"isActive": true,
 		"path": "airspace",
 		"header": "Airspace",
@@ -24,15 +24,15 @@
 		"content1": "Browse and interact with Airspace data"
 	}, 
 	{
-		"id": "Lease and Property Management",
+		"name": "lpm",
 		"isActive": true,
 		"path": "leaseProperty",
 		"header": "Lease and Property Management",
-		"imgSrc": "app/img/thumbnails/lpm2.png",
-		"content1": "View and Interact with GIS Data for Lease and Property Mangement"
+		"imgSrc": "app/img/thumbnails/lpm3.png",
+		"content1": "View and Interact with GIS Data for Lease and Property Management"
 	}, 
 	{
-		"id": "Airfield Signage and Marking",
+		"name": "signage",
 		"isActive": true,
 		"path": "signageMarking",
 		"header": "Airfield Signage",
@@ -40,12 +40,12 @@
 		"content1": "View and Interact with the airfield signage data"
 	}, 
 	{
-		"id": "Mobile Apps",
+		"name": "mobile",
 		"isActive": true,
 		"path": "mobile",
 		"header": "Mobile Apps",
-		"imgSrc": "app/img/thumbnails/collector2.png",
-		"content1": "Guides and Tips for mobile apps"
+		"imgSrc": "app/img/thumbnails/mobile.jpg",
+		"content1": "Guides and Tips for using Collector for Explorer for ArcGIS"
 	}
 ]
 	

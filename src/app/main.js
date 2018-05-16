@@ -59,7 +59,7 @@ define([
 		) {
 		return declare([_WidgetBase], {
 			unload: function() {
-				registry.forEach(function(widget, index, hash) {
+				Array.forEach(registry.toArray(), function(widget) {
 					registry.remove(widget);
 					domConstruct.destroy(widget.domNode);
 				});
@@ -95,20 +95,21 @@ define([
 					}
 				}
 				lang.mixin(app, new namedFunctions());
-				app.getGroups(ldap_url).then(function(groups) {
-
-					app.router = self.build_router(app, groups);
+				app.getGroups(ldap_url).then(function(user_data) {
+					var groups = user_data.groups;
+					var app_list = user_data.apps;
+					app.router = self.build_router(app, groups, app_list);
 					deferred.resolve(app);
 				});
 				return deferred.promise;
 			},
 
-			build_router: function(obj, groups) {
+			build_router: function(obj, groups, apps) {
 				
 				router.register("home", function(evt) {
 					evt.preventDefault();
 					console.log('loading ' + evt.newPath);
-					obj.buildTitleBar(evt, Card).then(function(e) {
+					obj.buildTitleBar(evt, Card, groups, apps).then(function(e) {
 						console.log(e);
 					});
 				});

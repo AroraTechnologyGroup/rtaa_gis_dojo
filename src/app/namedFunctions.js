@@ -174,7 +174,13 @@ define([
 
 				all(nodelist).then(function(arr) {
 					Array.forEach(arr, function(e) {
-						pane.addChild(e);
+						if (typeof e !== "string") {
+							if (e.isInstanceOf(Card)) {
+								pane.addChild(e);
+							}
+						} else {
+							console.log(e);
+						}
 					});
 					mainDeferred.resolve(pane);
 				});
@@ -204,9 +210,10 @@ define([
 				return deferred.promise;
 			},
 
-			buildTitleBar: function(evt, Card) {
+			buildTitleBar: function(evt, Card, groups, apps) {
 				var self = this;
 				var deferred = new Deferred();
+				var apps_list = apps;
 				var footer = query("#footer-container");
 				// slide the footer back into view
 				domClass.remove(footer[0], 'animate-out-up');
@@ -236,8 +243,14 @@ define([
 
 					// these are loaded from dojo/text!./application_cards.json
 					var cards = JSON.parse(app_cards);
+					var final_cards = [];
+					Array.forEach(cards, function(e) {
+						if (Array.indexOf(apps_list, e.name) !== -1) {
+							final_cards.push(e);
+						}
+					});
 
-					self.loadCards(Card, cards).then(function(e) {
+					self.loadCards(Card, final_cards).then(function(e) {
 						console.log(e);
 						deferred.resolve(pane);
 					}, function(err) {
@@ -328,10 +341,14 @@ define([
 				var self = this;
 				var deferred = new Deferred();
 				var widget = registry.byId('viewer2d');
+				var app_url = "https://gisapps.aroraengineers.com/rtaa_admin_viewer";
+				if (window.location.hostname === "gis.renoairport.net") {
+					app_url = "https://gis.renoairport.net/admin_gisviewer";
+				}
 				if (!widget) {
 					widget =  new IFrameLoader({
 						id: "viewer2d",
-						url: "https://gisapps.aroraengineers.com/rtaa_admin_viewer"
+						url: app_url
 					});
 				
 					widget.startup().then(function(e) {
@@ -349,10 +366,14 @@ define([
 				var self = this;
 				var deferred = new Deferred();
 				var widget = registry.byId('viewer3d');
+				var app_url = "https://gisapps.aroraengineers.com/rtaa_airspace";
+				if (window.location.hostname === "gis.renoairport.net") {
+					app_url = "https://gis.renoairport.net/viewer3d";
+				}
 				if (!widget) {
 					widget = new IFrameLoader({
 						id: "viewer3d",
-						url: "https://gisapps.aroraengineers.com/rtaa_airspace"
+						url: app_url
 					});
 				
 					widget.startup().then(function(e) {
