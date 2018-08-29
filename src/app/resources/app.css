@@ -163,7 +163,7 @@ body {
   border: 0.5px #000 solid;
 }
 .wrapper {
-  background-image: url("../img/AirportViewB008-300dpi.jpg");
+  background-image: url("../img/AirportView_optimized.jpg");
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
